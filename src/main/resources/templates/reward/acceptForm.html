@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사고접수하기 페이지</title>
+</head>
+<body>
+<div class="container">
+    <form action="/reward/accept" method="post">
+        <div class="form-group">
+            <label for="accidentDate">사고 날짜</label>
+            <input type="date" id="accidentDate" name="accidentDate" placeholder="사고 날짜(를)을 입력하세요" th:min="2020-11-19">
+            <label for="accidentTime">사고 시간</label>
+            <input type="text" id="accidentTime" name="accidentTime" placeholder="사고 시간(를)을 입력하세요">
+            <label for="accidentPlace">사고 장소</label>
+            <input type="text" id="accidentPlace" name="accidentPlace" placeholder="사고 장소(를)을 입력하세요">
+            <label for="accidentType">사고 유형(건물, 자동차, 운전자) </label>
+            <input type="text" id="accidentType" name="accidentType" placeholder="사고 유형(를)을 입력하세요">
+            <label for="accidentSize">사고 크기(상,중,하)</label>
+            <input type="text" id="accidentSize" name="accidentSize" placeholder="사고 크기(를)을 입력하세요">
+
+        </div>
+        <button type="submit">저장하기</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>사고날짜</th>
+                <th>사고시간</th>
+                <th>사고장소</th>
+                <th>사고유형</th>
+                <th>사고단계</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="accident : ${accidentList}">
+                <td th:text="${accident.accidentID}"></td>
+                <td th:text="${accident.accidentDate}"></td>
+                <td th:text="${accident.accidnetTime}"></td>
+                <td th:text="${accident.accidnetPlace}"></td>
+                <td th:text="${accident.accidentType}"></td>
+                <td th:text="${accident.accidentSize}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form action="/reward/accident" method="post">
+        <div class="form-group">
+            <label for="id">#</label>
+            <input type="number" id="id" name="id" placeholder="사고 번호(를)을 입력하세요">
+            <label for="scenario">시나리오</label>
+            <input type="text" id="scenario" name="scenario" placeholder="시나리오를 입력하세요">
+            <label for="record">녹취록</label>
+            <input type="number" id="record" name="record" placeholder="녹취록(없음 1, 있음 2)를 입력하세요">
+            <label for="photo">사진</label>
+            <input type="number" id="photo" name="photo" placeholder="사진(없음 1, 있음 2)를 입력하세요">
+            <label for="video">영상</label>
+            <input type="number" id="video" name="video" placeholder="영상(없음 1, 있음 2)를 입력하세요">
+            <label for="damageScale">피해규모</label>
+            <input type="text" id="damageScale" name="damageScale" placeholder="피해규모(상,중,하)를 입력하세요">
+
+        </div>
+        <button type="submit">저장하기</button>
+    </form>
+</div>
+</body>
+</html>
