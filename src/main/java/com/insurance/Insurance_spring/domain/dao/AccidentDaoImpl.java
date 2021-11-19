@@ -67,7 +67,7 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 				accident.setAccidentDate(resultSet.getString("accidentDate"));
 				accident.setAccidentTime(resultSet.getString("accidentTime"));
 				accident.setAccidentPlace(resultSet.getString("accidentPlace"));
-				accident.setCustomer(customer);;
+				accident.setCustomer(customer);
 				///
 				accident.setAccidentComplete(resultSet.getInt("completed"));
 				accident.setJudgementComplete(resultSet.getInt("judged"));
@@ -139,12 +139,12 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 	}
 
 	@Override
-	public AccidentList retrieveNotcompleted() {
+	public AccidentList retrieveNotCompleted() {
 		String query = "select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = 1";
 		AccidentList accidentList = new AccidentListImpl();
 		try {
 			ResultSet resultSet = this.retrieve(query);
-			
+
 			while ( resultSet.next()) {
 				Customer customer = new Customer();
 				customer.setCustomerID(resultSet.getInt("customerID"));

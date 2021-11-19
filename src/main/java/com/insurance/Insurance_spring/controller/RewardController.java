@@ -3,6 +3,9 @@ package com.insurance.Insurance_spring.controller;
 import com.insurance.Insurance_spring.domain.accident.Accident;
 import com.insurance.Insurance_spring.domain.contract.Contract;
 import com.insurance.Insurance_spring.domain.customer.Customer;
+import com.insurance.Insurance_spring.domain.employee.Employee;
+import com.insurance.Insurance_spring.domain.exemption.Exemption;
+import com.insurance.Insurance_spring.domain.reward.RewardInfo;
 import com.insurance.Insurance_spring.service.RewardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +40,7 @@ public class RewardController {
         customer.setCustomerName(consultForm.getName());
         customer.setCustomerNumber(consultForm.getNumber());
         // DB에 존재하는 고객인지 확인 후, 고객 데이터 전부를 담고 있는 customer 리턴
-        Customer m = rewardService.check(customer);
+        Customer m = rewardService.check_customer(customer);
         // customer 객체에 리턴 받은 m에서 데이터 추출해서 set
         customer.seteMail(m.geteMail());
         customer.setJob(m.getJob());
@@ -77,12 +80,12 @@ public class RewardController {
 
         model.addAttribute("accident", accident);
 
-        return "/";
+        return "redirect:/";
     }
 
     @GetMapping("/")
     public String list(Model model){ // DB에 저장된 고객 리스트 (아이디, 이름), 계약 리스트
-        ArrayList<Customer> customerDTOList = rewardService.check();
+        ArrayList<Customer> customerDTOList = rewardService.check_customer();
         ArrayList<Contract> contractDTOList = rewardService.check_contract();
         ArrayList<Accident> accidentDTOList = rewardService.check_accident();
 
@@ -118,6 +121,58 @@ public class RewardController {
         // Model에 값 저장
 
         model.addAttribute("accidentInfo", a);
-        return "/";
+        return "redirect:/";
+    }
+    @GetMapping("reward/exemption")
+    public String createExemptionForm(Model model){
+        // 면/부책 판단할 사고 리스트
+        ArrayList<Accident> accidents = rewardService.check_accident_Completed();
+        model.addAttribute("accidentList", accidents);
+        return "reward/exemptionForm";
+    }
+    @PostMapping("reward/exemption")
+    public String exemption(ExemptionForm exemptionForm, Model model){
+        // 면/부책 판단할 사고 선택
+        Accident a = rewardService.check_exemption(exemptionForm.getExemptionID());
+        a.setJudgementComplete(exemptionForm.getJudgementComplete());
+        // DB 데이터 업데이트 for accident judged
+        rewardService.update(a);
+        // 면/부책 인스턴스 생성 및 데이터 저장
+        Exemption e = new Exemption();
+        e.setAccidentID(a.getAccidentID()); // 사고 번호
+        e.setCustomerID(a.getCustomer().getCustomerID()); // 고객 번호
+        e.setLegacy(exemptionForm.getLegacy()); // 법률
+        e.setReason(exemptionForm.getReason()); // 근거
+        e.setSubFile(exemptionForm.getSubFile()); // 참고자료
+        // DB에 저장
+        rewardService.storeExemption(e);
+        // model에 저장
+        model.addAttribute("exemption", e);
+        return "redirect:/";
+    }
+    @GetMapping("reward/damage")
+    public String createDamageForm(Model model){
+        // 손해사정할 사고 리스트
+        ArrayList<Exemption> exemptions = rewardService.check_damage();
+        // 모델에 저장
+        model.addAttribute("exemptionList", exemptions);
+        return "reward/damageForm";
+    }
+    @PostMapping("reward/damage")
+    public String damage(DamageForm damageForm, Model model){
+        // 손해사정할 사고 선택
+        Exemption e = rewardService.check_damage(damageForm.getAccidentID());
+        // 보상 인스턴스 생성 및 데이터 저장
+        RewardInfo r = new RewardInfo();
+        r.setAccident(e);
+        r.setAssessReason(damageForm.getAssessReason());
+        r.setPayment(damageForm.getPayment());
+        r.setEmployee(new Employee(1234)); // employee 어떡하지
+
+        rewardService.storeReward(r); // DB에 저장
+        rewardService.deleteExemption(e.getAccidentID()); // accidentlist에서 제거
+        // 모델에 저장
+        model.addAttribute("reward", r);
+        return "redirect:/";
     }
 }

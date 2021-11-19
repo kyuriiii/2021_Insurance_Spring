@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
+<h2>현장 정보 페이지</h2>
 <div class="container">
     <div>
         <table>
@@ -19,8 +20,8 @@
             <tr th:each="accident : ${accidentList}">
                 <td th:text="${accident.accidentID}"></td>
                 <td th:text="${accident.accidentDate}"></td>
-                <td th:text="${accident.accidnetTime}"></td>
-                <td th:text="${accident.accidnetPlace}"></td>
+                <td th:text="${accident.accidentTime}"></td>
+                <td th:text="${accident.accidentPlace}"></td>
                 <td th:text="${accident.accidentType}"></td>
                 <td th:text="${accident.accidentSize}"></td>
             </tr>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>면부책 판단페이지</title>
+</head>
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>사고날짜</th>
+                <th>사고장소</th>
+                <th>사고유형</th>
+                <th>사고단계</th>
+                <th>사건 시나리오</th>
+                <th>사건 녹취록</th>
+                <th>사건 영상</th>
+                <th>사건 사진</th>
+                <th>피해규모</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="accident : ${accidentList}">
+                <td th:text="${accident.accidentID}"></td>
+                <td th:text="${accident.accidentDate}"></td>
+                <td th:text="${accident.accidentPlace}"></td>
+                <td th:text="${accident.accidentType}"></td>
+                <td th:text="${accident.accidentSize}"></td>
+                <td th:text="${accident.getM_siteInfo().getScenario()}"></td>
+                <td th:text="${accident.getM_siteInfo().getRecord()}"></td>
+                <td th:text="${accident.getM_siteInfo().getVideo()}"></td>
+                <td th:text="${accident.getM_siteInfo().getPhoto()}"></td>
+                <td th:text="${accident.getM_siteInfo().getDamageScale()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form action="/reward/exemption" method="post">
+        <div class="form-group">
+            <label for="exemptionID">#</label>
+            <input type="number" id="exemptionID" name="exemptionID" placeholder="사고 번호을 입력하세요">
+            <label for="judgementComplete">면/부책 여부</label>(
+            <input type="number" id="judgementComplete" name="judgementComplete" placeholder="면/부책 여부(승인(0),불허(1))을 입력하세요">
+            <label for="reason">판단 이유 </label>
+            <input type="text" id="reason" name="reason" placeholder="판단 이유(를)을 입력하세요">
+            <label for="subFile">참고자료 여부</label>
+            <input type="number" id="subFile" name="subFile" placeholder="참고자료 여부(있음(1),없음(2)을 입력하세요">
+            <label for="legacy">관련 법규 내용</label>
+            <input type="text" id="legacy" name="legacy" placeholder="관련 법규 내용(를)을 입력하세요">
+        </div>
+        <button type="submit">저장하기</button>
+    </form>
+</div>
+</body>
+</html>

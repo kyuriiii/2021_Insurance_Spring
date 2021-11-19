@@ -1,8 +1,6 @@
 package com.insurance.Insurance_spring.domain.dao;
 
 
-import org.springframework.context.annotation.Bean;
-
 import java.sql.*;
 
 public class Dao {
@@ -10,8 +8,6 @@ public class Dao {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
 
-
-	@Bean
 	public void connect() throws Exception {
 		//connect
 		try {

@@ -9,7 +9,7 @@ public interface AccidentDao {
 	public void deleteAll();
 	public void deleteByID(int ID);
 	public AccidentList retrieve();
-	public AccidentList retrieveNotcompleted(); 
+	public AccidentList retrieveNotCompleted();
 	public AccidentList retrievecommpleted(); 
 	public int retrieveAccidentCnt(int customerID);
 	public void update( Accident accident);

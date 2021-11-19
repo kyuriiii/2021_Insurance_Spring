@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>손해사정 판단페이지</title>
+</head>
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>사고날짜</th>
+                <th>사고장소</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="accident : ${exemptionList}">
+                <td th:text="${accident.accidentID}"></td>
+                <td th:text="${accident.accidentDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form action="/reward/damage" method="post">
+        <div class="form-group">
+            <label for="accidentID">#</label>
+            <input type="number" id="accidentID" name="accidentID" placeholder="사고 번호을 입력하세요">
+
+            <div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>판단 이유</th>
+                        <th>참고 자료</th>
+                        <th>관련 법규</th>
+                        <th>고객 번호</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="exemption : ${exemptionList}">
+                        <td th:text="${exemption.accidentID}"></td>
+                        <td th:text="${exemption.getReason()}"></td>
+                        <td th:text="${exemption.getSubFile()}"></td>
+                        <td th:text="${exemption.getLegacy()}"></td>
+                        <td th:text="${exemption.getCustomerID()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <label for="payment">보상금액</label>(
+            <input type="number" id="payment" name="payment" placeholder="보상 금액을 입력하세요">
+            <label for="assessReason">판단 이유 </label>
+            <input type="text" id="assessReason" name="assessReason" placeholder="판단 이유(를)을 입력하세요">
+        </div>
+        <button type="submit">저장하기</button>
+    </form>
+</div>
+</body>
+</html>
