@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insurance.Insurance_spring.mybatis.mapper.CustomerMapper">
+    <select id="findById" resultType="CustomerDTO">
+        SELECT * FROM customer WHERE customerID = #{id}
+    </select>
+
+    <select id="findAll" resultType="CustomerDTO">
+        SELECT * FROM customer
+    </select>
+
+    <select id="addressCheck" resultType="String">
+        SELECT COUNT(address) FROM customer WHERE address = #{address}
+    </select>
+
+    <insert id="createCustomer">
+        insert into customer(address, customerNumber, email) values(#{address}, #{customerNumber}, #{email})
+    </insert>
+
+<!--    <insert id="save">-->
+<!--        INSERT INTO customer (customerNumber, email) values (#{customerNumber}, #{email})-->
+<!--    </insert>-->
+</mapper>
