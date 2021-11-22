@@ -5,4 +5,13 @@
     <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.customer.Customer">
         SELECT * FROM customer
     </select>
+
+    <select id="retrieveByID" resultType="com.insurance.Insurance_spring.domain.customer.Customer">
+        SELECT * FROM customer WHERE customerID = #{customerID} LIMIT 1
+    </select>
+
+    <select id="retrieveByInfo" resultType="com.insurance.Insurance_spring.domain.customer.Customer">
+        SELECT * FROM customer INNER JOIN pcustomer ON customer.pcustomerID = pcustomer.pcustomerID
+        WHERE pcustomerName = #{name} AND customerNumber = #{customerNumber} LIMIT 1
+    </select>
 </mapper>
