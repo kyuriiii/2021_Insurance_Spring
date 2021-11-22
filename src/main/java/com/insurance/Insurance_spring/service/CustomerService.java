@@ -1,7 +1,7 @@
-package com.insurance.Insurance_spring.mybatis.service;
+package com.insurance.Insurance_spring.service;
 
-import com.insurance.Insurance_spring.mybatis.dto.CustomerDTO;
-import com.insurance.Insurance_spring.mybatis.mapper.CustomerMapper;
+import com.insurance.Insurance_spring.domain.customer.Customer;
+import com.insurance.Insurance_spring.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +16,16 @@ public class CustomerService {
         this.customerMapper = customerMapper;
     }
 
-    public List<CustomerDTO> getCustomerList(){
+    public List<Customer> getCustomerList(){
         return customerMapper.findAll();
     }
-    public CustomerDTO getCustomer( int id ){
+    public Customer getCustomer( int id ){
         return customerMapper.findById( id );
     }
     public String getAddressNum( String address ){
         return customerMapper.addressCheck( address );
     }
-    public int createCustomer(CustomerDTO customerDTO){
+    public int createCustomer(Customer customerDTO){
         return customerMapper.createCustomer(customerDTO);
     }
 }

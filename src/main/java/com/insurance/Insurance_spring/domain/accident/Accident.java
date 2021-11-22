@@ -2,7 +2,9 @@ package com.insurance.Insurance_spring.domain.accident;
 
 
 import com.insurance.Insurance_spring.domain.customer.Customer;
+import lombok.Data;
 
+@Data
 public class Accident {
 	//attribute 
 	private String accidentDate, date, accidentPlace, accidentTime ,accidentSize, accidentType;

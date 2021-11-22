@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insurance.Insurance_spring.mapper.AccidentMapper">
+    <select id="findById" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
+        SELECT * FROM accident WHERE accidentID = #{id}
+    </select>
+    <select id="findAll" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
+        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID left join ainvestigation on ainvestigation.accidentID = accident.accidentID
+    </select>
+    <insert id="createAccident">
+        insert into accident( accidentSize, accidentType, accidentDate, accidentTime, accidentPlace ) values(#{accidentSize}, #{accidentType}, #{accidentDate}, #{accidentTime}, #{accidentPlace})
+    </insert>
+    <update id="updateState">
+        update accidentInfo set completed = #{completed} where accidentID = #{accidentID}
+    </update>
+    <update id="updateJudged">
+        update accidentInfo set judged = #{judged} where accidentID = #{accidentID}
+    </update>
+    <insert id="createInvestigation">
+        insert into ainvestigation ( accidentID, scenario, record, video, photo, scale ) values ( #{accidentID}, #{scenario}, #{record}, #{video}, #{photo}, #{scale})
+    </insert>
+    <insert id="createAccidentInfo">
+        insert into accidentInfo ( accidentID, completed, judged, date ) values ( #{accidentID}, #{completed}, #{judged}, #{date })
+    </insert>
+    <select id="retrieveCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
+        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = '0'
+    </select>
+    <select id="accidentCnt" resultType="Integer">
+        select COUNT(damageassess.accidentID) as rewardCnt from accident inner join damageassess using(accidentID) where customerID = #{customerID}
+    </select>
+    <select id="retrieveNotCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
+    select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = '1'
+    </select>
+</mapper>

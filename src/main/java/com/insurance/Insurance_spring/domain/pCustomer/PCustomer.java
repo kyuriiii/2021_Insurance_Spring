@@ -1,5 +1,8 @@
 package com.insurance.Insurance_spring.domain.pCustomer;
 
+import lombok.Data;
+
+@Data
 public class PCustomer {
 	private int pcustomerID;
 	private String customerName, consultContext, phoneNumber, date;

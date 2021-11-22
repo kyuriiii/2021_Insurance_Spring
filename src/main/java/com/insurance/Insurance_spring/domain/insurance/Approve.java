@@ -1,5 +1,8 @@
 package com.insurance.Insurance_spring.domain.insurance;
 
+import lombok.Data;
+
+@Data
 public class Approve {
 	private String permissionDate, permissionRefuse, insuranceProblem;
 	private int insuranceID;

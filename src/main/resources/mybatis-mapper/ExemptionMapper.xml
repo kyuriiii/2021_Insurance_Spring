@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.insurance.Insurance_spring.mapper.ExemptionMapper">
+    <insert id="create">
+        insert into exemption ( accidentID, subFile, reason, legacy ) values ( #{accidentID}, #{subFile}, #{reason}, #{legacy})
+    </insert>
+    <select id="findByID" resultType="com.insurance.Insurance_spring.domain.exemption.Exemption">
+        select * from exemption where accidentID = #{accidentID}
+    </select>
+    <select id="retrieveList" resultType="com.insurance.Insurance_spring.domain.exemption.Exemption">
+        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID left join exemption on exemption.accidentID = accident.accidentID  where accidentInfo.judged = '0'
+    </select>
+    <delete id="deleteByID">
+        delete * from exemption where accidentID = #{accidentID}
+    </delete>
+</mapper>
