@@ -7,7 +7,6 @@ import com.insurance.Insurance_spring.domain.pCustomer.PCustomer;
 import com.insurance.Insurance_spring.domain.pCustomer.PCustomerList;
 import com.insurance.Insurance_spring.domain.pCustomer.PCustomerListImpl;
 import com.insurance.Insurance_spring.service.CustomerService;
-import com.insurance.Insurance_spring.service.MyBatisCustomerService;
 import com.insurance.Insurance_spring.service.PCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +18,7 @@ import java.util.ArrayList;
 
 @Controller
 public class SalesController {
-    @Autowired
-    private MyBatisCustomerService myBatisCustomerService;
+    
     @Autowired
     private CustomerService customerService;
     @Autowired
