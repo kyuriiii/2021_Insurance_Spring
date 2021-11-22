@@ -35,7 +35,7 @@ public class PCustomerListImpl implements PCustomerList {
 	public boolean update(PCustomer pCustomer, int customerID){
 		for(PCustomer uCustomer : this.pCustomerList) {
 			if(uCustomer.getPCustomerID() == customerID) {
-				uCustomer.setCustomerName(pCustomer.getCustomerName());
+				uCustomer.setPcustomerName(pCustomer.getPcustomerName());
 				uCustomer.setPhoneNumber(pCustomer.getPhoneNumber());
 			}
 		}

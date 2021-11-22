@@ -42,14 +42,14 @@ public class CustomerListImpl implements CustomerList {
 	}
 	public Customer search(Customer customer ) {
 		for(Customer scustomer : this.customerList) {
-			if(scustomer.getCustomerName().equals( customer.getCustomerName() ) && scustomer.getCustomerNumber().equals( customer.getCustomerNumber() )) return scustomer;
+			if(scustomer.getPcustomerName().equals( customer.getPcustomerName() ) && scustomer.getCustomerNumber().equals( customer.getCustomerNumber() )) return scustomer;
 		}
 		return null;
 	}
 	public boolean update(Customer customer, int customerID){
 		for(Customer uCustomer : this.customerList) {
 			if(uCustomer.getCustomerID() == customerID) {
-				uCustomer.setCustomerName(customer.getCustomerName());
+				uCustomer.setPcustomerName(customer.getPcustomerName());
 				uCustomer.setPhoneNumber(customer.getPhoneNumber());
 			}
 		}

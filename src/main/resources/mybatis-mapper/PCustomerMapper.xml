@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insurance.Insurance_spring.mapper.PCustomerMapper">
+    <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.pCustomer.PCustomer">
+        SELECT pcustomer.* FROM pcustomer LEFT JOIN customer ON pcustomer.pcustomerID = customer.pcustomerID WHERE customerID IS NULL
+    </select>
+</mapper>

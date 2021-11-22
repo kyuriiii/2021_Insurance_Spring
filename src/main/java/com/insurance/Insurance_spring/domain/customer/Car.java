@@ -1,8 +1,5 @@
 package com.insurance.Insurance_spring.domain.customer;
 
-import lombok.Data;
-
-@Data
 public class Car {
 
 	private String carNum,carType;

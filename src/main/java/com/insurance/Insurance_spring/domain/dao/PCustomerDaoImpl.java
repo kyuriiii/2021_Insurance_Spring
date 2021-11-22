@@ -20,9 +20,9 @@ public class PCustomerDaoImpl extends Dao implements PCustomerDao {
 	@Override
 	public void create(PCustomer pcustomer) {
 		String query = "insert into pcustomer ( pcustomerName, phoneNumber, acceptedDate, consultContext ) values ( " +
-				" '" + pcustomer.getCustomerName() + "', " +
+				" '" + pcustomer.getPcustomerName() + "', " +
 				" '" + pcustomer.getPhoneNumber()+ "', " +
-				" '" + pcustomer.getDate()+ "', " +
+				" '" + pcustomer.getAcceptedDate()+ "', " +
 				" '" + pcustomer.getConsultContext() + "')";
 		try {
 			this.execute(query);
@@ -50,9 +50,9 @@ public class PCustomerDaoImpl extends Dao implements PCustomerDao {
 			while ( resultSet.next()) {
 				PCustomer pCustomer = new PCustomer();
 				pCustomer.setPCustomerID(resultSet.getInt("pcustomerID"));
-				pCustomer.setCustomerName(resultSet.getString("pcustomerName"));
+				pCustomer.setPcustomerName(resultSet.getString("pcustomerName"));
 				pCustomer.setPhoneNumber(resultSet.getString("phoneNumber"));
-				pCustomer.setDate(resultSet.getString("acceptedDate"));
+				pCustomer.setAcceptedDate(resultSet.getString("acceptedDate"));
 				pCustomer.setConsultContext(resultSet.getString("consultContext"));
 				pCustomerList.add(pCustomer);
 			}
@@ -74,9 +74,9 @@ public class PCustomerDaoImpl extends Dao implements PCustomerDao {
 			
 			while ( resultSet.next()) {
 				pCustomer.setPCustomerID(resultSet.getInt("pcustomerID"));
-				pCustomer.setCustomerName(resultSet.getString("pcustomerName"));
+				pCustomer.setPcustomerName(resultSet.getString("pcustomerName"));
 				pCustomer.setPhoneNumber(resultSet.getString("phoneNumber"));
-				pCustomer.setDate(resultSet.getString("acceptedDate"));
+				pCustomer.setAcceptedDate(resultSet.getString("acceptedDate"));
 				pCustomer.setConsultContext(resultSet.getString("consultContext"));
 			}
 			
@@ -91,9 +91,9 @@ public class PCustomerDaoImpl extends Dao implements PCustomerDao {
 	@Override
 	public void updateID( int ID, PCustomer pCustomer ) {
 		String query = "update pcustomer set " +
-				"pcustomerName = '" + pCustomer.getCustomerName() + "', " +
+				"pcustomerName = '" + pCustomer.getPcustomerName() + "', " +
 				"phoneNumber = '" + pCustomer.getPhoneNumber() + "', " + 
-				"acceptedDate = '" + pCustomer.getDate() + "', " +
+				"acceptedDate = '" + pCustomer.getAcceptedDate() + "', " +
 				"consultContext = '" + pCustomer.getConsultContext() + "' " + 
 				"where pcustomerID = " + ID;
 		try {

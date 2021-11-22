@@ -2,9 +2,7 @@ package com.insurance.Insurance_spring.domain.exemption;
 
 
 import com.insurance.Insurance_spring.domain.accident.Accident;
-import lombok.Data;
 
-@Data
 public class Exemption extends Accident {
 	private int exemptionID, subFile, customerID;
 	private String reason, legacy;

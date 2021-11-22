@@ -13,5 +13,5 @@ public interface PCustomerList {
 	public PCustomer search(int customerID);
 	public boolean update(PCustomer pCustomer, int customerID);
 	public ArrayList<PCustomer> getCustomerList();
-
+	public void setCustomerList(ArrayList<PCustomer> pCustomerList);
 }

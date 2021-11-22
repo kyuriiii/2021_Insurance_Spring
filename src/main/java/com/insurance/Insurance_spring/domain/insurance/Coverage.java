@@ -1,8 +1,5 @@
 package com.insurance.Insurance_spring.domain.insurance;
 
-import lombok.Data;
-
-@Data
 public class Coverage {
 	private String coverageCondition, coverageContent;
 	private int coverageCost, coverageID, insuranceID;

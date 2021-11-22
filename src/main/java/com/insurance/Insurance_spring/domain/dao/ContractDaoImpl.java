@@ -76,9 +76,9 @@ public class ContractDaoImpl extends Dao implements ContractDao{
 				customer.seteMail(resultSet.getString("eMail"));
 				customer.setJob(resultSet.getString("job"));
 				customer.setSex(resultSet.getString("sex"));
-				customer.setCustomerName(resultSet.getString("pcustomerName"));
+				customer.setPcustomerName(resultSet.getString("pcustomerName"));
 				customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-				customer.setDate(resultSet.getString("acceptedDate"));
+				customer.setAcceptedDate(resultSet.getString("acceptedDate"));
 				customer.setConsultContext(resultSet.getString("consultContext"));
 				
 				Insurance insurance = new Insurance();
@@ -123,7 +123,7 @@ public class ContractDaoImpl extends Dao implements ContractDao{
 	@Override
 	public void updateIDCustomer(Contract contract) {
 		String query = "update pcustomer set " +
-	            "pcustomerName = '" + contract.getCustomer().getCustomerName() + "', " +
+	            "pcustomerName = '" + contract.getCustomer().getPcustomerName() + "', " +
 	            "phoneNumber = '" + contract.getCustomer().getPhoneNumber() + "' " + 
 	            "where pcustomerID = " + contract.getCustomer().getPCustomerID();
 		try {

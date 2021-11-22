@@ -1,8 +1,5 @@
 package com.insurance.Insurance_spring.domain.insurance;
 
-import lombok.Data;
-
-@Data
 public class SaleRecord {
 	private int insuranceID, goalCnt, saleCnt;
 	

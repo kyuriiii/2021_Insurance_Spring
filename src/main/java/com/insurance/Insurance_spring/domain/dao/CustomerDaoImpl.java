@@ -62,9 +62,9 @@ public class CustomerDaoImpl extends Dao implements CustomerDao{
 				customer.seteMail(resultSet.getString("eMail"));
 				customer.setJob(resultSet.getString("job"));
 				customer.setSex(resultSet.getString("sex"));
-				customer.setCustomerName(resultSet.getString("pcustomerName"));
+				customer.setPcustomerName(resultSet.getString("pcustomerName"));
 				customer.setPhoneNumber(resultSet.getString("phoneNumber"));
-				customer.setDate(resultSet.getString("acceptedDate"));
+				customer.setAcceptedDate(resultSet.getString("acceptedDate"));
 				customer.setConsultContext(resultSet.getString("consultContext"));
 				
 				customerList.add(customer);

@@ -1,8 +1,5 @@
 package com.insurance.Insurance_spring.domain.employee;
 
-import lombok.Data;
-
-@Data
 public class Employee {
 	private int EmployeeID;
 	private String name;

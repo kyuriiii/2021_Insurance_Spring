@@ -1,8 +1,5 @@
 package com.insurance.Insurance_spring.domain.customer;
 
-import lombok.Data;
-
-@Data
 public class Building {
 	private int buildingHeight, year, buildingSize; // m����, �ٴڸ��� m^2����
 	private String buildingPrice,buildingOutwall;

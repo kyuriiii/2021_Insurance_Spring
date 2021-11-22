@@ -1,8 +1,5 @@
 package com.insurance.Insurance_spring.domain.customer;
 
-import lombok.Data;
-
-@Data
 public class Driver {
 	private String licenseNum,carPurpose;
 

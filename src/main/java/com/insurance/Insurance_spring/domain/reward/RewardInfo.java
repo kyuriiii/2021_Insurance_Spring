@@ -3,9 +3,7 @@ package com.insurance.Insurance_spring.domain.reward;
 
 import com.insurance.Insurance_spring.domain.accident.Accident;
 import com.insurance.Insurance_spring.domain.employee.Employee;
-import lombok.Data;
 
-@Data
 public class RewardInfo {
 	private String payment, assessReason;
 	private Accident accident;

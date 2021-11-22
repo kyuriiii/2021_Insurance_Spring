@@ -3,11 +3,10 @@ package com.insurance.Insurance_spring.domain.contract;
 
 import com.insurance.Insurance_spring.domain.customer.Customer;
 import com.insurance.Insurance_spring.domain.insurance.Insurance;
-import lombok.Data;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-@Data
+
 public class Contract {
     private int contractID, price;
     private Customer customer;

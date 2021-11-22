@@ -15,5 +15,6 @@ public interface CustomerList {
 	public Customer search(Customer customer);
 	public boolean update(Customer customer, int customerID);
 	public ArrayList<Customer> getCustomerList();
+	public void setCustomerList(ArrayList<Customer> customerList);
 
 }

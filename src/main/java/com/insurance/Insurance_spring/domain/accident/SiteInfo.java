@@ -1,8 +1,5 @@
 package com.insurance.Insurance_spring.domain.accident;
 
-import lombok.Data;
-
-@Data
 public class SiteInfo {
 	private int photo, record, video;
 	private String damageScale, scenario;

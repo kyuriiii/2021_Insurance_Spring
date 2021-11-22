@@ -13,8 +13,8 @@ public class Dao {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 //			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/insurance?serverTimezone=UTC&useSSL=false", "root", "339675"); //ä��
-//			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/company?serverTimezone=UTC&useSSL=false", "root", "1234qwer"); //�Ը�
-			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/insurance?serverTimezone=UTC&useSSL=false", "root", "1234");
+			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/company?serverTimezone=UTC&useSSL=false", "root", "1234qwer"); //�Ը�
+//			connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/insurance?serverTimezone=UTC&useSSL=false", "root", "1234");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
