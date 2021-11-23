@@ -10,4 +10,5 @@ public interface CustomerMapper {
     List<Customer> retrieve();
     Customer retrieveByID( int customerID );
     Customer retrieveByInfo( String name, String customerNumber );
+    int create( Customer customer );
 }

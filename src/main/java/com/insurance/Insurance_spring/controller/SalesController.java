@@ -8,16 +8,20 @@ import com.insurance.Insurance_spring.domain.pCustomer.PCustomerList;
 import com.insurance.Insurance_spring.domain.pCustomer.PCustomerListImpl;
 import com.insurance.Insurance_spring.service.CustomerService;
 import com.insurance.Insurance_spring.service.PCustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Controller
 public class SalesController {
+    private Logger logger = LoggerFactory.getLogger(RewardController.class); // 로그 찍기
 
     @Autowired
     private CustomerService customerService;
@@ -37,10 +41,24 @@ public class SalesController {
         this.pCustomerList.setCustomerList((ArrayList<PCustomer>) pCustomerService.getPCustomerList());
         model.addAttribute( "pCustomerList", this.pCustomerList.getCustomerList() );
 
-        return "sales/consult";
+        return "sales/consultList";
     }
     @PostMapping("sales/consult")
-    public String consult( Customer customer, Model model ){
-        return "hi";
+    public String consult( HttpServletRequest httpServletRequest, Model model ){
+        model.addAttribute( "pCustomer", this.pCustomerList.search( Integer.parseInt( httpServletRequest.getParameter( "pcustomerID" ) ) ) );
+
+        return "sales/consult";
+    }
+    @PostMapping("sales/consultDo")
+    public String consultDo( HttpServletRequest httpServletRequest, Customer customer, Model model ){
+        PCustomer pcustomer = this.pCustomerList.search( Integer.parseInt( httpServletRequest.getParameter( "pcustomerID" ) ) );
+        pcustomer.setConsultContext( httpServletRequest.getParameter( "consultContext" ) );
+
+        customer.setPCustomerID( Integer.parseInt( httpServletRequest.getParameter( "pcustomerID" ) ) );
+
+        this.pCustomerService.updateByID( pcustomer );
+        this.customerService.create( customer );
+
+        return "redirect:/sales/consult";
     }
 }

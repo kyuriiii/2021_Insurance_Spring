@@ -5,4 +5,8 @@
     <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.pCustomer.PCustomer">
         SELECT pcustomer.* FROM pcustomer LEFT JOIN customer ON pcustomer.pcustomerID = customer.pcustomerID WHERE customerID IS NULL
     </select>
+
+    <update id="updateByID" parameterType="com.insurance.Insurance_spring.domain.pCustomer.PCustomer">
+        update pcustomer set pcustomerName=#{pcustomerName}, phoneNumber=#{phoneNumber}, consultContext=#{consultContext} where pcustomerID=#{pcustomerID}
+    </update>
 </mapper>

@@ -14,4 +14,8 @@
         SELECT * FROM customer INNER JOIN pcustomer ON customer.pcustomerID = pcustomer.pcustomerID
         WHERE pcustomerName = #{name} AND customerNumber = #{customerNumber} LIMIT 1
     </select>
+
+    <insert id="create" parameterType="com.insurance.Insurance_spring.domain.customer.Customer">
+        INSERT INTO customer ( pcustomerID, address, customerNumber, eMail, job, sex ) values ( #{pcustomerID}, #{address}, #{customerNumber}, #{eMail}, #{job}, #{sex} )
+    </insert>
 </mapper>
