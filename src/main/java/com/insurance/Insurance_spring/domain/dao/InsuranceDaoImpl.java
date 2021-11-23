@@ -32,8 +32,8 @@ public class InsuranceDaoImpl extends Dao implements InsuranceDao {
 			query = "insert into insurance ( insuranceName, insuranceCost, content, type ) values ( " +
 					" '" + insurance.getInsuranceName() + "', " +
 					" '" + insurance.getInsuranceCost() + "', " +
-					" '" + insurance.getContents()+ "', " +
-					" '" + insurance.getInsuranceType()+ "')";
+					" '" + insurance.getContent()+ "', " +
+					" '" + insurance.getType()+ "')";
 			
 			this.execute(query);
 			
@@ -71,9 +71,9 @@ public class InsuranceDaoImpl extends Dao implements InsuranceDao {
 	            Insurance insurance = new Insurance();
 	            insurance.setInsuranceID(resultSet.getInt("insuranceID"));
 	            insurance.setInsuranceName(resultSet.getString("insuranceName"));
-	            insurance.setInsuranceType(resultSet.getString("type"));
+	            insurance.setType(resultSet.getString("type"));
 	            insurance.setInsuranceCost(resultSet.getString("insuranceCost"));
-	            insurance.setContents(resultSet.getString("content"));
+	            insurance.setContent(resultSet.getString("content"));
 	            
 	            insuranceList.add(insurance);
 	         }
@@ -148,9 +148,9 @@ public class InsuranceDaoImpl extends Dao implements InsuranceDao {
 				Insurance insurance = new Insurance();
 				insurance.setInsuranceID(resultSet.getInt("insuranceID"));
 				insurance.setInsuranceName(resultSet.getString("insuranceName"));
-				insurance.setInsuranceType(resultSet.getString("type"));
+				insurance.setType(resultSet.getString("type"));
 				insurance.setInsuranceCost(resultSet.getString("insuranceCost"));
-				insurance.setContents(resultSet.getString("content"));
+				insurance.setContent(resultSet.getString("content"));
 				
 				insuranceList.add(insurance);
 			}
@@ -175,9 +175,9 @@ public class InsuranceDaoImpl extends Dao implements InsuranceDao {
 				Insurance insurance = new Insurance();
 				insurance.setInsuranceID(resultSet.getInt("insuranceID"));
 				insurance.setInsuranceName(resultSet.getString("insuranceName"));
-				insurance.setInsuranceType(resultSet.getString("type"));
+				insurance.setType(resultSet.getString("type"));
 				insurance.setInsuranceCost(resultSet.getString("insuranceCost"));
-				insurance.setContents(resultSet.getString("content"));
+				insurance.setContent(resultSet.getString("content"));
 				
 				insuranceList.add(insurance);
 			}

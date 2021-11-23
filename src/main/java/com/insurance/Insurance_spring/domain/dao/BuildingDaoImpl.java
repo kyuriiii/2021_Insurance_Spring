@@ -19,7 +19,7 @@ public class BuildingDaoImpl extends Dao implements BuildingDao{
 				customerID + ", " +
 				" '" + building.getBuildingPrice() + "', " +
 				" '" + building.getBuildingSize()+ "', " +
-				" '" + building.getYear()+ "', " +
+				" '" + building.getBuildingYear()+ "', " +
 				" '" + building.getBuildingOutwall() + "', " +
 				building.getBuildingHeight() +")";
 

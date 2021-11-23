@@ -8,5 +8,6 @@ import java.util.List;
 @Mapper
 public interface PCustomerMapper {
     List<PCustomer> retrieve();
+    PCustomer retrieveByID( int pcustomerID );
     int updateByID( PCustomer pcustomer );
 }

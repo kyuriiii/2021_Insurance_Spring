@@ -1,7 +1,7 @@
 package com.insurance.Insurance_spring.domain.customer;
 
 public class Building {
-	private int buildingHeight, year, buildingSize; // m����, �ٴڸ��� m^2����
+	private int buildingHeight, buildingYear, buildingSize; // m����, �ٴڸ��� m^2����
 	private String buildingPrice,buildingOutwall;
 	
 	public Building(){	}
@@ -13,8 +13,8 @@ public class Building {
 	public void setBuildingPrice(String buildingPrice) {this.buildingPrice = buildingPrice;}
 	public int getBuildingSize() {	return buildingSize;}
 	public void setBuildingSize(int buildingSize) {	this.buildingSize = buildingSize;}
-	public int getYear() {return year;}
-	public void setYear(int year) {	this.year = year;}
+	public int getBuildingYear() {return buildingYear;}
+	public void setBuildingYear(int buildingYear) {	this.buildingYear = buildingYear;}
 	public String getBuildingOutwall() { return buildingOutwall; }
 	public void setBuildingOutwall(String buildingOutwall) { this.buildingOutwall = buildingOutwall; }
 }

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.insurance.Insurance_spring.mapper.CustomerMapper">
     <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.customer.Customer">
-        SELECT * FROM customer
+        SELECT * FROM customer INNER JOIN pcustomer ON customer.pcustomerID = pcustomer.pcustomerID
     </select>
 
     <select id="retrieveByID" resultType="com.insurance.Insurance_spring.domain.customer.Customer">

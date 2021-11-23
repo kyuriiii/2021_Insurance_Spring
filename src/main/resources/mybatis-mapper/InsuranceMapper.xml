@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insurance.Insurance_spring.mapper.InsuranceMapper">
+    <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.insurance.Insurance">
+        SELECT * FROM insurance
+    </select>
+
+    <select id="retrieveByID" resultType="com.insurance.Insurance_spring.domain.insurance.Insurance">
+        SELECT * FROM insurance WHERE insuranceID = #{insuranceID} LIMIT 1
+    </select>
+
+    <update id="updateByID" parameterType="com.insurance.Insurance_spring.domain.insurance.Insurance">
+        update pcustomer set insuranceName=#{insuranceName}, insuranceCost=#{insuranceCost}, content=#{content} where insuranceID=#{insuranceID}
+    </update>
+</mapper>

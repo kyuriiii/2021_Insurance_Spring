@@ -19,7 +19,7 @@ public class CarDaoImpl extends Dao implements CarDao{
 				customerID + ", " +
 				" '" + car.getCarType() + "', " +
 				" '" + car.isOwn()+ "', " +
-				" '" + car.getCarNum()+ "', " +
+				" '" + car.getCarNumber()+ "', " +
 				" '" + car.getCarPrice() + "')";
 
 		try {

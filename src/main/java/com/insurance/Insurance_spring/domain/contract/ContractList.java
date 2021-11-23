@@ -8,4 +8,5 @@ public interface ContractList {
 	public Contract search(int registraionID);
 	public Contract searchByCustomer(int customerID);
 	public ArrayList<Contract> getContractList();
+	public void setContractList( ArrayList<Contract> contractList );
 }

@@ -13,5 +13,6 @@ public interface InsuranceList {
 	public boolean delete(int insuranceId);
 	public Insurance search(int insuranceId);
 	public ArrayList<Insurance> getInsuranceList();
+	public void setInsuranceList( ArrayList<Insurance> insuranceList );
 
 }

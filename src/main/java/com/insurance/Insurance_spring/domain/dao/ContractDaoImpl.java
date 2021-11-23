@@ -84,9 +84,9 @@ public class ContractDaoImpl extends Dao implements ContractDao{
 				Insurance insurance = new Insurance();
 				insurance.setInsuranceID(resultSet.getInt("insuranceID"));
 				insurance.setInsuranceName(resultSet.getString("insuranceName"));
-				insurance.setInsuranceType(resultSet.getString("type"));
+				insurance.setType(resultSet.getString("type"));
 				insurance.setInsuranceCost(resultSet.getString("insuranceCost"));
-				insurance.setContents(resultSet.getString("content"));
+				insurance.setContent(resultSet.getString("content"));
 				
 				Contract contract = new Contract();
 				contract.setContractID(resultSet.getInt("contractID"));

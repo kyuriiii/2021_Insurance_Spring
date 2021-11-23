@@ -2,7 +2,7 @@ package com.insurance.Insurance_spring.domain.insurance;
 
 public class Insurance {
 	// Attributes
-	private String insuranceName, Contents, insuranceType,insuranceCost;
+	private String insuranceName, content, type,insuranceCost;
 	private int insuranceID;
 	private float achieveRatio;
 
@@ -21,16 +21,17 @@ public class Insurance {
 		this.m_approve = new Approve();
 		this.m_saleRecord = new SaleRecord();
 	}
-	public String getContents() {return Contents;}
-	public void setContents(String contents) {Contents = contents;}
+	public String getContent() {return content;}
+	public void setContent(String content) {
+		this.content = content;}
 	public String getInsuranceCost() {	return insuranceCost;}
 	public void setInsuranceCost(String insuranceCost) {this.insuranceCost = insuranceCost;}
 	public int getInsuranceID() {return insuranceID;}
 	public void setInsuranceID(int insuranceID) {this.insuranceID = insuranceID;}
 	public String getInsuranceName() {	return insuranceName;	}
 	public void setInsuranceName(String insuranceName) {this.insuranceName = insuranceName;	}
-	public String getInsuranceType() {return insuranceType;	}
-	public void setInsuranceType(String insuranceType) {	this.insuranceType = insuranceType;	}
+	public String getType() {return type;	}
+	public void setType(String type) {	this.type = type;	}
 	public float getAchieveRatio() { return achieveRatio; }
 	public void setAchieveRatio(float achieveRatio) { this.achieveRatio = achieveRatio; }
 

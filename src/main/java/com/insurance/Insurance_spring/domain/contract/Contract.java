@@ -30,7 +30,7 @@ public class Contract {
     public void setInsuranceRatio(float insuranceRatio) { this.insuranceRatio = insuranceRatio; }
 
     public float calculateRatio() {
-        switch ( insurance.getInsuranceType() ) {
+        switch ( insurance.getType() ) {
             case "building":
                 if( Integer.parseInt(customer.getM_building().getBuildingPrice()) > 1000000000) insuranceRatio *= 1.2;
                 else insuranceRatio *= 1.0;
@@ -39,8 +39,8 @@ public class Contract {
                 else if(customer.getM_building().getBuildingHeight() <= 50) insuranceRatio *= 0.9;
                 else insuranceRatio *= 1.0;
 
-                if(customer.getM_building().getYear() < 2000) insuranceRatio *= 1.3;
-                else if ( customer.getM_building().getYear() < 2018 ) insuranceRatio *= 1.1;
+                if(customer.getM_building().getBuildingYear() < 2000) insuranceRatio *= 1.3;
+                else if ( customer.getM_building().getBuildingYear() < 2018 ) insuranceRatio *= 1.1;
                 else insuranceRatio *= 0.9;
                 break;
 
