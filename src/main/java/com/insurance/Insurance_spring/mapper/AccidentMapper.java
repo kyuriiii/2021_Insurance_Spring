@@ -10,7 +10,7 @@ import java.util.List;
 public interface AccidentMapper {
 
     List<Accident> findAll();
-    Accident findById(int id);
+    Accident findById(int accidentID);
     void createAccident(Accident accidentDTO);
     void updateState(Accident accidentDTO);
     void updateJudged(Accident accidentDTO);

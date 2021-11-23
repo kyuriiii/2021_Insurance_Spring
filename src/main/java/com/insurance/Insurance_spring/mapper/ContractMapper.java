@@ -8,6 +8,6 @@ import java.util.List;
 @Mapper
 public interface ContractMapper {
     List<Contract> findAll();
-    List<Contract> findByID();
+    List<Contract> findByID(int customerID);
 
 }

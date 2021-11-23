@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -27,27 +29,31 @@ public class RewardController {
         this.rewardService = rewardService;
     } // 스프링 시작 시, 초기화
 
-//    @GetMapping("/reward/consult")
-//    public String consultForm(){ // 고객 이름, 주민번호를 입력받을 페이지로 이동
-//        return "reward/consultForm";
-//    }
-//    @PostMapping("/reward/consult")
-//    public String consult(Customer customer, Model model){ // 고객 이름, 주민번호로 DB에 있는지 확인하기
-//        // DB에 존재하는 고객인지 확인 후, 고객 데이터 전부를 담고 있는 customer 리턴
-//        Customer m = rewardService.getCustomer(customer.getCustomerID());
-//        // DB에서 고객이 자사와 계약한 계약들 리턴
-//        List<Contract> contracts = rewardService.getContractList(customer.getCustomerID());
-//
-//        // web(reward/customerInfo)에 보여줄 데이터를 model 객체에 담기. ("html파일의 each랑 이름이 같아야 한다.", 객체)
-//        model.addAttribute("customer", m);
+    @GetMapping("/reward/consult")
+    public String consultForm(Model model){ // 고객 이름, 주민번호를 입력받을 페이지로 이동
+        model.addAttribute("customer", new Customer());
+        model.addAttribute("contract", new Contract());
+        return "reward/consultForm";
+    }
+    @PostMapping("/reward/consult")
+    public String consult(@Validated Customer customer, BindingResult result, Model model){ // 고객 이름, 주민번호로 DB에 있는지 확인하기
+        if(result.hasErrors()){return "reward/consultForm";}
+        // DB에 존재하는 고객인지 확인 후, 고객 데이터 전부를 담고 있는 customer 리턴
+        Customer m = rewardService.getCustomer(customer.getPcustomerName(), customer.getCustomerNumber());
+        rewardService.setCustomer(m);
+        // DB에서 고객이 자사와 계약한 계약들 리턴
+//        List<Contract> contracts = rewardService.getContractList(m.getCustomerID());
+
+        // web(reward/customerInfo)에 보여줄 데이터를 model 객체에 담기. ("html파일의 each랑 이름이 같아야 한다.", 객체)
+        model.addAttribute("customer", m);
 //        model.addAttribute("contract", contracts);
-//
-//        // move url
-//        String moveUrl = "accept";
-//        model.addAttribute("moveUrl", moveUrl);
-//
-//        return "reward/customerInfo"; // 위에서 처리한 로직을 보여줄 결과 페이지로 이동
-//    }
+
+        // move url
+        String moveUrl = "accept";
+        model.addAttribute("moveUrl", moveUrl);
+
+        return "reward/customerInfo"; // 위에서 처리한 로직을 보여줄 결과 페이지로 이동
+    }
 
     @GetMapping("reward/accept")
     public String createAcceptForm(){
@@ -57,7 +63,10 @@ public class RewardController {
     @PostMapping("reward/accept")
     public String acceptForm(Accident accident, Model model){
         rewardService.createAccident(accident);
-        model.addAttribute("accident", accident);
+        Accident a = rewardService.getAccident(accident.getCustomerID());
+        logger.info("accidentID: " + a.getAccidentID());
+        rewardService.createAccidentInfo(a);
+        model.addAttribute("accident", a);
 
         return "redirect:/";
     }

@@ -3,6 +3,7 @@ package com.insurance.Insurance_spring.domain.customer;
 
 import com.insurance.Insurance_spring.domain.accident.Accident;
 import com.insurance.Insurance_spring.domain.pCustomer.PCustomer;
+import lombok.Data;
 
 import java.util.ArrayList;
 

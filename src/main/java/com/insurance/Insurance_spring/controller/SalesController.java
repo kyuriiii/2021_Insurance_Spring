@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 @Controller
 public class SalesController {
-    
+
     @Autowired
     private CustomerService customerService;
     @Autowired

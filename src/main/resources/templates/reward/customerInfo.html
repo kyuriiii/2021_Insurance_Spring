@@ -18,7 +18,7 @@
             <tbody>
             <tr th:each="customer : ${customer}">
                 <td th:text="${customer.customerID}"></td>
-                <td th:text="${customer.customerName}"></td>
+                <td th:text="${customer.getPcustomerName()}"></td>
                 <td th:text="${customer.customerNumber}"></td>
                 <td th:text="${customer.address}"></td>
                 <td th:text="${customer.job}"></td>
@@ -28,33 +28,33 @@
             </tbody>
         </table>
     </div>
-    <div>
-        <table>
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>계약날짜</th>
-                <th>보험명</th>
-                <th>고객명</th>
+<!--    <div>-->
+<!--        <table>-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>#</th>-->
+<!--                <th>계약날짜</th>-->
+<!--                <th>보험명</th>-->
+<!--                <th>고객명</th>-->
 
-                <th>납입 보험료</th>
-                <th>만기일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="contract : ${contract}">
-                <td th:text="${contract.contractID}"></td>
-                <td th:text="${contract.date}"></td>
-                <td th:text="${contract.getInsurance().getInsuranceName()}"></td>
-                <td th:text="${contract.getCustomer().getCustomerName()}"></td>
+<!--                <th>납입 보험료</th>-->
+<!--                <th>만기일</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="contract : ${contract}">-->
+<!--                <td th:text="${contract.contractID}"></td>-->
+<!--                <td th:text="${contract.date}"></td>-->
+<!--                <td th:text="${contract.getInsurance().getInsuranceName()}"></td>-->
+<!--                <td th:text="${contract.getCustomer().getCustomerName()}"></td>-->
 
-                <td th:text="${contract.price}"></td>
+<!--                <td th:text="${contract.price}"></td>-->
 
-                <td th:text="${contract.endDate}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<!--                <td th:text="${contract.endDate}"></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
     <div>
         <input type="button" th:onclick="'location.href=\''+ @{${moveUrl}} + '\''" th:value="사고접수하기"/>
     </div>
