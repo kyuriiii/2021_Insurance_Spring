@@ -7,4 +7,5 @@ public interface AccidentList {
 	public boolean delete(int accidentNum);
 	public Accident search(int accidentNum);
 	public ArrayList<Accident> getAccidentList();
+	void setAccidentList(ArrayList<Accident> accidentList);
 }

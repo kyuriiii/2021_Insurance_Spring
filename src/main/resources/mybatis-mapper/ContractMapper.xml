@@ -3,10 +3,10 @@
 
 <mapper namespace="com.insurance.Insurance_spring.mapper.ContractMapper">
     <select id="findByID" resultType="com.insurance.Insurance_spring.domain.contract.Contract">
-        SELECT * FROM Contract WHERE customerID = #{customerID}
+        SELECT * FROM Contract WHERE contract.customerID = #{customerID}
     </select>
 
     <select id="findAll" resultType="com.insurance.Insurance_spring.domain.contract.Contract">
-        SELECT * FROM Contract
+        select * from contract inner join customer using(customerID) inner join insurance using(insuranceID) inner join pcustomer using(pcustomerID)
     </select>
 </mapper>

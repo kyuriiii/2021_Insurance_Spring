@@ -1,10 +1,21 @@
 package com.insurance.Insurance_spring.controller;
 
 import com.insurance.Insurance_spring.domain.accident.Accident;
+import com.insurance.Insurance_spring.domain.accident.AccidentList;
+import com.insurance.Insurance_spring.domain.accident.AccidentListImpl;
 import com.insurance.Insurance_spring.domain.contract.Contract;
+import com.insurance.Insurance_spring.domain.contract.ContractList;
+import com.insurance.Insurance_spring.domain.contract.ContractListImpl;
 import com.insurance.Insurance_spring.domain.customer.Customer;
+import com.insurance.Insurance_spring.domain.customer.CustomerList;
+import com.insurance.Insurance_spring.domain.customer.CustomerListImpl;
 import com.insurance.Insurance_spring.domain.exemption.Exemption;
+import com.insurance.Insurance_spring.domain.exemption.ExemptionList;
+import com.insurance.Insurance_spring.domain.exemption.ExemptionListImpl;
 import com.insurance.Insurance_spring.domain.reward.RewardInfo;
+import com.insurance.Insurance_spring.service.AccidentService;
+import com.insurance.Insurance_spring.service.ContractService;
+import com.insurance.Insurance_spring.service.CustomerService;
 import com.insurance.Insurance_spring.service.RewardService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,52 +27,69 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class RewardController {
     private Logger logger = LoggerFactory.getLogger(RewardController.class); // 로그 찍기
 
-//    private final RewardService rewardService; // 보상 관련 서비스 처리
-//
 //    @Autowired
-//    public RewardController(RewardService rewardService) {
-//        this.rewardService = rewardService;
-//    } // 스프링 시작 시, 초기화
+//    private RewardService rewardService; // 보상 관련 서비스 처리
+//    @Autowired
+//    private CustomerService customerService;
+//    @Autowired
+//    private ContractService contractService;
+//    @Autowired
+//    private AccidentService accidentService;
+//
+//    // list
+//    private CustomerList customerList;
+//    private ContractList contractList;
+//    private AccidentList accidentList;
+//    private ExemptionList exemptionList;
+//
+//    public RewardController(){
+//        // list initialize
+//        this.customerList = new CustomerListImpl();
+//        this.contractList = new ContractListImpl();
+//        this.accidentList = new AccidentListImpl();
+//        this.exemptionList = new ExemptionListImpl();
+//    }
+//
+//    @GetMapping("reward")
+//        public String index() {
+//            return "reward/index";
+//        }
 //
 //    @GetMapping("/reward/consult")
-//    public String consultForm(Model model){ // 고객 이름, 주민번호를 입력받을 페이지로 이동
-//        model.addAttribute("customer", new Customer());
-//        model.addAttribute("contract", new Contract());
+//    public String consult(Model model){
+//        // 계약을 맺은 고객 리스트
+//        this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
+//        model.addAttribute( "customerList", this.customerList.getCustomerList() );
 //        return "reward/consultForm";
 //    }
-//    @PostMapping("/reward/consult")
-//    public String consult(@Validated Customer customer, BindingResult result, Model model){ // 고객 이름, 주민번호로 DB에 있는지 확인하기
-//        if(result.hasErrors()){return "reward/consultForm";}
-//        // DB에 존재하는 고객인지 확인 후, 고객 데이터 전부를 담고 있는 customer 리턴
-//        Customer m = rewardService.getCustomer(customer.getPcustomerName(), customer.getCustomerNumber());
-//        rewardService.setCustomer(m);
-//        // DB에서 고객이 자사와 계약한 계약들 리턴
-////        List<Contract> contracts = rewardService.getContractList(m.getCustomerID());
-//
-//        // web(reward/customerInfo)에 보여줄 데이터를 model 객체에 담기. ("html파일의 each랑 이름이 같아야 한다.", 객체)
-//        model.addAttribute("customer", m);
-////        model.addAttribute("contract", contracts);
-//
-//        // move url
-//        String moveUrl = "accept";
-//        model.addAttribute("moveUrl", moveUrl);
-//
-//        return "reward/customerInfo"; // 위에서 처리한 로직을 보여줄 결과 페이지로 이동
+//    @PostMapping("/reward/consult/customer")
+//    public String consultCustomer(HttpServletRequest hsRequest, Model model){
+//        // 사고 접수할 고객 선택 << use case 변경
+//        model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
+//        // 선택한 고객ID로 DB에서 계약 리스트 불러서 저장
+//        this.contractList.setContractList((ArrayList<Contract>) this.contractService.getContractListByID(Integer.parseInt(hsRequest.getParameter("customerID"))));
+//        // 계약 리스트 web 뿌리기
+//        model.addAttribute("contractList", this.contractList.getContractList()); // insurance name을 불러오지 못한다.
+//        // 버튼 누르면 이동할 URL
+//        model.addAttribute("moveUrl","reward/accept");
+//        return "reward/accept";
 //    }
 //
 //    @GetMapping("reward/accept")
-//    public String createAcceptForm(){
+//    public String accept(){
+//        this.accidentList.setAccidentList((ArrayList<Accident>)this.accidentService.getAccidentList());
 //        return "reward/acceptForm";
 //    }
-//
 //    @PostMapping("reward/accept")
-//    public String acceptForm(Accident accident, Model model){
+//    public String acceptAccident(HttpServletRequest hsRequest, Accident accident, Model model){
 //        rewardService.createAccident(accident);
 //        Accident a = rewardService.getAccident(accident.getCustomerID());
 //        logger.info("accidentID: " + a.getAccidentID());
@@ -70,7 +98,7 @@ public class RewardController {
 //
 //        return "redirect:/";
 //    }
-//
+// ********************** 여기 아래는 수정 전이다 *****************
 //    @GetMapping("reward/accident")
 //    public String createAccidentForm(Model model){
 //        // 접수된 사고 리스트

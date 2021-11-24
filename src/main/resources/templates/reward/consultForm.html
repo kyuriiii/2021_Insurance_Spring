@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<head>
+  <meta charset="UTF-8">
+  <title>고객 목록</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script>
+    function contract( ID ){
+      var form = document.getElementById( "form_accept" );
+      form.customerID.value = ID;
+      form.submit();
+    }
+  </script>
+</head>
 <body>
-<h2>고객 조회 페이지</h2>
+<form class="d-none" id="form_accept" action="/reward/consult/customer" method="post">
+  <input type="hidden" name="customerID">
+</form>
 <div class="container">
-  <form action="/reward/consult" method="post">
-    <div class="form-group">
-      <label for="pcustomerName">이름</label>
-      <input type="text" id="pcustomerName" name="pcustomerName" placeholder="이름을 입력하세요">
-      <label for="customerNumber">주민번호</label>
-      <input type="text" id="customerNumber" name="customerNumber" placeholder="주민번호를 입력하세요">
-
-    </div>
-    <button type="submit">조회하기</button>
-  </form>
+  <div>
+    <h2>계약 체결 된 고객 리스트</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>이름</th>
+        <th>주소</th>
+        <th>주민번호</th>
+        <th>성별</th>
+        <th>직업</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="customer : ${customerList}">
+        <td th:text="${customer.customerID}"></td>
+        <td th:text="${customer.pcustomerName}"></td>
+        <td th:text="${customer.address}"></td>
+        <td th:text="${customer.customerNumber}"></td>
+        <td th:text="${customer.sex}"></td>
+        <td th:text="${customer.job}"></td>
+        <td>
+          <button class="btn btn-secondary" th:onclick="contract( [[${customer.customerID}]] )">선택</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 </body>
 </html>
