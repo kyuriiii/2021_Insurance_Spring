@@ -11,7 +11,7 @@ public class Contract {
     private int contractID, price;
     private Customer customer;
     private Insurance insurance;
-    private String date, endDate;
+    private String startDate, endDate;
     private float insuranceRatio;
 
     public int getContractID() { return contractID; }
@@ -20,8 +20,8 @@ public class Contract {
     public void setCustomer(Customer customer) { this.customer = customer; }
     public Insurance getInsurance() { return insurance; }
     public void setInsurance(Insurance insurance) { this.insurance = insurance; }
-    public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }
+    public String getStartDate() { return startDate; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
     public int getPrice() { return price; }
     public void setPrice(int price) { this.price = price; }
     public String getEndDate() { return endDate; }

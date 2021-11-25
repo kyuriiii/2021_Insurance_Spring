@@ -12,11 +12,11 @@ import com.insurance.Insurance_spring.domain.customer.CustomerListImpl;
 import com.insurance.Insurance_spring.domain.exemption.Exemption;
 import com.insurance.Insurance_spring.domain.exemption.ExemptionList;
 import com.insurance.Insurance_spring.domain.exemption.ExemptionListImpl;
+import com.insurance.Insurance_spring.domain.insurance.Insurance;
+import com.insurance.Insurance_spring.domain.insurance.InsuranceList;
+import com.insurance.Insurance_spring.domain.insurance.InsuranceListImpl;
 import com.insurance.Insurance_spring.domain.reward.RewardInfo;
-import com.insurance.Insurance_spring.service.AccidentService;
-import com.insurance.Insurance_spring.service.ContractService;
-import com.insurance.Insurance_spring.service.CustomerService;
-import com.insurance.Insurance_spring.service.RewardService;
+import com.insurance.Insurance_spring.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,69 +35,76 @@ import java.util.List;
 public class RewardController {
     private Logger logger = LoggerFactory.getLogger(RewardController.class); // 로그 찍기
 
-//    @Autowired
-//    private RewardService rewardService; // 보상 관련 서비스 처리
-//    @Autowired
-//    private CustomerService customerService;
-//    @Autowired
-//    private ContractService contractService;
-//    @Autowired
-//    private AccidentService accidentService;
-//
-//    // list
-//    private CustomerList customerList;
-//    private ContractList contractList;
-//    private AccidentList accidentList;
-//    private ExemptionList exemptionList;
-//
-//    public RewardController(){
-//        // list initialize
-//        this.customerList = new CustomerListImpl();
-//        this.contractList = new ContractListImpl();
-//        this.accidentList = new AccidentListImpl();
-//        this.exemptionList = new ExemptionListImpl();
-//    }
-//
-//    @GetMapping("reward")
-//        public String index() {
-//            return "reward/index";
-//        }
-//
-//    @GetMapping("/reward/consult")
-//    public String consult(Model model){
-//        // 계약을 맺은 고객 리스트
-//        this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
-//        model.addAttribute( "customerList", this.customerList.getCustomerList() );
-//        return "reward/consultForm";
-//    }
-//    @PostMapping("/reward/consult/customer")
-//    public String consultCustomer(HttpServletRequest hsRequest, Model model){
-//        // 사고 접수할 고객 선택 << use case 변경
-//        model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
-//        // 선택한 고객ID로 DB에서 계약 리스트 불러서 저장
-//        this.contractList.setContractList((ArrayList<Contract>) this.contractService.getContractListByID(Integer.parseInt(hsRequest.getParameter("customerID"))));
-//        // 계약 리스트 web 뿌리기
-//        model.addAttribute("contractList", this.contractList.getContractList()); // insurance name을 불러오지 못한다.
-//        // 버튼 누르면 이동할 URL
-//        model.addAttribute("moveUrl","reward/accept");
-//        return "reward/accept";
-//    }
-//
-//    @GetMapping("reward/accept")
-//    public String accept(){
-//        this.accidentList.setAccidentList((ArrayList<Accident>)this.accidentService.getAccidentList());
-//        return "reward/acceptForm";
-//    }
-//    @PostMapping("reward/accept")
-//    public String acceptAccident(HttpServletRequest hsRequest, Accident accident, Model model){
-//        rewardService.createAccident(accident);
-//        Accident a = rewardService.getAccident(accident.getCustomerID());
-//        logger.info("accidentID: " + a.getAccidentID());
-//        rewardService.createAccidentInfo(a);
-//        model.addAttribute("accident", a);
-//
-//        return "redirect:/";
-//    }
+    @Autowired
+    private RewardService rewardService; // 보상 관련 서비스 처리
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private ContractService contractService;
+    @Autowired
+    private AccidentService accidentService;
+    @Autowired
+    private InsuranceService insuranceService;
+
+    // list
+    private CustomerList customerList;
+    private ContractList contractList;
+    private AccidentList accidentList;
+    private ExemptionList exemptionList;
+    private InsuranceList insuranceList;
+
+    public RewardController(){
+        // list initialize
+        this.customerList = new CustomerListImpl();
+        this.contractList = new ContractListImpl();
+        this.accidentList = new AccidentListImpl();
+        this.exemptionList = new ExemptionListImpl();
+        this.insuranceList= new InsuranceListImpl();
+    }
+
+    @GetMapping("reward")
+        public String index() {
+            return "reward/index";
+        }
+
+    @GetMapping("/reward/consult")
+    public String consult(Model model){
+        // 계약을 맺은 고객 리스트
+        this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
+        // web에 뿌리기
+        model.addAttribute( "customerList", this.customerList.getCustomerList() );
+        return "reward/consultForm";
+    }
+    @PostMapping("/reward/consult/customer")
+    public String consultCustomer(HttpServletRequest hsRequest, Model model){
+        // 사고 접수할 고객 선택 << use case 변경
+        model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
+        // 선택한 고객ID로 DB에서 계약 리스트 불러서 저장
+        this.contractList.setContractList((ArrayList<Contract>) this.contractService.getContractListByID(Integer.parseInt(hsRequest.getParameter("customerID"))));
+
+        // 계약 리스트 web 뿌리기
+        model.addAttribute("contractList", this.contractList.getContractList()); // insurance name을 불러오지 못한다.
+        return "reward/accept";
+    }
+    @GetMapping("reward/accept")
+    public String accept( HttpServletRequest hsRequest, Model model){ // 앞의 form에서 customerID get으로 노출해서 넘김..
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+        if (hsRequest != null) {
+            model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
+        }
+        return "reward/acceptForm";
+    }
+    @PostMapping("reward/accept")
+    public String acceptAccident( HttpServletRequest hsRequest, Accident accident, Model model){
+        model.addAttribute( "customer", this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ) ); // ID가 아니라 문자열로 온다.
+        Customer c =  this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) );
+        accident.setCustomer(c);
+        rewardService.createAccident(accident); // customer가 null
+        rewardService.createAccidentInfo(accident);
+        model.addAttribute("accident", accident);
+
+        return "redirect:/";
+    }
 // ********************** 여기 아래는 수정 전이다 *****************
 //    @GetMapping("reward/accident")
 //    public String createAccidentForm(Model model){

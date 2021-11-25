@@ -3,7 +3,7 @@
 
 <mapper namespace="com.insurance.Insurance_spring.mapper.ContractMapper">
     <select id="findByID" resultType="com.insurance.Insurance_spring.domain.contract.Contract">
-        SELECT * FROM Contract WHERE contract.customerID = #{customerID}
+        SELECT * FROM Contract WHERE contract.customerID = #{customerID} and contract.insuranceID is not null
     </select>
 
     <select id="findAll" resultType="com.insurance.Insurance_spring.domain.contract.Contract">

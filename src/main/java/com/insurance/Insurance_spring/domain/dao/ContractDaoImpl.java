@@ -24,7 +24,7 @@ public class ContractDaoImpl extends Dao implements ContractDao{
 		String query = "insert into contract ( customerID, insuranceID, startDate, price, endDate, insuranceRatio ) values ( " +
 				contract.getCustomer().getCustomerID() + ", " +
 				contract.getInsurance().getInsuranceID() + ", " +
-				" '" + contract.getDate() + "', " +
+				" '" + contract.getStartDate() + "', " +
 				" '" + contract.getPrice()+ "', " +
 				" '" + contract.getEndDate() + "', " + 
 				" '" + contract.getInsuranceRatio() + "' )";
@@ -90,7 +90,7 @@ public class ContractDaoImpl extends Dao implements ContractDao{
 				
 				Contract contract = new Contract();
 				contract.setContractID(resultSet.getInt("contractID"));
-				contract.setDate(resultSet.getString("startDate"));
+				contract.setStartDate(resultSet.getString("startDate"));
 				contract.setPrice(resultSet.getInt("price"));
 				contract.setEndDate(resultSet.getString("endDate"));
 				contract.setInsuranceRatio(resultSet.getFloat("insuranceRatio"));

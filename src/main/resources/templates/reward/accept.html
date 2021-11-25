@@ -5,8 +5,18 @@
     <title>고객 정보 조회 페이지</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
+    <script>
+        function accept( ID ) {
+            var form = document.getElementById("form_customer");
+            form.customerID.value = ID;
+            form.submit();
+        }
+    </script>
 </head>
 <body>
+<form class="d-none" id="form_customer" action="/reward/accept" method="get">
+    <input type="hidden" name="customerID"/>
+</form>
 <div class="container">
     <div class="row">
         <div class="col-5 mt-3">
@@ -71,7 +81,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>계약날짜</th>
-                                    <th>보험명</th>
+<!--                                    <th>보험명</th>-->
                                     <th>납입 보험료</th>
                                     <th>만기일</th>
                                 </tr>
@@ -79,17 +89,17 @@
                     <tbody>
                                 <tr th:each="contract : ${contractList}">
                                     <td th:text="${contract.contractID}"></td>
-                                    <td th:text="${contract.date}"></td>
-                                    <td th:text="${contract.insurance.insuranceName}"></td>
+                                    <td th:text="${contract.startDate}"></td>
+<!--                                    <td th:text="${contract.insurance.insuranceName}"></td>-->
                                     <td th:text="${contract.price}"></td>
                                     <td th:text="${contract.endDate}"></td>
-                            <button class="btn btn-secondary" th:onclick="'location.href=\''+ @{${moveUrl}} + '\''">사고접수하기</button>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+        <button class="btn btn-secondary" th:onclick="accept( [[${customer.customerID}]] )">사고접수하기</button>
     </div>
 </div>
 </body>
