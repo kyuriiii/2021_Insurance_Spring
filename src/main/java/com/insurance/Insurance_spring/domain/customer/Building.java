@@ -1,12 +1,15 @@
 package com.insurance.Insurance_spring.domain.customer;
 
 public class Building {
-	private int buildingHeight, buildingYear, buildingSize; // m����, �ٴڸ��� m^2����
+
+	private int buildingID, buildingHeight, buildingYear, buildingSize; // m����, �ٴڸ��� m^2����
 	private String buildingPrice, buildingOutWall;
 	
 	public Building(){	}
 	public void finalize() throws Throwable {	}
 	// getter & setter
+	public int getBuildingID() { return buildingID; }
+	public void setBuildingID(int buildingID) { this.buildingID = buildingID; }
 	public int getBuildingHeight() {return buildingHeight;}
 	public void setBuildingHeight(int buildingHeight) {	this.buildingHeight = buildingHeight;}
 	public String getBuildingPrice() {return buildingPrice;}

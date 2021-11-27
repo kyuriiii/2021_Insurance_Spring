@@ -15,11 +15,32 @@
         WHERE pcustomerName = #{name} AND customerNumber = #{customerNumber} LIMIT 1
     </select>
 
-    <insert id="create" parameterType="com.insurance.Insurance_spring.domain.customer.Customer">
+<!--    <select id="create" parameterType="com.insurance.Insurance_spring.domain.customer.Customer" resultType="Integer">-->
+<!--        INSERT INTO customer ( pcustomerID, address, customerNumber, eMail, job, sex ) values ( #{pcustomerID}, #{address}, #{customerNumber}, #{eMail}, #{job}, #{sex} )-->
+<!--        -->
+<!--    </select>-->
+    <insert id="create" parameterType="com.insurance.Insurance_spring.domain.customer.Customer" useGeneratedKeys="true" keyProperty="customerID">
         INSERT INTO customer ( pcustomerID, address, customerNumber, eMail, job, sex ) values ( #{pcustomerID}, #{address}, #{customerNumber}, #{eMail}, #{job}, #{sex} )
     </insert>
 
-    <insert id="createBuildingInfo" parameterType="HashMap">
+    <insert id="createBuildingInfo" parameterType="HashMap" useGeneratedKeys="true" keyProperty="buildingID">
         INSERT INTO buildinginfo ( customerID, buildingPrice, buildingSize, buildingYear, buildingOutWall, buildingHeight ) values ( #{customerID}, #{building.buildingPrice}, #{building.buildingSize}, #{building.buildingYear}, #{building.buildingOutWall}, #{building.buildingHeight} )
     </insert>
+    <delete id="deleteBuildingInfo" parameterType="Integer">
+        delete from buildinginfo where buildingID = #{buildingID}
+    </delete>
+
+    <insert id="createCarInfo" parameterType="HashMap" useGeneratedKeys="true" keyProperty="carID">
+        INSERT INTO carinfo ( customerID, carType, own, carNumber, carPrice ) values ( #{customerID}, #{car.carType}, #{car.own}, #{car.carNumber}, #{car.carPrice} )
+    </insert>
+    <delete id="deleteCarInfo" parameterType="Integer">
+        delete from carinfo where carID = #{carID}
+    </delete>
+
+    <insert id="createDriverInfo" parameterType="HashMap" useGeneratedKeys="true" keyProperty="driverID">
+        INSERT INTO driverinfo ( customerID, licenseNum, carPurpose ) values ( #{customerID}, #{driver.licenseNum}, #{driver.carPurpose} )
+    </insert>
+    <delete id="deleteDriverInfo" parameterType="Integer">
+        delete from driverinfo where driverID = #{driverID}
+    </delete>
 </mapper>

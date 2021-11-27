@@ -3,10 +3,12 @@ package com.insurance.Insurance_spring.domain.customer;
 public class Car {
 
 	private String carNumber,carType;
-	private int carPrice,own; // 0�� ��, 1�� ��
+	private int carID, carPrice,own; // 0�� ��, 1�� ��
 
 	public Car(){	}
 	// getter & setter
+	public int getCarID() { return carID; }
+	public void setCarID(int carID) { this.carID = carID; }
 	public String getCarNumber() {return carNumber;}
 	public void setCarNumber(String carNumber) {	this.carNumber = carNumber;}
 	public int isOwn() {return own;	}

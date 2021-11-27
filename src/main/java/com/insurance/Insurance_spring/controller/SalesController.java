@@ -130,17 +130,46 @@ public class SalesController {
     }
     @PostMapping("sales/contract_car")
     public String contract_car(Accident accident, Car car, HttpServletRequest hsRequest, Model model ){
-        return "";
+        accidentService.createAccident( accident );
+        HashMap<String, Object> carInfos = new HashMap<String, Object>();
+        carInfos.put("customerID", Integer.parseInt(hsRequest.getParameter( "customerID" )));
+        carInfos.put("car", car);
+        customerService.createCarInfo( carInfos );
+
+        Insurance insurance = this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
+        Customer customer = this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) );
+
+        customer.setAccident( accident );
+        customer.setM_car( car );
+
+        return contractAfterInfo( insurance, customer, model );
     }
     @PostMapping("sales/contract_driver")
-    public String contract_driver(Accident accident, Driver driver, HttpServletRequest hsRequest, Model model ){
-        return "";
+    public String contract_driver(Accident accident, Driver driver, Car car, HttpServletRequest hsRequest, Model model ){
+        accidentService.createAccident( accident );
+        HashMap<String, Object> carInfos = new HashMap<String, Object>();
+        carInfos.put("customerID", Integer.parseInt(hsRequest.getParameter( "customerID" )));
+        carInfos.put("car", car);
+        customerService.createCarInfo( carInfos );
+        HashMap<String, Object> driverInfos = new HashMap<String, Object>();
+        driverInfos.put("customerID", Integer.parseInt(hsRequest.getParameter( "customerID" )));
+        driverInfos.put("driver", driver);
+        customerService.createDriverInfo( driverInfos );
+
+        Insurance insurance = this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
+        Customer customer = this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) );
+
+        customer.setAccident( accident );
+        customer.setM_car( car );
+        customer.setM_driver( driver );
+
+        return contractAfterInfo( insurance, customer, model );
     }
     private String contractAfterInfo( Insurance insurance, Customer customer, Model model){
         int uwRate = this.libraryUW.calcualteFactors( insurance, customer );
         if ( uwRate == 1 ){
             model.addAttribute( "msg", "인수심사 결과 계약을 체결할 수 없습니다." );
-            return "redirect:/sales/contract";
+            return contract( model );
         }
 
         Contract contract = new Contract();
@@ -171,11 +200,21 @@ public class SalesController {
         return "redirect:/sales/contract";
     }
     @PostMapping("sales/contractCancel")
-    public String contractCancel(HttpServletRequest hsRequest, Contract contract, Model model ){
+    public String contractCancel(HttpServletRequest hsRequest, Model model ){
         Customer customer = this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) );
+        for ( Accident accident : customer.getAccident() ){
+            accidentService.delete( accident.getAccidentID() );
+        }
+        switch ( hsRequest.getParameter( "type" ) ){
+            case "building": customerService.deleteBuildingInfo( customer.getM_building().getBuildingID() ); break;
+            case "car": customerService.deleteCarInfo( customer.getM_car().getCarID() ); break;
+            case "driver":
+                customerService.deleteCarInfo( customer.getM_car().getCarID() );
+                customerService.deleteDriverInfo( customer.getM_driver().getDriverID() );
+            break;
+        }
 
-        // cancel은 나중에 이어서 해라 규리야
-
-        return "redirect:/sales/contract";
+        model.addAttribute( "msg", customer.getPcustomerName() + " 님과의 계약이 취소되었습니다." );
+        return contract( model );
     }
 }

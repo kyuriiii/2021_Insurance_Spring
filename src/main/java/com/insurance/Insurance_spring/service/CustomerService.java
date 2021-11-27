@@ -17,7 +17,12 @@ public class CustomerService {
     public List<Customer> getCustomerList(){ return customerMapper.retrieve(); }
     public Customer getCustomer( int customerID ){ return customerMapper.retrieveByID( customerID ); }
     public Customer getCustomerByInfo( String name, String customerNumber ){ return customerMapper.retrieveByInfo( name, customerNumber ); }
-    public void create(Customer customer) { customerMapper.create( customer ); }
+    public int create(Customer customer) { return customerMapper.create( customer ); }
 
     public void createBuildingInfo(HashMap<String, Object> buildingInfos) { customerMapper.createBuildingInfo( buildingInfos ); }
+    public void deleteBuildingInfo( int buildingID ) { customerMapper.deleteBuildingInfo( buildingID ); }
+    public void createCarInfo(HashMap<String, Object> carInfos) { customerMapper.createCarInfo( carInfos ); }
+    public void deleteCarInfo( int carID ) { customerMapper.deleteCarInfo( carID ); }
+    public void createDriverInfo(HashMap<String, Object> driverInfos) { customerMapper.createDriverInfo( driverInfos ); }
+    public void deleteDriverInfo( int driverID ) { customerMapper.deleteDriverInfo( driverID );}
 }

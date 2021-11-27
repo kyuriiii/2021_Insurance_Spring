@@ -8,7 +8,7 @@
     <select id="findAll" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
         select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID left join ainvestigation on ainvestigation.accidentID = accident.accidentID
     </select>
-    <insert id="createAccident">
+    <insert id="createAccident" useGeneratedKeys="true" keyProperty="accidentID">
         insert into accident( accidentSize, accidentType, accidentDate, accidentTime, accidentPlace, customerID ) values(#{accidentSize}, #{accidentType}, #{accidentDate}, #{accidentTime}, #{accidentPlace}, #{customerID})
     </insert>
     <update id="updateState" >
@@ -35,4 +35,7 @@
     <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
         select * from accident
     </select>
+    <delete id="delete" parameterType="Integer">
+        delete from accident where accidentID = #{accidentID}
+    </delete>
 </mapper>

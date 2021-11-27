@@ -48,4 +48,5 @@ public class AccidentService {
         accident.setJudged(1);
         accidentMapper.createAccidentInfo(accident);
     }
+    public void delete(int id) { accidentMapper.delete( id ); }
 }

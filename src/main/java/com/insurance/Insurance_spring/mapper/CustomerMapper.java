@@ -14,4 +14,9 @@ public interface CustomerMapper {
     Customer retrieveByInfo( String name, String customerNumber );
     int create( Customer customer );
     int createBuildingInfo(HashMap<String, Object> buildingInfos);
+    void deleteBuildingInfo( int buildingID );
+    int createCarInfo(HashMap<String, Object> carInfos);
+    void deleteCarInfo( int carID );
+    int createDriverInfo(HashMap<String, Object> driverInfos);
+    void deleteDriverInfo( int driverID );
 }

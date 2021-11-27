@@ -22,4 +22,5 @@ public interface AccidentMapper {
     int accidentCnt(int customerID);
 
     List<Accident> retrieve();
+    void delete( int accidentID);
 }

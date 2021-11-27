@@ -24,7 +24,10 @@
 
         function contractContinue(){
             var form = document.getElementById( "form_contract" );
-            if ( form.classList.contains( "d-none" ) ) form.classList.replace( "d-none", "" );
+            var class_split = form.className.split( " " );
+
+            if ( class_split.includes( "d-none" ) ) class_split.pop();
+            form.className = class_split.concat( " " );
         }
         function contractCancel(){
             if ( confirm( "계약 진행을 취소하시겠습니까?" ) ){
@@ -36,8 +39,9 @@
 </head>
 <body>
 <div class="container">
-    <form class="d-none" id="form_cancel" method="post" action="sales/contractCancel">
+    <form class="d-none" id="form_cancel" method="post" action="/sales/contractCancel">
         <input type="hidden" name="customerID" th:value="${customer.customerID}">
+        <input type="hidden" name="type" th:value="${insurance.getType()}">
     </form>
     <div class="row">
         <div class="col-5 mt-3">
@@ -96,7 +100,7 @@
                     </div>
                 </div>
 
-                <form class="form-control" id="form_contract" method="post" action="/sales/contractContinue">
+                <form class="form-control d-none" id="form_contract" method="post" action="/sales/contractContinue">
                     <input type="hidden" name="customerID" th:value="${customer.customerID}">
                     <input type="hidden" name="insuranceID" th:value="${insurance.insuranceID}">
                     <input type="hidden" name="insuranceRatio" th:value="${insuranceRatio}">
