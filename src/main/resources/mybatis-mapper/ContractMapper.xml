@@ -13,4 +13,8 @@
     <insert id="create" parameterType="HashMap" useGeneratedKeys="true" keyProperty="contractID">
         insert into contract ( startDate, price, endDate, customerID, insuranceID, insuranceRatio ) values ( #{contract.startDate}, #{contract.price}, #{contract.endDate}, #{customerID}, #{insuranceID}, #{contract.insuranceRatio})
     </insert>
+
+    <update id="update" parameterType="com.insurance.Insurance_spring.domain.contract.Contract">
+        update contract set endDate=#{endDate} where contractID = #{contractID}
+    </update>
 </mapper>

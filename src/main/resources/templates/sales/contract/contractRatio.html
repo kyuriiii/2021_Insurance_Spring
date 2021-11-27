@@ -93,11 +93,14 @@
                 <hr>
 
                 <div class="d-flex justify-content-center my-3">
-                    <p class="font-weight-bold">계속 진행하시겠습니까?</p>
-                    <div class="mt-1 row px-3">
-                        <button class="col mx-3 btn btn-primary" type="button" onclick="contractContinue();">예</button>
-                        <button class="col mx-3 btn btn-danger" type="button" onclick="contractCancel();">아니오</button>
-                    </div>
+                    <p class="font-weight-bold my-3">계속 진행하시겠습니까?</p>
+                </div>
+
+                <hr>
+
+                <div class="mt-1 row px-3">
+                    <button class="col mx-3 btn btn-primary" type="button" onclick="contractContinue();">예</button>
+                    <button class="col mx-3 btn btn-danger" type="button" onclick="contractCancel();">아니오</button>
                 </div>
 
                 <form class="form-control d-none" id="form_contract" method="post" action="/sales/contractContinue">

@@ -14,12 +14,21 @@ public class Contract {
     private String startDate, endDate;
     private float insuranceRatio;
 
+    public Contract(){
+        this.customer = new Customer();
+        this.insurance = new Insurance();
+    }
+
     public int getContractID() { return contractID; }
     public void setContractID(int contractID) { this.contractID = contractID; }
     public Customer getCustomer() { return customer; }
     public void setCustomer(Customer customer) { this.customer = customer; }
+    public int getCustomerID(){ return customer.getCustomerID(); }
+    public void setCustomerID( int customerID ) { this.customer.setCustomerID( customerID );}
     public Insurance getInsurance() { return insurance; }
     public void setInsurance(Insurance insurance) { this.insurance = insurance; }
+    public int getInsuranceID(){ return insurance.getInsuranceID(); }
+    public void setInsuranceID( int insuranceID ) { this.insurance.setInsuranceID( insuranceID );}
     public String getStartDate() { return startDate; }
     public void setStartDate(String startDate) { this.startDate = startDate; }
     public int getPrice() { return price; }

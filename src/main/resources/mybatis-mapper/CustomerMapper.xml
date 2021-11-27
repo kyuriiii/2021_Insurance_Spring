@@ -7,7 +7,8 @@
     </select>
 
     <select id="retrieveByID" resultType="com.insurance.Insurance_spring.domain.customer.Customer">
-        SELECT * FROM customer WHERE customerID = #{customerID} LIMIT 1
+        SELECT * FROM customer INNER JOIN pcustomer ON customer.pcustomerID = pcustomer.pcustomerID
+        WHERE customerID = #{customerID} LIMIT 1
     </select>
 
     <select id="retrieveByInfo" resultType="com.insurance.Insurance_spring.domain.customer.Customer">
@@ -15,10 +16,6 @@
         WHERE pcustomerName = #{name} AND customerNumber = #{customerNumber} LIMIT 1
     </select>
 
-<!--    <select id="create" parameterType="com.insurance.Insurance_spring.domain.customer.Customer" resultType="Integer">-->
-<!--        INSERT INTO customer ( pcustomerID, address, customerNumber, eMail, job, sex ) values ( #{pcustomerID}, #{address}, #{customerNumber}, #{eMail}, #{job}, #{sex} )-->
-<!--        -->
-<!--    </select>-->
     <insert id="create" parameterType="com.insurance.Insurance_spring.domain.customer.Customer" useGeneratedKeys="true" keyProperty="customerID">
         INSERT INTO customer ( pcustomerID, address, customerNumber, eMail, job, sex ) values ( #{pcustomerID}, #{address}, #{customerNumber}, #{eMail}, #{job}, #{sex} )
     </insert>

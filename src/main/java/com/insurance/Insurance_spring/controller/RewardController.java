@@ -13,20 +13,15 @@ import com.insurance.Insurance_spring.domain.customer.CustomerListImpl;
 import com.insurance.Insurance_spring.domain.exemption.Exemption;
 import com.insurance.Insurance_spring.domain.exemption.ExemptionList;
 import com.insurance.Insurance_spring.domain.exemption.ExemptionListImpl;
-import com.insurance.Insurance_spring.domain.insurance.Insurance;
 import com.insurance.Insurance_spring.domain.insurance.InsuranceList;
 import com.insurance.Insurance_spring.domain.insurance.InsuranceListImpl;
-import com.insurance.Insurance_spring.domain.reward.RewardInfo;
 import com.insurance.Insurance_spring.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 @Controller
 public class RewardController {
@@ -90,7 +84,7 @@ public class RewardController {
         // consultForm에서 받은 customerID로 customer 찾기
         model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
         // 고객이 맺은 계약 찾기
-        this.contractList.setContractList(((ArrayList<Contract>) this.contractService.getContractListByID(Integer.parseInt(hsRequest.getParameter("customerID")))));
+        this.contractList.setContractList(((ArrayList<Contract>) this.contractService.getContractListByCustomerID(Integer.parseInt(hsRequest.getParameter("customerID")))));
         model.addAttribute("contractList",this.contractList.getContractList() );
         return "reward/customerInfo";
     }

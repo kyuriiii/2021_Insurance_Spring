@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,6 +66,7 @@ public class SalesController {
         return "sales/index";
     }
 
+    // 예비 고객 관리하기
     @GetMapping("sales/consult")
     public String consult( Model model ){
         this.pCustomerList.setCustomerList((ArrayList<PCustomer>) pCustomerService.getPCustomerList());
@@ -90,6 +92,9 @@ public class SalesController {
 
         return "redirect:/sales/consult";
     }
+
+    
+    // 계약하기
     @GetMapping("sales/contract")
     public String contract( Model model ){
         this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
@@ -216,5 +221,30 @@ public class SalesController {
 
         model.addAttribute( "msg", customer.getPcustomerName() + " 님과의 계약이 취소되었습니다." );
         return contract( model );
+    }
+
+    
+    // 계약 관리하기
+    @GetMapping( "sales/ctManage" )
+    public String ctManage( Model model ){
+        this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+
+        for ( Contract contract : this.contractList.getContractList() ){
+            contract.setCustomer( customerService.getCustomer( contract.getCustomerID() ) );
+            contract.setInsurance( insuranceService.getInsurance( contract.getInsuranceID() ) );
+        }
+
+        model.addAttribute( "contractList", this.contractList.getContractList() );
+        return "sales/ctManage/index";
+    }
+    @PostMapping( "sales/ctManage" )
+    public String ctManagePost( HttpServletRequest hsRequest, Model model ){
+        model.addAttribute( "contract", this.contractList.search( Integer.parseInt( hsRequest.getParameter( "contractID" ) ) ) );
+        return "sales/ctManage/manage";
+    }
+    @PostMapping( "sales/ctManage/extend" )
+    public String ctManageExtend( Contract contract, Model model ){
+        contractService.update( contract );
+        return "redirect:/sales";
     }
 }

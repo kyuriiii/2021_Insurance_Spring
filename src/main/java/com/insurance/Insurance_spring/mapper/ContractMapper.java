@@ -11,5 +11,5 @@ public interface ContractMapper {
     void create(HashMap<String,Object> infos);
     List<Contract> findAll();
     List<Contract> findByID(int customerID);
-
+    void update( Contract contract );
 }
