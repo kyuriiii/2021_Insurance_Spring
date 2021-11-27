@@ -1,6 +1,9 @@
 package com.insurance.Insurance_spring.controller;
 
 import com.insurance.Insurance_spring.domain.accident.Accident;
+import com.insurance.Insurance_spring.domain.accident.AccidentList;
+import com.insurance.Insurance_spring.domain.accident.AccidentListImpl;
+import com.insurance.Insurance_spring.domain.contract.Contract;
 import com.insurance.Insurance_spring.domain.contract.ContractList;
 import com.insurance.Insurance_spring.domain.contract.ContractListImpl;
 import com.insurance.Insurance_spring.domain.customer.*;
@@ -11,6 +14,7 @@ import com.insurance.Insurance_spring.domain.pCustomer.PCustomer;
 import com.insurance.Insurance_spring.domain.pCustomer.PCustomerList;
 import com.insurance.Insurance_spring.domain.pCustomer.PCustomerListImpl;
 import com.insurance.Insurance_spring.library.Library_UW;
+import com.insurance.Insurance_spring.service.AccidentService;
 import com.insurance.Insurance_spring.service.CustomerService;
 import com.insurance.Insurance_spring.service.InsuranceService;
 import com.insurance.Insurance_spring.service.PCustomerService;
@@ -23,23 +27,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Controller
 public class SalesController {
-    private Logger logger = LoggerFactory.getLogger(SalesController.class); // 로그 찍기
-
     @Autowired
     private CustomerService customerService;
     @Autowired
     private PCustomerService pCustomerService;
     @Autowired
     private InsuranceService insuranceService;
+    @Autowired
+    private AccidentService accidentService;
 
     private CustomerList customerList;
     private PCustomerList pCustomerList;
     private ContractList contractList;
     private InsuranceList insuranceList;
+    private AccidentList accidentList;
 
     private Library_UW libraryUW;
 
@@ -48,6 +55,7 @@ public class SalesController {
         this.pCustomerList = new PCustomerListImpl();
         this.contractList = new ContractListImpl();
         this.insuranceList = new InsuranceListImpl();
+        this.accidentList = new AccidentListImpl();
 
         this.libraryUW = new Library_UW();
     }
@@ -99,32 +107,43 @@ public class SalesController {
     }
     @PostMapping("sales/contract/contractCustomer")
     public String contractCustomer( HttpServletRequest hsRequest, Model model ){
-        logger.info( "insuranceID : ", hsRequest.getParameter( "insuranceID"  ) );
-        logger.info( "customerID : ", hsRequest.getParameter( "customerID"  ) );
-
-        Insurance insurance = this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
-
-        model.addAttribute( "insurance", insurance );
+        model.addAttribute( "insurance", this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) ) );
         model.addAttribute( "customer", this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ) );
 
         return "sales/contract/accident";
     }
-
-    @PostMapping("sales/test")
-    public String test( HttpServletRequest hsRequest, Model model ){
-        logger.info( "customerID : ", hsRequest.getParameter( "customerID" ) );
-
-
-        return "redirect:/sales/contract";
-    }
     @PostMapping("sales/contract_building")
-    public String contract_building( HttpServletRequest hsRequest, Model model ){
-//        logger.info( "accidentSize : ", accident.getAccidentSize() );
-//        logger.info( "buildingSize : ", building.getBuildingSize() );
-        logger.info( "customerID : ", hsRequest.getParameter( "customerID" ) );
-        logger.info( "insuranceID : ", hsRequest.getParameter( "insuranceID" ) );
+    public String contract_building( HttpServletRequest hsRequest, Accident accident, Building building, Model model ){
+        accidentService.createAccident( accident );
+        customerService.createBuildingInfo( building );
 
-        return "redirect:/sales/contract";
+        Insurance insurance = this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
+        Customer customer = this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) );
+
+        customer.setAccident( accident );
+        customer.setM_building( building );
+
+        int uwRate = this.libraryUW.calcualteFactors( insurance, customer );
+        if ( uwRate == 1 ){
+            model.addAttribute( "msg", "인수심사 결과 계약을 체결할 수 없습니다." );
+            return "redirect:/sales/contract";
+        }
+
+        Contract contract = new Contract();
+        contract.setInsurance( insurance );
+        contract.setCustomer( customer );
+        float insuranceRatio = contract.calculateRatio();
+
+        model.addAttribute( "customer", customer );
+        model.addAttribute( "insurance", insurance );
+
+        int finalPrice = 0;
+        if ( insuranceRatio != 0 ) finalPrice = (int) ( Integer.parseInt(insurance.getInsuranceCost()) * insuranceRatio );
+		else finalPrice = Integer.parseInt(insurance.getInsuranceCost());
+
+        model.addAttribute( "finalPrice", finalPrice );
+
+        return "sales/contract/contractRatio";
     }
     @PostMapping("sales/contract_car")
     public String contract_car(Accident accident, Car car, HttpServletRequest hsRequest, Model model ){

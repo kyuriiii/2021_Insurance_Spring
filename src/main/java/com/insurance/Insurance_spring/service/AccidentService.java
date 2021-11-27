@@ -28,14 +28,15 @@ public class AccidentService {
     public Accident getAccident(int id){
         return accidentMapper.findById(id);
     }
-    public void createAccident(Accident accidentDTO){
-        if(accidentDTO.getCustomer() != null) {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date now = new Date();
-            accidentDTO.setDate(format.format(now));
-            accidentMapper.createAccident(accidentDTO);
-        }
-    }
+//    public void createAccident(Accident accidentDTO){
+//        if(accidentDTO.getCustomer() != null) {
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//            Date now = new Date();
+//            accidentDTO.setDate(format.format(now));
+//            accidentMapper.createAccident(accidentDTO);
+//        }
+//    }
+    public void createAccident( Accident accident ) { accidentMapper.createAccident( accident );}
     public void updateAccidentState(Accident accidentDTO) {
         accidentMapper.updateState(accidentDTO);
     }

@@ -6,13 +6,10 @@ import com.insurance.Insurance_spring.domain.customer.Customer;
 public class Accident {
 	//attribute 
 	private String accidentDate, date, accidentPlace, accidentTime ,accidentSize, accidentType;
-	private int accidentID, completed, judged;
+	private int accidentID, customerID, completed, judged;
 	//composition Class
 	private SiteInfo m_siteInfo;
-	private Customer customer;
-	
-	public Customer getCustomer() {	return customer;	}
-	public void setCustomer(Customer customer) {	this.customer = customer;	}
+
 	public Accident(){	setM_siteInfo(new SiteInfo());	}
 	public int getCompleted() {return completed;	}
 	public void setCompleted(int i) {	this.completed = i;	}
@@ -35,8 +32,9 @@ public class Accident {
 	public SiteInfo getM_siteInfo() {	return m_siteInfo;	}
 	public void setM_siteInfo(SiteInfo m_siteInfo) {	this.m_siteInfo = m_siteInfo;	}
 	public int getCustomerID(){
-		return customer.getCustomerID();
+		return this.customerID;
 	}
+	public void setCustomerID( int customerID ) { this.customerID = customerID; }
 
 	public void finalize() throws Throwable {	}
 	public String getCompleteText() {

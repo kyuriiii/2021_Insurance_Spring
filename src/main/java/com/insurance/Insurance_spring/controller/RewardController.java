@@ -98,7 +98,7 @@ public class RewardController {
     public String accept( HttpServletRequest hsRequest, Model model, Accident accident ){
         logger.info("여기는 post");
         Customer customer = this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID")));
-        accident.setCustomer(customer);
+//        accident.setCustomer(customer);
 
         this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
 

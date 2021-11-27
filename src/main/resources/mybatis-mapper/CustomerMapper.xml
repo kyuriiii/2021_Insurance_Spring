@@ -18,4 +18,8 @@
     <insert id="create" parameterType="com.insurance.Insurance_spring.domain.customer.Customer">
         INSERT INTO customer ( pcustomerID, address, customerNumber, eMail, job, sex ) values ( #{pcustomerID}, #{address}, #{customerNumber}, #{eMail}, #{job}, #{sex} )
     </insert>
+
+    <insert id="createBuildingInfo" parameterType="com.insurance.Insurance_spring.domain.customer.Building">
+        INSERT INTO buildinginfo ( customerID, buildingPrice, buildingSize, buildingYear, buildingOutWall, buildingHeight ) values ( #{customerID}, #{buildingPrice}, #{buildingSize}, #{buildingYear}, #{buildingOutWall}, #{buildingHeight} )
+    </insert>
 </mapper>
