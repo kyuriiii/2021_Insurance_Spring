@@ -4,6 +4,7 @@ import com.insurance.Insurance_spring.domain.customer.Building;
 import com.insurance.Insurance_spring.domain.customer.Customer;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -12,5 +13,5 @@ public interface CustomerMapper {
     Customer retrieveByID( int customerID );
     Customer retrieveByInfo( String name, String customerNumber );
     int create( Customer customer );
-    int createBuildingInfo(Building building );
+    int createBuildingInfo(HashMap<String, Object> buildingInfos);
 }

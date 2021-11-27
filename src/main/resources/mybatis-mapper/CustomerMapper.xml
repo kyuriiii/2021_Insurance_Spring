@@ -19,7 +19,7 @@
         INSERT INTO customer ( pcustomerID, address, customerNumber, eMail, job, sex ) values ( #{pcustomerID}, #{address}, #{customerNumber}, #{eMail}, #{job}, #{sex} )
     </insert>
 
-    <insert id="createBuildingInfo" parameterType="com.insurance.Insurance_spring.domain.customer.Building">
-        INSERT INTO buildinginfo ( customerID, buildingPrice, buildingSize, buildingYear, buildingOutWall, buildingHeight ) values ( #{customerID}, #{buildingPrice}, #{buildingSize}, #{buildingYear}, #{buildingOutWall}, #{buildingHeight} )
+    <insert id="createBuildingInfo" parameterType="HashMap">
+        INSERT INTO buildinginfo ( customerID, buildingPrice, buildingSize, buildingYear, buildingOutWall, buildingHeight ) values ( #{customerID}, #{building.buildingPrice}, #{building.buildingSize}, #{building.buildingYear}, #{building.buildingOutWall}, #{building.buildingHeight} )
     </insert>
 </mapper>

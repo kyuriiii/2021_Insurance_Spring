@@ -6,6 +6,7 @@ import com.insurance.Insurance_spring.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -18,5 +19,5 @@ public class CustomerService {
     public Customer getCustomerByInfo( String name, String customerNumber ){ return customerMapper.retrieveByInfo( name, customerNumber ); }
     public void create(Customer customer) { customerMapper.create( customer ); }
 
-    public void createBuildingInfo(Building building) { customerMapper.createBuildingInfo( building ); }
+    public void createBuildingInfo(HashMap<String, Object> buildingInfos) { customerMapper.createBuildingInfo( buildingInfos ); }
 }

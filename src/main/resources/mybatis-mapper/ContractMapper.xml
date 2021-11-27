@@ -9,4 +9,8 @@
     <select id="findAll" resultType="com.insurance.Insurance_spring.domain.contract.Contract">
         select * from contract inner join customer using(customerID) inner join insurance using(insuranceID) inner join pcustomer using(pcustomerID)
     </select>
+
+    <insert id="create" parameterType="HashMap">
+        insert into contract ( startDate, price, endDate, customerID, insuranceID, insuranceRatio ) values ( #{contract.startDate}, #{contract.price}, #{contract.endDate}, #{customerID}, #{insuranceID}, #{contract.insuranceRatio})
+    </insert>
 </mapper>

@@ -6,16 +6,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <script>
-        function accidentInput(){
-            var form = document.getElementById( "form_accident" );
-            form.action = "/sales/contract_" + form.accidentType.value;
-            form.method = "post";
+        function contract(){
+            var form = document.getElementById( "form_contract" );
+
+            var today = new Date();
+
+            var year = today.getFullYear();
+            var month = ('0' + (today.getMonth() + 1)).slice(-2);
+            var day = ('0' + today.getDate()).slice(-2);
+
+            var dateString = year + '-' + month  + '-' + day;
+
+            form.startDate.value = dateString;
+
             form.submit();
+        }
+
+        function contractContinue(){
+            var form = document.getElementById( "form_contract" );
+            if ( form.classList.contains( "d-none" ) ) form.classList.replace( "d-none", "" );
+        }
+        function contractCancel(){
+            if ( confirm( "계약 진행을 취소하시겠습니까?" ) ){
+                var form = document.getElementById( "form_cancel" );
+                form.submit();
+            }
         }
     </script>
 </head>
 <body>
 <div class="container">
+    <form class="d-none" id="form_cancel" method="post" action="sales/contractCancel">
+        <input type="hidden" name="customerID" th:value="${customer.customerID}">
+    </form>
     <div class="row">
         <div class="col-5 mt-3">
             <table class="table">
@@ -53,9 +76,7 @@
             </table>
         </div>
         <div class="col-7">
-            <form class="form-control" id="form_accident" method="post">
-                <input class="d-none" name="customerID" th:value="${customer.customerID}">
-                <input class="d-none" name="insuranceID" th:value="${insurance.insuranceID}">
+            <div>
                 <div class="row mx-0 my-3">
                     <div class="col-4 d-flex justify-content-center">
                         <h3 class="my-3 font-weight-bold">책정 보험료</h3>
@@ -65,10 +86,37 @@
                     </div>
                 </div>
 
+                <hr>
+
+                <div class="d-flex justify-content-center my-3">
+                    <p class="font-weight-bold">계속 진행하시겠습니까?</p>
+                    <div class="mt-1 row px-3">
+                        <button class="col mx-3 btn btn-primary" type="button" onclick="contractContinue();">예</button>
+                        <button class="col mx-3 btn btn-danger" type="button" onclick="contractCancel();">아니오</button>
+                    </div>
+                </div>
+
+                <form class="form-control" id="form_contract" method="post" action="/sales/contractContinue">
+                    <input type="hidden" name="customerID" th:value="${customer.customerID}">
+                    <input type="hidden" name="insuranceID" th:value="${insurance.insuranceID}">
+                    <input type="hidden" name="insuranceRatio" th:value="${insuranceRatio}">
+                    <input type="hidden" name="price" th:value="${finalPrice}">
+                    <input type="hidden" name="startDate" value="">
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 만기일 </div>
+                        <div class="col-8">
+                            <input type="date" class="form-control form-control-sm" name="endDate" required>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-warning" onclick="contract();">계약 체결</button>
+                    </div>
+                </form>
+
                 <div class="d-flex justify-content-end">
                     <button type="button" class="btn btn-primary" onclick="accidentInput();">사고 정보 입력</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
