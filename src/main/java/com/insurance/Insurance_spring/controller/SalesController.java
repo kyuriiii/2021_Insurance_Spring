@@ -14,7 +14,6 @@ import com.insurance.Insurance_spring.library.Library_UW;
 import com.insurance.Insurance_spring.service.CustomerService;
 import com.insurance.Insurance_spring.service.InsuranceService;
 import com.insurance.Insurance_spring.service.PCustomerService;
-import org.apache.tomcat.jni.Library;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 
 @Controller
 public class SalesController {
-    private Logger logger = LoggerFactory.getLogger(RewardController.class); // 로그 찍기
+    private Logger logger = LoggerFactory.getLogger(SalesController.class); // 로그 찍기
 
     @Autowired
     private CustomerService customerService;
@@ -100,6 +99,9 @@ public class SalesController {
     }
     @PostMapping("sales/contract/contractCustomer")
     public String contractCustomer( HttpServletRequest hsRequest, Model model ){
+        logger.info( "insuranceID : ", hsRequest.getParameter( "insuranceID"  ) );
+        logger.info( "customerID : ", hsRequest.getParameter( "customerID"  ) );
+
         Insurance insurance = this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
 
         model.addAttribute( "insurance", insurance );
@@ -107,8 +109,16 @@ public class SalesController {
 
         return "sales/contract/accident";
     }
+
+    @PostMapping("sales/test")
+    public String test( HttpServletRequest hsRequest, Model model ){
+        logger.info( "customerID : ", hsRequest.getParameter( "customerID" ) );
+
+
+        return "redirect:/sales/contract";
+    }
     @PostMapping("sales/contract_building")
-    public String contractBuilding( HttpServletRequest hsRequest, Model model ){
+    public String contract_building( HttpServletRequest hsRequest, Model model ){
 //        logger.info( "accidentSize : ", accident.getAccidentSize() );
 //        logger.info( "buildingSize : ", building.getBuildingSize() );
         logger.info( "customerID : ", hsRequest.getParameter( "customerID" ) );
@@ -117,11 +127,11 @@ public class SalesController {
         return "redirect:/sales/contract";
     }
     @PostMapping("sales/contract_car")
-    public String contractBuilding(Accident accident, Car car, HttpServletRequest hsRequest, Model model ){
+    public String contract_car(Accident accident, Car car, HttpServletRequest hsRequest, Model model ){
         return "";
     }
     @PostMapping("sales/contract_driver")
-    public String contractBuilding(Accident accident, Driver driver, HttpServletRequest hsRequest, Model model ){
+    public String contract_driver(Accident accident, Driver driver, HttpServletRequest hsRequest, Model model ){
         return "";
     }
 }
