@@ -46,6 +46,8 @@ public class RewardController {
     private AccidentService accidentService;
     @Autowired
     private InsuranceService insuranceService;
+    @Autowired
+    private ExemptionService exemptionService;
 
     // list
     private CustomerList customerList;
@@ -80,39 +82,50 @@ public class RewardController {
     public String consultCustomer(HttpServletRequest hsRequest, Model model){
         // consultForm에서 받은 customerID로 customer 찾기
         model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
-        Customer c = this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID")));
-        this.accidentService.setCustomer(c);
         // 고객이 맺은 계약 찾기
         this.contractList.setContractList(((ArrayList<Contract>) this.contractService.getContractListByID(Integer.parseInt(hsRequest.getParameter("customerID")))));
         model.addAttribute("contractList",this.contractList.getContractList() );
         return "reward/customerInfo";
     }
-    @GetMapping("/reward/accept")
-    public String accept(){
-        logger.info("여기는 get");
-//        model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
+    @PostMapping("/reward/accept/customer")
+    public String showAccept( HttpServletRequest hsRequest, Model model ){
+
+        model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
+
         return "reward/acceptForm";
     }
     @PostMapping("/reward/accept")
-    public String accept( Model model, Accident accident ){ // accident가 null...
+    public String accept( HttpServletRequest hsRequest, Model model, Accident accident ){
         logger.info("여기는 post");
+        Customer customer = this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID")));
+        accident.setCustomer(customer);
+
         this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
-        logger.info("list ??" + this.accidentList.getAccidentList().size());
 
         accidentService.createAccident(accident);
         this.accidentList.add(accident);
 
-        Accident a = accidentService.getAccident(this.accidentList.getAccidentList().size()-1);
+        Accident a = accidentService.getAccident(this.accidentList.getAccidentList().size());
 
         logger.info("accidentID: " + a.getAccidentID());
 
         accidentService.createAccidentInfo(a);
-        model.addAttribute("accident", a);
+
+        model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
+
+        return "reward/exemptionForm";
+    }
+    @GetMapping("/reward/accept/accidentInfo")
+    public String acceptInfo(Model model){
+        model.addAttribute("accidentList", this.accidentService.getNotCompletedAccidentList());
         return "reward/accidentForm";
     }
-    @PostMapping("/reward/accept/accident")
-    public String home(HttpServletRequest hsRequest ){
-        if(hsRequest != null) logger.info("@@@@@@@@@@@@@@");
+    @PostMapping("/reward/exemption")
+    public String home( Exemption exemption ){
+        Accident accident = this.accidentList.search(exemption.getAccidentID());
+        this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
+        this.exemptionService.create(exemption);
+        this.accidentService.updateJudged(accident);
         return "index";
     }
 //    @PostMapping("reward/accept")

@@ -16,8 +16,6 @@ public class AccidentService {
     @Autowired
     private AccidentMapper accidentMapper;
 
-    private Customer customer;
-
     public List<Accident> getAccidentList(){
         return accidentMapper.retrieve();
     }
@@ -31,12 +29,10 @@ public class AccidentService {
         return accidentMapper.findById(id);
     }
     public void createAccident(Accident accidentDTO){
-        if(this.customer != null) {
-            accidentDTO.setCustomer(customer);
+        if(accidentDTO.getCustomer() != null) {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date now = new Date();
-            String now_dt = format.format(now);
-            accidentDTO.setDate(now_dt);
+            accidentDTO.setDate(format.format(now));
             accidentMapper.createAccident(accidentDTO);
         }
     }
@@ -54,7 +50,4 @@ public class AccidentService {
         accident.setJudged(1);
         accidentMapper.createAccidentInfo(accident);
     }
-
-    public void setCustomer(Customer customer){ this.customer = customer;}
-    public Customer getCustomer(){return this.customer;}
 }
