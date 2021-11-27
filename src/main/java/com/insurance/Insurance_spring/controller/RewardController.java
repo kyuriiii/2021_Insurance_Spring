@@ -106,17 +106,14 @@ public class RewardController {
         Customer customer = this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID")));
         accident.setCustomerID(customer.getCustomerID());
 
-
-        // 오늘 날짜 set
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date now = new Date();
-        accident.setDate(format.format(now));
-
         accidentService.createAccident(accident);
         this.accidentList.add(accident);
 
         Accident a = accidentService.getAccident(this.accidentList.getAccidentList().size());
 
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date now = new Date();
+        a.setDate(format.format(now));
         accidentService.createAccidentInfo(a);
         model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
 
