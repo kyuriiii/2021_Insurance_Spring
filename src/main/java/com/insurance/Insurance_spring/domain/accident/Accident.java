@@ -37,6 +37,7 @@ public class Accident {
 	public int getCustomerID(){
 		return customer.getCustomerID();
 	}
+
 	public void finalize() throws Throwable {	}
 	public String getCompleteText() {
 		if(this.getCompleted() ==0) {	return "ó��";}

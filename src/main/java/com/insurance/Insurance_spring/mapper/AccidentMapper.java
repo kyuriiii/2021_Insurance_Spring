@@ -19,4 +19,6 @@ public interface AccidentMapper {
     List<Accident> retrieveNotCompleted();
     List<Accident> retrieveCompleted();
     int accidentCnt(int customerID);
+
+    List<Accident> retrieve();
 }

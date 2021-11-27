@@ -32,4 +32,7 @@
     <select id="retrieveNotCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
     select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = '1'
     </select>
+    <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
+        select * from accident
+    </select>
 </mapper>

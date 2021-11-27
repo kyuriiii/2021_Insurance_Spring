@@ -25,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,34 +78,57 @@ public class RewardController {
     }
     @PostMapping("/reward/consult/customer")
     public String consultCustomer(HttpServletRequest hsRequest, Model model){
-        // 사고 접수할 고객 선택 << use case 변경
+        // consultForm에서 받은 customerID로 customer 찾기
         model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
-        // 선택한 고객ID로 DB에서 계약 리스트 불러서 저장
-        this.contractList.setContractList((ArrayList<Contract>) this.contractService.getContractListByID(Integer.parseInt(hsRequest.getParameter("customerID"))));
-
-        // 계약 리스트 web 뿌리기
-        model.addAttribute("contractList", this.contractList.getContractList()); // insurance name을 불러오지 못한다.
-        return "reward/accept";
+        Customer c = this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID")));
+        this.accidentService.setCustomer(c);
+        // 고객이 맺은 계약 찾기
+        this.contractList.setContractList(((ArrayList<Contract>) this.contractService.getContractListByID(Integer.parseInt(hsRequest.getParameter("customerID")))));
+        model.addAttribute("contractList",this.contractList.getContractList() );
+        return "reward/customerInfo";
     }
-    @GetMapping("reward/accept")
-    public String accept( HttpServletRequest hsRequest, Model model){ // 앞의 form에서 customerID get으로 노출해서 넘김..
-        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
-        if (hsRequest != null) {
-            model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
-        }
+    @GetMapping("/reward/accept")
+    public String accept(){
+        logger.info("여기는 get");
+//        model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
         return "reward/acceptForm";
     }
-    @PostMapping("reward/accept")
-    public String acceptAccident( HttpServletRequest hsRequest, Accident accident, Model model){
-        model.addAttribute( "customer", this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ) ); // ID가 아니라 문자열로 온다.
-        Customer c =  this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) );
-        accident.setCustomer(c);
-        rewardService.createAccident(accident); // customer가 null
-        rewardService.createAccidentInfo(accident);
-        model.addAttribute("accident", accident);
+    @PostMapping("/reward/accept")
+    public String accept( Model model, Accident accident ){ // accident가 null...
+        logger.info("여기는 post");
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+        logger.info("list ??" + this.accidentList.getAccidentList().size());
 
-        return "redirect:/";
+        accidentService.createAccident(accident);
+        this.accidentList.add(accident);
+
+        Accident a = accidentService.getAccident(this.accidentList.getAccidentList().size()-1);
+
+        logger.info("accidentID: " + a.getAccidentID());
+
+        accidentService.createAccidentInfo(a);
+        model.addAttribute("accident", a);
+        return "reward/accidentForm";
     }
+    @PostMapping("/reward/accept/accident")
+    public String home(HttpServletRequest hsRequest ){
+        if(hsRequest != null) logger.info("@@@@@@@@@@@@@@");
+        return "index";
+    }
+//    @PostMapping("reward/accept")
+//    public String acceptAccident( @ModelAttribute("memberVO") @Validated Accident ac, HttpServletRequest hsRequest, Model model){
+//        // 접수된 사고 new
+//        Accident accident = (Accident) hsRequest.getAttribute("accident");
+//        // DB에 저장
+//        this.accidentService.createAccident(accident);
+//        this.accidentService.createAccidentInfo(accident);
+//        // accidentList에 저장
+//        this.accidentList.add(accident);
+//        // web에 뿌리기
+//        model.addAttribute("accident", accident);
+//
+//        return "redirect:/reward/acceptForm";
+//    }
 // ********************** 여기 아래는 수정 전이다 *****************
 //    @GetMapping("reward/accident")
 //    public String createAccidentForm(Model model){
