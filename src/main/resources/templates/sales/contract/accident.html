@@ -53,174 +53,170 @@
             </table>
         </div>
         <div class="col-7">
-            <form class="form-control" method="post" action="/sales/test">
+            <form class="form-control" id="form_accident" method="post">
                 <input class="d-none" name="customerID" th:value="${customer.customerID}">
-                <button>전송</button>
+                <input class="d-none" name="insuranceID" th:value="${insurance.insuranceID}">
+                <h3 class="my-3 font-weight-bold">사고 정보</h3>
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 날짜 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="accidentDate" required>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 시간 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="accidentTime" placeholder="00:00" required>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 장소 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="accidentPlace" required>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 사고 사이즈 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="accidentSize" required>
+                    </div>
+                </div>
+
+                <div th:if="${insurance.getType()}=='building'">
+                    <input class="d-none" name="accidentType" value="building">
+                    <h3 class="my-3 font-weight-bold">건물 정보</h3>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 건축연도 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="buildingYear" required>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 건물높이<br>(m 기준) </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="buildingHeight" required>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 건물가격 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="buildingPrice" required>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 건물면적 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="buildingSize" required>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 건물외벽 </div>
+                        <div class="col-8">
+                            <input type="radio" class="form-check-input" name="buildingOutwall" value="seramic" id="outwall1" required>
+                            <label class="form-check-label" for="outwall1">벽돌</label>
+                            <input type="radio" class="form-check-input" name="buildingOutwall" value="zinc" id="outwall2">
+                            <label class="form-check-label" for="outwall2">아연</label>
+                            <input type="radio" class="form-check-input" name="buildingOutwall" value="stone" id="outwall3">
+                            <label class="form-check-label" for="outwall3">돌</label>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${insurance.getType()}=='car'">
+                    <input class="d-none" name="accidentType" value="car">
+                    <h3 class="my-3 font-weight-bold">자동차 정보</h3>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 자동차번호 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="carNumber" required>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 소유여부 </div>
+                        <div class="col-8">
+                            <input type="radio" class="form-check-input" name="own" value="1" id="own11" required>
+                            <label class="form-check-label" for="own11">유</label>
+                            <input type="radio" class="form-check-input" name="own" value="0" id="own22">
+                            <label class="form-check-label" for="own22">무</label>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 자동차종류 </div>
+                        <div class="col-8">
+                            <select class="form-select" name="carType" required>
+                                <option value="small" selected>소형</option>
+                                <option value="ven">벤</option>
+                                <option value="freightCar">화물차</option>
+                                <option value="motocycle">오토바이</option>
+                                <option value="agricultureCar">농업용차</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 자동차가격 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="carPrice" required>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${insurance.getType()}=='driver'">
+                    <input class="d-none" name="accidentType" value="driver">
+                    <h3 class="my-3 font-weight-bold">자동차 정보</h3>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 자동차번호 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="carNumber" required>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 소유여부<br>(유/무) </div>
+                        <div class="col-8">
+                            <input type="radio" class="form-check-input" name="own" value="1" id="own1" required>
+                            <label class="form-check-label" for="own1">유</label>
+                            <input type="radio" class="form-check-input" name="own" value="0" id="own2">
+                            <label class="form-check-label" for="own2">무</label>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 자동차종류 </div>
+                        <div class="col-8">
+                            <select class="form-select" name="carType" required>
+                                <option value="small" selected>소형</option>
+                                <option value="ven">벤</option>
+                                <option value="freightCar">화물차</option>
+                                <option value="motocycle">오토바이</option>
+                                <option value="agricultureCar">농업용차</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 자동차가격 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="carPrice" required>
+                        </div>
+                    </div>
+
+                    <h3 class="my-3 font-weight-bold">운전자 정보</h3>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 면허번호 </div>
+                        <div class="col-8">
+                            <input type="text" class="form-control form-control-sm" name="licenseNum" required>
+                        </div>
+                    </div>
+                    <div class="row mx-0 my-3">
+                        <div class="col-4 d-flex justify-content-center"> 소유목적<br>(personal/official) </div>
+                        <div class="col-8">
+                            <input type="radio" class="form-check-input" name="carPurpose" value="personal" id="purpose1" required>
+                            <label class="form-check-label" for="purpose1">개인</label>
+                            <input type="radio" class="form-check-input" name="carPurpose" value="official" id="purpose2">
+                            <label class="form-check-label" for="purpose2">회사</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" onclick="accidentInput();">사고 정보 입력</button>
+                </div>
             </form>
-<!--            <form class="form-control" id="form_accident" method="post">-->
-<!--                <input class="d-none" name="customerID" th:value="${customer.customerID}">-->
-<!--                <input class="d-none" name="insuranceID" th:value="${insurance.insuranceID}">-->
-<!--                <h3 class="my-3 font-weight-bold">사고 정보</h3>-->
-<!--                <div class="row mx-0 my-3">-->
-<!--                    <div class="col-4 d-flex justify-content-center"> 날짜 </div>-->
-<!--                    <div class="col-8">-->
-<!--                        <input type="text" class="form-control form-control-sm" name="accidentDate" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="row mx-0 my-3">-->
-<!--                    <div class="col-4 d-flex justify-content-center"> 시간 </div>-->
-<!--                    <div class="col-8">-->
-<!--                        <input type="text" class="form-control form-control-sm" name="accidentTime" placeholder="00:00" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="row mx-0 my-3">-->
-<!--                    <div class="col-4 d-flex justify-content-center"> 장소 </div>-->
-<!--                    <div class="col-8">-->
-<!--                        <input type="text" class="form-control form-control-sm" name="accidentPlace" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="row mx-0 my-3">-->
-<!--                    <div class="col-4 d-flex justify-content-center"> 사고 사이즈 </div>-->
-<!--                    <div class="col-8">-->
-<!--                        <input type="text" class="form-control form-control-sm" name="accidentSize" required>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div th:if="${insurance.getType()}=='building'">-->
-<!--                    <input class="d-none" name="accidentType" value="building">-->
-<!--                    <h3 class="my-3 font-weight-bold">건물 정보</h3>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 건축연도 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="buildingYear" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 건물높이<br>(m 기준) </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="buildingHeight" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 건물가격 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="buildingPrice" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 건물면적 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="buildingSize" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 건물외벽 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="radio" class="form-check-input" name="buildingOutwall" value="seramic" id="outwall1" required>-->
-<!--                            <label class="form-check-label" for="outwall1">벽돌</label>-->
-<!--                            <input type="radio" class="form-check-input" name="buildingOutwall" value="zinc" id="outwall2">-->
-<!--                            <label class="form-check-label" for="outwall2">아연</label>-->
-<!--                            <input type="radio" class="form-check-input" name="buildingOutwall" value="stone" id="outwall3">-->
-<!--                            <label class="form-check-label" for="outwall3">돌</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div th:if="${insurance.getType()}=='car'">-->
-<!--                    <input class="d-none" name="accidentType" value="car">-->
-<!--                    <h3 class="my-3 font-weight-bold">자동차 정보</h3>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 자동차번호 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="carNumber" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 소유여부 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="radio" class="form-check-input" name="own" value="1" id="own11" required>-->
-<!--                            <label class="form-check-label" for="own11">유</label>-->
-<!--                            <input type="radio" class="form-check-input" name="own" value="0" id="own22">-->
-<!--                            <label class="form-check-label" for="own22">무</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 자동차종류 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <select class="form-select" name="carType" required>-->
-<!--                                <option value="small" selected>소형</option>-->
-<!--                                <option value="ven">벤</option>-->
-<!--                                <option value="freightCar">화물차</option>-->
-<!--                                <option value="motocycle">오토바이</option>-->
-<!--                                <option value="agricultureCar">농업용차</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 자동차가격 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="carPrice" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div th:if="${insurance.getType()}=='driver'">-->
-<!--                    <input class="d-none" name="accidentType" value="driver">-->
-<!--                    <h3 class="my-3 font-weight-bold">자동차 정보</h3>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 자동차번호 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="carNumber" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 소유여부<br>(유/무) </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="radio" class="form-check-input" name="own" value="1" id="own1" required>-->
-<!--                            <label class="form-check-label" for="own1">유</label>-->
-<!--                            <input type="radio" class="form-check-input" name="own" value="0" id="own2">-->
-<!--                            <label class="form-check-label" for="own2">무</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 자동차종류 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <select class="form-select" name="carType" required>-->
-<!--                                <option value="small" selected>소형</option>-->
-<!--                                <option value="ven">벤</option>-->
-<!--                                <option value="freightCar">화물차</option>-->
-<!--                                <option value="motocycle">오토바이</option>-->
-<!--                                <option value="agricultureCar">농업용차</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 자동차가격 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="carPrice" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <h3 class="my-3 font-weight-bold">운전자 정보</h3>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 면허번호 </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" class="form-control form-control-sm" name="licenseNum" required>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="row mx-0 my-3">-->
-<!--                        <div class="col-4 d-flex justify-content-center"> 소유목적<br>(personal/official) </div>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="radio" class="form-check-input" name="carPurpose" value="personal" id="purpose1" required>-->
-<!--                            <label class="form-check-label" for="purpose1">개인</label>-->
-<!--                            <input type="radio" class="form-check-input" name="carPurpose" value="official" id="purpose2">-->
-<!--                            <label class="form-check-label" for="purpose2">회사</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="d-flex justify-content-end">-->
-<!--                    <button type="button" class="btn btn-primary" onclick="accidentInput();">사고 정보 입력</button>-->
-<!--                </div>-->
-<!--            </form>-->
         </div>
     </div>
 </div>

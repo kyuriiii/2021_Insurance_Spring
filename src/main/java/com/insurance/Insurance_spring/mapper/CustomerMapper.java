@@ -1,5 +1,6 @@
 package com.insurance.Insurance_spring.mapper;
 
+import com.insurance.Insurance_spring.domain.customer.Building;
 import com.insurance.Insurance_spring.domain.customer.Customer;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,4 +12,5 @@ public interface CustomerMapper {
     Customer retrieveByID( int customerID );
     Customer retrieveByInfo( String name, String customerNumber );
     int create( Customer customer );
+    int createBuildingInfo(Building building );
 }
