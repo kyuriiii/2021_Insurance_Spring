@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script>
+        function accidentInfo(){
+            var form = document.getElementById( "form_accident" );
+            form.action = "/reward/accident";
+            form.method = "post";
+            form.submit();
+        }
+    </script>
+</head>
 <body>
 <h2>현장 정보 페이지</h2>
 <div class="container">
     <div>
-        <table>
+        <table class="table">
             <thead>
             <tr>
                 <th>#</th>
@@ -28,23 +38,53 @@
             </tbody>
         </table>
     </div>
-    <form action="/reward/accident" method="post">
+        <h2>사고 접수 입력 양식</h2>
+        <form id="form_accident" >
+            <div class="row mx-0 my-3">
+                <div class="col-4 d-flex justify-content-center"> # </div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm" name="accidentID" required>
+                </div>
+            </div>
+            <div class="row mx-0 my-3">
+                <div class="col-4 d-flex justify-content-center"> 시나리오 </div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm" name="scenario" required>
+                </div>
+            </div>
+            <div class="row mx-0 my-3">
+                <div class="col-4 d-flex justify-content-center"> 녹취록 </div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm" name="record" required>
+                </div>
+            </div>
+            <div class="row mx-0 my-3">
+                <div class="col-4 d-flex justify-content-center"> 사진 </div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm" name="photo" required>
+                </div>
+            </div>
+            <div class="row mx-0 my-3">
+                <div class="col-4 d-flex justify-content-center"> 영상 </div>
+                <div class="col-8">
+                    <input type="text" class="form-control form-control-sm" name="video" required>
+                </div>
+            </div>
+            <div class="row mx-0 my-3">
+                <div class="col-4 d-flex justify-content-center"> 피해규모(상, 중, 하) </div>
+                <div class="col-8">
+                    <select class="form-select" name="damageScale" required>
+                        <option value="high" selected>상</option>
+                        <option value="middle">중</option>
+                        <option value="low">하</option>
+                    </select>
+                </div>
+            </div>
         <div class="form-group">
-            <label for="accidentID">#</label>
-            <input type="number" id="accidentID" name="accidentID" placeholder="사고 번호(를)을 입력하세요">
-            <label for="scenario">시나리오</label>
-            <input type="text" id="scenario" name="scenario" placeholder="시나리오를 입력하세요">
-            <label for="record">녹취록</label>
-            <input type="number" id="record" name="record" placeholder="녹취록(없음 1, 있음 2)를 입력하세요">
-            <label for="photo">사진</label>
-            <input type="number" id="photo" name="photo" placeholder="사진(없음 1, 있음 2)를 입력하세요">
-            <label for="video">영상</label>
-            <input type="number" id="video" name="video" placeholder="영상(없음 1, 있음 2)를 입력하세요">
-            <label for="damageScale">피해규모</label>
-            <input type="text" id="damageScale" name="damageScale" placeholder="피해규모(상,중,하)를 입력하세요">
-
         </div>
-        <button type="submit">저장하기</button>
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-secondary" th:onclick="accidentInfo()">사고 현장 정보 입력</button>
+        </div>
     </form>
 </div>
 </body>

@@ -27,7 +27,7 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 		            " '" + accident.getAccidentDate()+ "', " +
 		            " '" + accident.getAccidentTime()+ "', " +
 		            " '" + accident.getAccidentPlace()+ "', " +
-		            " '" + accident.getCustomer().getCustomerID() + "')";
+		            " '" + accident.getCustomerID() + "')";
 		int accidentID = 0;
 		try {
 			this.execute(query);
@@ -67,7 +67,7 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 				accident.setAccidentDate(resultSet.getString("accidentDate"));
 				accident.setAccidentTime(resultSet.getString("accidentTime"));
 				accident.setAccidentPlace(resultSet.getString("accidentPlace"));
-				accident.setCustomer(customer);
+				accident.setCustomerID(customer.getCustomerID());
 				///
 				accident.setCompleted(resultSet.getInt("completed"));
 				accident.setJudged(resultSet.getInt("judged"));
@@ -77,7 +77,7 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 				accident.getM_siteInfo().setRecord(resultSet.getInt("record"));
 				accident.getM_siteInfo().setPhoto(resultSet.getInt("photo"));
 				accident.getM_siteInfo().setVideo(resultSet.getInt("video"));
-				accident.getM_siteInfo().setDamageScale(resultSet.getString("scale"));
+				accident.getM_siteInfo().setScale(resultSet.getString("scale"));
 				
 				accidentList.add(accident);
 			}
@@ -121,7 +121,7 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 						" '" + accident.getM_siteInfo().getRecord() + "', " +
 						" '" + accident.getM_siteInfo().getVideo() + "', " +
 						" '" + accident.getM_siteInfo().getPhoto()+ "', " +
-						" '" + accident.getM_siteInfo().getDamageScale()+ "')";
+						" '" + accident.getM_siteInfo().getScale()+ "')";
 				this.execute(query);
 		} catch (Exception e) { e.printStackTrace();}
 	}
@@ -158,7 +158,7 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 				accident.setAccidentPlace(resultSet.getString("accidentPlace"));
 				accident.setJudged(resultSet.getInt("judged"));
 				accident.setDate(resultSet.getString("date"));
-				accident.setCustomer(customer);
+				accident.setCustomerID(customer.getCustomerID());
 
 				accidentList.add(accident);
 			}
@@ -189,7 +189,7 @@ public class AccidentDaoImpl extends Dao implements AccidentDao {
 				accident.setAccidentPlace(resultSet.getString("accidentPlace"));
 				accident.setJudged(resultSet.getInt("judged"));
 				accident.setDate(resultSet.getString("date"));
-				accident.setCustomer(customer);
+				accident.setCustomerID(customer.getCustomerID());
 				accidentList.add(accident);
 			}
 			return accidentList;

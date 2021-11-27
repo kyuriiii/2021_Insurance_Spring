@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -29,20 +30,17 @@ public class AccidentService {
         return accidentMapper.findById(id);
     }
     public void createAccident(Accident accidentDTO){
-        if(accidentDTO.getCustomer() != null) {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date now = new Date();
-            accidentDTO.setDate(format.format(now));
-            accidentMapper.createAccident(accidentDTO);
-        }
+        accidentMapper.createAccident(accidentDTO);
     }
     public void updateAccidentState(Accident accidentDTO) {
+        accidentDTO.setCompleted(0);
         accidentMapper.updateState(accidentDTO);
     }
-    public void createInvestigation(SiteInfo siteInfoDTO) {
-        accidentMapper.createInvestigation(siteInfoDTO);
+    public void createInvestigation(HashMap<String, Object> siteInfo) {
+        accidentMapper.createInvestigation(siteInfo);
     }
     public void updateJudged(Accident a) {
+        a.setJudged(0);
         accidentMapper.updateJudged(a);
     }
     public void createAccidentInfo(Accident accident) {

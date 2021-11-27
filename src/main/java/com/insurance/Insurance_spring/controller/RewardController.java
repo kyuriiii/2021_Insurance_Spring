@@ -3,6 +3,7 @@ package com.insurance.Insurance_spring.controller;
 import com.insurance.Insurance_spring.domain.accident.Accident;
 import com.insurance.Insurance_spring.domain.accident.AccidentList;
 import com.insurance.Insurance_spring.domain.accident.AccidentListImpl;
+import com.insurance.Insurance_spring.domain.accident.SiteInfo;
 import com.insurance.Insurance_spring.domain.contract.Contract;
 import com.insurance.Insurance_spring.domain.contract.ContractList;
 import com.insurance.Insurance_spring.domain.contract.ContractListImpl;
@@ -29,7 +30,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -67,13 +71,16 @@ public class RewardController {
 
     @GetMapping("reward")
         public String index() {
-            return "reward/index";
+        // 계약을 맺은 고객 리스트
+        this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
+        // 사고 리스트
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+
+        return "reward/index";
         }
 
     @GetMapping("/reward/consult")
     public String consult(Model model){
-        // 계약을 맺은 고객 리스트
-        this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
         // web에 뿌리기
         model.addAttribute( "customerList", this.customerList.getCustomerList() );
         return "reward/consultForm";
@@ -96,32 +103,49 @@ public class RewardController {
     }
     @PostMapping("/reward/accept")
     public String accept( HttpServletRequest hsRequest, Model model, Accident accident ){
-        logger.info("여기는 post");
         Customer customer = this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID")));
-        accident.setCustomer(customer);
+        accident.setCustomerID(customer.getCustomerID());
 
-        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+
+        // 오늘 날짜 set
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date now = new Date();
+        accident.setDate(format.format(now));
 
         accidentService.createAccident(accident);
         this.accidentList.add(accident);
 
         Accident a = accidentService.getAccident(this.accidentList.getAccidentList().size());
 
-        logger.info("accidentID: " + a.getAccidentID());
-
         accidentService.createAccidentInfo(a);
-
         model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
 
-        return "reward/exemptionForm";
+        return "reward/index";
     }
     @GetMapping("/reward/accept/accidentInfo")
     public String acceptInfo(Model model){
         model.addAttribute("accidentList", this.accidentService.getNotCompletedAccidentList());
         return "reward/accidentForm";
     }
+    @PostMapping("/reward/accident")
+    public String accident( HttpServletRequest hsRequest, SiteInfo siteInfo, Model model){
+        logger.info("accidentID :: " + Integer.parseInt(hsRequest.getParameter("accidentID")));
+        Accident accident = this.accidentList.search(Integer.parseInt(hsRequest.getParameter("accidentID")));
+        logger.info("accident ?????????" + accident.getAccidentID());
+        this.accidentService.updateAccidentState(accident);
+        HashMap<String, Object> siteinfos = new HashMap<String, Object>();
+        siteinfos.put("accidentID", accident.getAccidentID());
+        siteinfos.put("siteInfo", siteInfo);
+        this.accidentService.createInvestigation(siteinfos);
+        return "reward/index";
+    }
+    @GetMapping("reward/exemption")
+    public String showExemption( Model model ){
+        model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
+        return "reward/exemptionForm";
+    }
     @PostMapping("/reward/exemption")
-    public String home( Exemption exemption ){
+    public String exemption ( Exemption exemption ){
         Accident accident = this.accidentList.search(exemption.getAccidentID());
         this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
         this.exemptionService.create(exemption);
