@@ -14,10 +14,10 @@ public class DamageDaoImpl extends Dao implements DamageDao{
 	}@Override
 	public void create(RewardInfo rewardInfo) {
 		String query = "insert into damageAssess ( accidentID, employeeID, payment, reason ) values ( " +
-						+ rewardInfo.getAccident().getAccidentID()  + ", " +
-						" '" + rewardInfo.getEmployee().getEmployeeID() + "', " +
+						+ rewardInfo.getAccidentID()  + ", " +
+						" '" + rewardInfo.getEmployeeID() + "', " +
 						" '" + rewardInfo.getPayment()+ "', " +
-						" '" + rewardInfo.getAssessReason()+  "' )";
+						" '" + rewardInfo.getReason()+  "' )";
 		try {
 			this.execute(query);
 		} catch (Exception e) {

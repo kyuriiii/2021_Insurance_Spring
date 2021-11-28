@@ -120,100 +120,51 @@ public class RewardController {
     }
     @PostMapping("/reward/accident")
     public String accident( HttpServletRequest hsRequest, SiteInfo siteInfo, Model model){
-        logger.info("accidentID :: " + Integer.parseInt(hsRequest.getParameter("accidentID")));
-        Accident accident = this.accidentList.search(Integer.parseInt(hsRequest.getParameter("accidentID")));
-        logger.info("accident ?????????" + accident.getAccidentID());
+        Accident accident = this.accidentList.search(Integer.parseInt(hsRequest.getParameter("accidentID"))); // index.html에서 시작하지 않으면 초기화되지 않아서 null이다.
+        accident.setM_siteInfo(siteInfo);
         this.accidentService.updateAccidentState(accident);
+
+        // HashMap으로 sql 접근
         HashMap<String, Object> siteinfos = new HashMap<String, Object>();
         siteinfos.put("accidentID", accident.getAccidentID());
         siteinfos.put("siteInfo", siteInfo);
         this.accidentService.createInvestigation(siteinfos);
         return "reward/index";
     }
-    @GetMapping("reward/exemption")
+    @GetMapping("/reward/exemption")
     public String showExemption( Model model ){
         model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
         return "reward/exemptionForm";
     }
     @PostMapping("/reward/exemption")
-    public String exemption ( Exemption exemption ){
+    public String exemption ( HttpServletRequest hsRequest, Exemption exemption ){
         Accident accident = this.accidentList.search(exemption.getAccidentID());
+        accident.setJudged(Integer.parseInt(hsRequest.getParameter("judged")));
+
         this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
+
         this.exemptionService.create(exemption);
         this.accidentService.updateJudged(accident);
-        return "index";
+        this.exemptionList.add(exemption);
+
+        return "reward/index";
     }
-//    @PostMapping("reward/accept")
-//    public String acceptAccident( @ModelAttribute("memberVO") @Validated Accident ac, HttpServletRequest hsRequest, Model model){
-//        // 접수된 사고 new
-//        Accident accident = (Accident) hsRequest.getAttribute("accident");
-//        // DB에 저장
-//        this.accidentService.createAccident(accident);
-//        this.accidentService.createAccidentInfo(accident);
-//        // accidentList에 저장
-//        this.accidentList.add(accident);
-//        // web에 뿌리기
-//        model.addAttribute("accident", accident);
-//
-//        return "redirect:/reward/acceptForm";
-//    }
-// ********************** 여기 아래는 수정 전이다 *****************
-//    @GetMapping("reward/accident")
-//    public String createAccidentForm(Model model){
-//        // 접수된 사고 리스트
-//        List<Accident> accidents = rewardService.getAccidentList();
-//        model.addAttribute("accidentList", accidents);
-//        return "reward/accidentForm";
-//    }
-//
-//    @PostMapping("reward/accident")
-//    public String accident(Accident accident, Model model){
-//        // 현장 정보를 입력할 사고 선택
-//        Accident a = rewardService.getAccident(accident.getAccidentID());
-//        // 현장 정보 입력 완료 처리
-//        rewardService.updateAccidentState(a);
-//        // 현장 정보 저장
-//        rewardService.createInvestigation(a.getM_siteInfo());
-//        // Model에 값 저장
-//        model.addAttribute("accidentInfo", a);
-//        return "redirect:/";
-//    }
-//    @GetMapping("reward/exemption")
-//    public String createExemptionForm(Model model){
-//        // 면/부책 판단할 사고 리스트
-//        List<Accident> accidents = rewardService.getAccidentList_Not();
-//        model.addAttribute("accidentList", accidents);
-//        return "reward/exemptionForm";
-//    }
-//    @PostMapping("reward/exemption")
-//    public String exemption(Exemption exemption, Model model){
-//        // 면/부책 판단할 사고 선택
-//        Accident a = rewardService.getAccident(exemption.getExemptionID());
-//        rewardService.updateJudged(a);
-//        // 면/부책 인스턴스 저장
-////        exemption.setAccidentID(a.getAccidentID()); // 사고 번호
-////        exemption.setCustomerID(a.getCustomer().getCustomerID()); // 고객 번호
-//        rewardService.createExemption(exemption);
-//        // model에 저장
-//        model.addAttribute("exemption", exemption);
-//        return "redirect:/";
-//    }
-//    @GetMapping("reward/damage")
-//    public String createDamageForm(Model model){
-//        // 손해사정할 사고 리스트
-//        List<Exemption> exemptions = rewardService.getExemptionList();
-//        // 모델에 저장
-//        model.addAttribute("exemptionList", exemptions);
-//        return "reward/damageForm";
-//    }
-//    @PostMapping("reward/damage")
-//    public String damage(RewardInfo rewardInfo, Model model){
-//        // 손해사정할 사고 선택
-//        Exemption e = rewardService.getExemption(rewardInfo.getAccident().getAccidentID());
-//        rewardService.createRewardInfo(rewardInfo);
-////        rewardService.deleteExemption(e.getAccidentID());
-//        // 모델에 저장
-//        model.addAttribute("reward", rewardInfo);
-//        return "redirect:/";
-//    }
+    @GetMapping("/reward/damage")
+    public String damage( Model model ){
+        if(this.exemptionList == null) { // 바로 손해사정을 할 경우
+            this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
+        }
+        model.addAttribute("exemptionList", this.exemptionList);
+        return "reward/damageForm";
+    }
+    @PostMapping("/reward/damage")
+    public String damage( HttpServletRequest hsRequest, Model model ){
+        Exemption exemption = this.exemptionList.search(Integer.parseInt(hsRequest.getParameter("accidentID")));
+        model.addAttribute("exemption", exemption);
+        return "redirect:/reward/damageForm";
+    }
+    @PostMapping("/reward/damageDo")
+    public String damageDo () {
+        return "reward/index";
+    }
 }

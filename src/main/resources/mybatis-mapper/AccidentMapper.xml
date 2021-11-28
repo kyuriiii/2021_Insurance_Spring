@@ -24,7 +24,7 @@
         insert into accidentInfo ( accidentID, completed, judged, date ) values ( #{accidentID}, #{completed}, #{judged}, #{date})
     </insert>
     <select id="retrieveCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
-        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = '0'
+        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID left join ainvestigation on ainvestigation.accidentID = accident.accidentID where accidentInfo.completed = '0'
     </select>
     <select id="accidentCnt" resultType="Integer">
         select COUNT(damageassess.accidentID) as rewardCnt from accident inner join damageassess using(accidentID) where customerID = #{customerID}

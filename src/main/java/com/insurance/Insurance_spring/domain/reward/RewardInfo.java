@@ -1,21 +1,25 @@
 package com.insurance.Insurance_spring.domain.reward;
 
 
-import com.insurance.Insurance_spring.domain.accident.Accident;
-import com.insurance.Insurance_spring.domain.employee.Employee;
-
 public class RewardInfo {
-	private String payment, assessReason;
-	private Accident accident;
-	private Employee employee;
+	private String payment, reason;
+	private int accidentID;
+	private int employeeID;
 	
 	public String getPayment() { return payment; 	}
 	public void setPayment(String payment) {	this.payment = payment; }
-	public String getAssessReason() { return assessReason; }
-	public void setAssessReason(String assessReason) { this.assessReason = assessReason; }
-	public Accident getAccident() {	return accident;	}
-	public void setAccident(Accident accident) {this.accident = accident;	}
-	public Employee getEmployee() {	return employee;	}
-	public void setEmployee(Employee employee) {	this.employee = employee;	}
+	public String getReason() { return reason; }
+	public void setReason(String reason) { this.reason = reason; }
+
+	public int getAccidentID() {
+		return accidentID;
+	}
+
+	public void setAccidentID(int accidentID) {
+		this.accidentID = accidentID;
+	}
+
+	public int getEmployeeID() {	return employeeID;	}
+	public void setEmployeeID(int employeeID) {	this.employeeID = employeeID;	}
 	
 }
