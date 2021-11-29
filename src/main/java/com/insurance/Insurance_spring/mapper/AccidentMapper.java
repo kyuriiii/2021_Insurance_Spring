@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface AccidentMapper {
 
-    List<Accident> findAll();
+    List<HashMap<String, Object>> findAll();
     Accident findById(int accidentID);
     void createAccident(Accident accidentDTO);
     void updateState(Accident accidentDTO);
@@ -18,9 +18,7 @@ public interface AccidentMapper {
     void createInvestigation(HashMap<String, Object> siteInfos);
     void createAccidentInfo(Accident accidentDTO);
     List<Accident> retrieveNotCompleted();
-    List<Accident> retrieveCompleted();
     int accidentCnt(int customerID);
-
     List<Accident> retrieve();
     void delete( int accidentID);
 }

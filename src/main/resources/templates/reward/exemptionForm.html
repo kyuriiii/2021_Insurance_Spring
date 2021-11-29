@@ -26,9 +26,9 @@
                 <th>사고단계</th>
                 <th>사건 시나리오</th>
                 <th>사건 녹취록</th>
-                <th>사건 영상</th>
                 <th>사건 사진</th>
-                <th>피해규모</th>
+                <th>피해 규모</th>
+                <th>사건 영상</th>
             </tr>
             </thead>
             <tbody>
@@ -39,10 +39,10 @@
                 <td th:text="${accident.accidentType}"></td>
                 <td th:text="${accident.accidentSize}"></td>
                 <td th:text="${accident.getM_siteInfo().getScenario()}"></td>
-                <td th:text="${accident.getM_siteInfo().getRecord()}"></td>
-                <td th:text="${accident.getM_siteInfo().getVideo()}"></td>
-                <td th:text="${accident.getM_siteInfo().getPhoto()}"></td>
-                <td th:text="${accident.getM_siteInfo().getScale()}"></td>
+                <td th:text="${accident.getM_siteInfo().getRecord}"></td>
+                <td th:text="${accident.getM_siteInfo().getPhoto}"></td>
+                <td th:text="${accident.getM_siteInfo().getScale}"></td>
+                <td th:text="${accident.getM_siteInfo().getVideo}"></td>
             </tr>
             </tbody>
         </table>

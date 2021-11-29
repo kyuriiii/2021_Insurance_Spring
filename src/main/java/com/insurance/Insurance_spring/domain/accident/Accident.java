@@ -32,19 +32,11 @@ public class Accident {
 	public void setDate(String date) {	this.date = date;	}
 	public SiteInfo getM_siteInfo() {	return m_siteInfo;	}
 	public void setM_siteInfo(SiteInfo m_siteInfo) {	this.m_siteInfo = m_siteInfo;	}
-
 	public int getCustomerID() {
 		return customerID;
 	}
-
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
-	}
-
-	public void finalize() throws Throwable {	}
-	public String getCompleteText() {
-		if(this.getCompleted() ==0) {	return "ó��";}
-		else {	return "��ó��";	}
 	}
 
 }

@@ -2,39 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.insurance.Insurance_spring.mapper.AccidentMapper">
+
     <select id="findById" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
         SELECT * FROM accident WHERE accidentID = #{accidentID}
     </select>
-    <select id="findAll" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
-        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID left join ainvestigation on ainvestigation.accidentID = accident.accidentID
+
+    <select id="findAll" resultType="HashMap">
+        select
+               A.accidentID,
+               B.scenario,
+               B.record,
+               B.video,
+               B.photo,
+               B.scale
+        from accident as A
+            left join accidentInfo as C
+                on A.accidentID = C.accidentID
+            left join ainvestigation AS B
+                on A.accidentID = B.accidentID
+        where C.completed = '0'
+                and C.judged = '1'
     </select>
-    <insert id="createAccident" useGeneratedKeys="true" keyProperty="accidentID">
-        insert into accident( accidentSize, accidentType, accidentDate, accidentTime, accidentPlace, customerID ) values(#{accidentSize}, #{accidentType}, #{accidentDate}, #{accidentTime}, #{accidentPlace}, #{customerID})
-    </insert>
+    <select id="accidentCnt" resultType="Integer">
+        select COUNT(damageassess.accidentID) as rewardCnt from accident inner join damageassess using(accidentID) where customerID = #{customerID}
+    </select>
+    <select id="retrieveNotCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
+        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = '1'
+    </select>
+    <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
+        select * from accident
+    </select>
+
     <update id="updateState" >
         update accidentInfo set completed = #{completed} where accidentID = #{accidentID}
     </update>
     <update id="updateJudged">
         update accidentInfo set judged = #{judged} where accidentID = #{accidentID}
     </update>
+
+    <insert id="createAccident" useGeneratedKeys="true" keyProperty="accidentID">
+        insert into accident( accidentSize, accidentType, accidentDate, accidentTime, accidentPlace, customerID ) values(#{accidentSize}, #{accidentType}, #{accidentDate}, #{accidentTime}, #{accidentPlace}, #{customerID})
+    </insert>
     <insert id="createInvestigation" parameterType="HashMap">
         insert into ainvestigation ( accidentID, scenario, record, video, photo, scale ) values ( #{accidentID}, #{siteInfo.scenario}, #{siteInfo.record}, #{siteInfo.video}, #{siteInfo.photo}, #{siteInfo.scale})
     </insert>
     <insert id="createAccidentInfo">
         insert into accidentInfo ( accidentID, completed, judged, date ) values ( #{accidentID}, #{completed}, #{judged}, #{date})
     </insert>
-    <select id="retrieveCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
-        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID left join ainvestigation on ainvestigation.accidentID = accident.accidentID where accidentInfo.completed = '0'
-    </select>
-    <select id="accidentCnt" resultType="Integer">
-        select COUNT(damageassess.accidentID) as rewardCnt from accident inner join damageassess using(accidentID) where customerID = #{customerID}
-    </select>
-    <select id="retrieveNotCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
-    select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = '1'
-    </select>
-    <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
-        select * from accident
-    </select>
+
     <delete id="delete" parameterType="Integer">
         delete from accident where accidentID = #{accidentID}
     </delete>

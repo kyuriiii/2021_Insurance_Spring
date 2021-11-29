@@ -15,6 +15,7 @@ import com.insurance.Insurance_spring.domain.exemption.ExemptionList;
 import com.insurance.Insurance_spring.domain.exemption.ExemptionListImpl;
 import com.insurance.Insurance_spring.domain.insurance.InsuranceList;
 import com.insurance.Insurance_spring.domain.insurance.InsuranceListImpl;
+import com.insurance.Insurance_spring.domain.reward.RewardInfo;
 import com.insurance.Insurance_spring.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 @Controller
 public class RewardController {
@@ -43,8 +42,6 @@ public class RewardController {
     @Autowired
     private AccidentService accidentService;
     @Autowired
-    private InsuranceService insuranceService;
-    @Autowired
     private ExemptionService exemptionService;
 
     // list
@@ -52,7 +49,6 @@ public class RewardController {
     private ContractList contractList;
     private AccidentList accidentList;
     private ExemptionList exemptionList;
-    private InsuranceList insuranceList;
 
     public RewardController(){
         // list initialize
@@ -60,14 +56,13 @@ public class RewardController {
         this.contractList = new ContractListImpl();
         this.accidentList = new AccidentListImpl();
         this.exemptionList = new ExemptionListImpl();
-        this.insuranceList= new InsuranceListImpl();
     }
 
     @GetMapping("reward")
         public String index() {
         // 계약을 맺은 고객 리스트
         this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
-        // 사고 리스트
+        // DB에 있는 모든 사고 리스트 ( Accident만 가져 옴 )
         this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
 
         return "reward/index";
@@ -75,7 +70,9 @@ public class RewardController {
 
     @GetMapping("/reward/consult")
     public String consult(Model model){
-        // web에 뿌리기
+        if(this.customerList == null){ // index를 거치지 않고 올 경우
+            this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
+        }
         model.addAttribute( "customerList", this.customerList.getCustomerList() );
         return "reward/consultForm";
     }
@@ -83,7 +80,7 @@ public class RewardController {
     public String consultCustomer(HttpServletRequest hsRequest, Model model){
         // consultForm에서 받은 customerID로 customer 찾기
         model.addAttribute("customer", this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID"))));
-        // 고객이 맺은 계약 찾기
+        // contractList = customerID가 갖는 Contract만 가짐
         this.contractList.setContractList(((ArrayList<Contract>) this.contractService.getContractListByCustomerID(Integer.parseInt(hsRequest.getParameter("customerID")))));
         model.addAttribute("contractList",this.contractList.getContractList() );
         return "reward/customerInfo";
@@ -128,12 +125,29 @@ public class RewardController {
         HashMap<String, Object> siteinfos = new HashMap<String, Object>();
         siteinfos.put("accidentID", accident.getAccidentID());
         siteinfos.put("siteInfo", siteInfo);
+
         this.accidentService.createInvestigation(siteinfos);
         return "reward/index";
     }
     @GetMapping("/reward/exemption")
     public String showExemption( Model model ){
-        model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+
+        List<HashMap<String, Object>> map = this.accidentService.getCompletedAccidentList(); // accidentID, siteInfo
+        ArrayList<Accident> beforeExemption = new ArrayList<Accident>();
+        for(int i = 0; i< map.size(); i++){
+            Accident accident = this.accidentList.search((int) map.get(i).get("accidentID"));
+            SiteInfo s = new SiteInfo();
+            s.setScenario((String) map.get(i).get("scenario"));
+            s.setRecord((Integer) map.get(i).get("record"));
+            s.setVideo((Integer) map.get(i).get("video"));
+            s.setPhoto((Integer) map.get(i).get("photo"));
+            s.setScale((String) map.get(i).get("scale"));
+            accident.setM_siteInfo(s);
+            beforeExemption.add(accident);
+        }
+
+        model.addAttribute("accidentList", beforeExemption);
         return "reward/exemptionForm";
     }
     @PostMapping("/reward/exemption")
@@ -151,20 +165,21 @@ public class RewardController {
     }
     @GetMapping("/reward/damage")
     public String damage( Model model ){
-        if(this.exemptionList == null) { // 바로 손해사정을 할 경우
-            this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
-        }
-        model.addAttribute("exemptionList", this.exemptionList);
+        this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
+        model.addAttribute("exemptionList", this.exemptionList.getExemptionList());
         return "reward/damageForm";
     }
     @PostMapping("/reward/damage")
     public String damage( HttpServletRequest hsRequest, Model model ){
         Exemption exemption = this.exemptionList.search(Integer.parseInt(hsRequest.getParameter("accidentID")));
+
+        model.addAttribute("accidentID", exemption.getAccidentID());
         model.addAttribute("exemption", exemption);
-        return "redirect:/reward/damageForm";
+        return "reward/damageForm_Do";
     }
     @PostMapping("/reward/damageDo")
-    public String damageDo () {
+    public String damageDo (RewardInfo rewardInfo ) {
+        this.rewardService.createRewardInfo(rewardInfo);
         return "reward/index";
     }
 }
