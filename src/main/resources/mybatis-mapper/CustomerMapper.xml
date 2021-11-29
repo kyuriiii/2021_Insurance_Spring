@@ -40,4 +40,8 @@
     <delete id="deleteDriverInfo" parameterType="Integer">
         delete from driverinfo where driverID = #{driverID}
     </delete>
+
+    <update id="updateCustomerInfo" parameterType="com.insurance.Insurance_spring.domain.customer.Customer">
+        update customer set job=#{job}, address=#{address} where customerID=#{customerID}
+    </update>
 </mapper>

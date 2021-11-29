@@ -43,7 +43,7 @@
                 </tr>
                 <tr>
                     <td>보상금 지급 횟수</td>
-                    <td th:text="${cntReward} 회"></td>
+                    <td th:text="${cntReward}"></td>
                 </tr>
                 <tr>
                     <td>납입 보험료</td>
@@ -59,15 +59,16 @@
             <hr>
 
             <div class="row">
-                <button class="col mx-3 btn btn-success" type="button" onclick="contractExtend();">고객 정보 수정</button>
-                <button class="col mx-3 btn btn-warning" type="button" onclick="contractNew();">블랙 리스트 등록</button>
+                <button class="col mx-3 btn btn-success" type="button" onclick="editCustomer();">고객 정보 수정</button>
+                <button class="col mx-3 btn btn-warning" type="button" onclick="addBlackList();">블랙 리스트 등록</button>
             </div>
             <form class="form-control mt-3 d-none" id="form_edit" method="post" action="/sales/csManage/editCustomer">
                 <input type="hidden" name="customerID" th:value="${contract.getCustomerID()}">
+                <input type="hidden" name="pcustomerID" th:value="${contract.getCustomer.getPCustomerID()}">
                 <div class="row mx-0 my-3">
                     <div class="col-4 d-flex justify-content-center"> 이름 </div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm" name="pCustomerName" th:value="${contract.getCustomer.getPcustomerName()}" readonly required>
+                        <input type="text" class="form-control form-control-sm" name="pcustomerName" th:value="${contract.getCustomer.getPcustomerName()}" required>
                     </div>
                 </div>
                 <div class="row mx-0 my-3">

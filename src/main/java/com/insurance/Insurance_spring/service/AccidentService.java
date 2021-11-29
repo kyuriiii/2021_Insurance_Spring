@@ -45,5 +45,6 @@ public class AccidentService {
         accidentMapper.createAccidentInfo(accident);
     }
     public void delete(int id) { accidentMapper.delete( id ); }
+    public int retrieveAccidentCnt(int customerID) { return accidentMapper.accidentCnt( customerID ); }
 
 }

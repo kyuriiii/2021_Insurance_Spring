@@ -69,8 +69,7 @@ public class SalesController {
     // 예비 고객 관리하기
     @GetMapping("sales/consult")
     public String consult( Model model ){
-        this.pCustomerList.setCustomerList((ArrayList<PCustomer>) pCustomerService.getPCustomerList());
-        model.addAttribute( "pCustomerList", this.pCustomerList.getCustomerList() );
+        model.addAttribute( "pCustomerList", pCustomerService.getPCustomerList() );
 
         return "sales/consult/consultList";
     }
@@ -265,13 +264,21 @@ public class SalesController {
     }
     @PostMapping( "sales/csManage" )
     public String csManagePost( HttpServletRequest hsRequest, Model model ){
-        model.addAttribute( "contract", this.contractList.search( Integer.parseInt( hsRequest.getParameter( "contractID" ) ) ) );
-        model.addAttribute( "cntReward", 0 );
+        Contract contract = this.contractList.search( Integer.parseInt( hsRequest.getParameter( "contractID" ) ) );
+        model.addAttribute( "contract", contract );
+        model.addAttribute( "cntReward", accidentService.retrieveAccidentCnt( contract.getCustomerID() ) );
         return "sales/csManage/manage";
     }
     @PostMapping( "sales/csManage/editCustomer" )
     public String csManageEdit( Customer customer, HttpServletRequest hsRequest, Model model ){
+        System.out.println( "size : " + this.pCustomerList.getCustomerList().size() );
+        if ( this.pCustomerList.getCustomerList().size() == 0 ) this.pCustomerList.setCustomerList((ArrayList<PCustomer>) pCustomerService.getPCustomerListAll() );
+        PCustomer pcustomer = this.pCustomerList.search( Integer.parseInt( hsRequest.getParameter( "pcustomerID" ) ) );
 
+        pcustomer.setPcustomerName( customer.getPcustomerName() );
+        pcustomer.setPhoneNumber( customer.getPhoneNumber() );
+        pCustomerService.updateByID( pcustomer );
+        customerService.updateCustomerInfo( customer );
 
         model.addAttribute( "msg", customer.getPcustomerName() + " 님의 정보 변경을 완료하였습니다." );
         return csManage( model );

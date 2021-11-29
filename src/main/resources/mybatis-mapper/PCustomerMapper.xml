@@ -6,6 +6,10 @@
         SELECT pcustomer.* FROM pcustomer LEFT JOIN customer ON pcustomer.pcustomerID = customer.pcustomerID WHERE customerID IS NULL
     </select>
 
+    <select id="retrieveAll" resultType="com.insurance.Insurance_spring.domain.pCustomer.PCustomer">
+        SELECT pcustomer.* FROM pcustomer
+    </select>
+
     <select id="retrieveByID" resultType="com.insurance.Insurance_spring.domain.pCustomer.PCustomer">
         SELECT * FROM pcustomer WHERE pcustomerID = #{pcustomerID} LIMIT 1
     </select>

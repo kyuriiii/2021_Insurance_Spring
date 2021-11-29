@@ -24,7 +24,7 @@
                 and C.judged = '1'
     </select>
     <select id="accidentCnt" resultType="Integer">
-        select COUNT(damageassess.accidentID) as rewardCnt from accident inner join damageassess using(accidentID) where customerID = #{customerID}
+        select COUNT(damageassess.accidentID) from accident inner join damageassess using(accidentID) where customerID = #{customerID}
     </select>
     <select id="retrieveNotCompleted" resultType="com.insurance.Insurance_spring.domain.accident.Accident">
         select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID where accidentInfo.completed = '1'

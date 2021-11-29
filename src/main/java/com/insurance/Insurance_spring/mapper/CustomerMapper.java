@@ -19,4 +19,5 @@ public interface CustomerMapper {
     void deleteCarInfo( int carID );
     int createDriverInfo(HashMap<String, Object> driverInfos);
     void deleteDriverInfo( int driverID );
+    void updateCustomerInfo( Customer customer );
 }

@@ -25,4 +25,6 @@ public class CustomerService {
     public void deleteCarInfo( int carID ) { customerMapper.deleteCarInfo( carID ); }
     public void createDriverInfo(HashMap<String, Object> driverInfos) { customerMapper.createDriverInfo( driverInfos ); }
     public void deleteDriverInfo( int driverID ) { customerMapper.deleteDriverInfo( driverID );}
+
+    public void updateCustomerInfo(Customer customer) { customerMapper.updateCustomerInfo( customer ); }
 }
