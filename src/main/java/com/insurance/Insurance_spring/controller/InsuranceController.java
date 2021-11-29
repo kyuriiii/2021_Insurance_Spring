@@ -14,14 +14,22 @@ public class InsuranceController {
     public String insurance( Model model ){
         return "insurance/index";
     }
+    
+    // 설계하기
     @GetMapping("insurance/design")
     public String insuranceDesign( Model model ){
         return "insurance/design";
     }
+
+
+    // 상품 인가하기
     @GetMapping("insurance/approve")
     public String insuranceApprove( Model model ){
         return "insurance/approve";
     }
+    
+    
+    // 사후 관리하기
     @GetMapping("insurance/manage")
     public String insuranceManage( Model model ){
         return "insurance/manage";
