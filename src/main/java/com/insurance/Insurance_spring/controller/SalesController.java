@@ -202,7 +202,7 @@ public class SalesController {
         infos.put("contract", contract);
         contractService.create( infos );
         model.addAttribute( "msg", "계약에 성공했습니다." );
-        return "redirect:/sales/contract";
+        return contract( model );
     }
     @PostMapping("sales/contractCancel")
     public String contractCancel(HttpServletRequest hsRequest, Model model ){
@@ -227,7 +227,7 @@ public class SalesController {
     // 계약 관리하기
     @GetMapping( "sales/ctManage" )
     public String ctManage( Model model ){
-        this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+        if ( this.contractList.getContractList().size() == 0 ) this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
 
         for ( Contract contract : this.contractList.getContractList() ){
             contract.setCustomer( customerService.getCustomer( contract.getCustomerID() ) );
@@ -245,6 +245,35 @@ public class SalesController {
     @PostMapping( "sales/ctManage/extend" )
     public String ctManageExtend( Contract contract, Model model ){
         contractService.update( contract );
-        return "redirect:/sales";
+        model.addAttribute( "msg", "계약의 만기일을 " + contract.getEndDate() + " 로 연장하였습니다." );
+        return ctManage( model );
+    }
+
+
+
+    // 고객 관리하기
+    @GetMapping( "sales/csManage" )
+    public String csManage( Model model ){
+        if ( this.contractList.getContractList().size() == 0 ) this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+        for ( Contract contract : this.contractList.getContractList() ){
+            contract.setCustomer( customerService.getCustomer( contract.getCustomerID() ) );
+            contract.setInsurance( insuranceService.getInsurance( contract.getInsuranceID() ) );
+        }
+
+        model.addAttribute( "contractList", this.contractList.getContractList() );
+        return "sales/csManage/index";
+    }
+    @PostMapping( "sales/csManage" )
+    public String csManagePost( HttpServletRequest hsRequest, Model model ){
+        model.addAttribute( "contract", this.contractList.search( Integer.parseInt( hsRequest.getParameter( "contractID" ) ) ) );
+        model.addAttribute( "cntReward", 0 );
+        return "sales/csManage/manage";
+    }
+    @PostMapping( "sales/csManage/editCustomer" )
+    public String csManageEdit( Customer customer, HttpServletRequest hsRequest, Model model ){
+
+
+        model.addAttribute( "msg", customer.getPcustomerName() + " 님의 정보 변경을 완료하였습니다." );
+        return csManage( model );
     }
 }

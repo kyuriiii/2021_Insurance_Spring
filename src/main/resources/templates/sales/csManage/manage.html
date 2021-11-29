@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 관리 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <script>
+        function editCustomer(){
+            var form = document.getElementById( "form_edit" );
+            var class_split = form.className.split( " " );
+
+            if ( class_split.includes( "d-none" ) ) class_split.pop();
+            form.className = class_split.concat( " " );
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-5 mt-3">
+            <table class="table">
+                <tr>
+                    <td>계약일</td>
+                    <td th:text="${contract.getStartDate()}"></td>
+                </tr>
+                <tr>
+                    <td>만기일</td>
+                    <td th:text="${contract.getEndDate()}"></td>
+                </tr>
+                <tr>
+                    <td>보험명<td>
+                    <td th:text="${contract.getInsurance().getInsuranceName()}"></td>
+                </tr>
+                <tr>
+                    <td>고객명</td>
+                    <td th:text="${contract.getCustomer().getPcustomerName()}"></td>
+                </tr>
+
+                <tr>
+                    <td>고객 연락처</td>
+                    <td th:text="${contract.getCustomer().getPhoneNumber()}"></td>
+                </tr>
+                <tr>
+                    <td>보상금 지급 횟수</td>
+                    <td th:text="${cntReward} 회"></td>
+                </tr>
+                <tr>
+                    <td>납입 보험료</td>
+                    <td th:text="${contract.getPrice()}"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-7">
+            <div class="d-flex justify-content-center mt-2">
+                <p class="font-weight-bold"> 고객 관리 메뉴를 골라주세요. </p>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <button class="col mx-3 btn btn-success" type="button" onclick="contractExtend();">고객 정보 수정</button>
+                <button class="col mx-3 btn btn-warning" type="button" onclick="contractNew();">블랙 리스트 등록</button>
+            </div>
+            <form class="form-control mt-3 d-none" id="form_edit" method="post" action="/sales/csManage/editCustomer">
+                <input type="hidden" name="customerID" th:value="${contract.getCustomerID()}">
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 이름 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="pCustomerName" th:value="${contract.getCustomer.getPcustomerName()}" readonly required>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 전화번호 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="phoneNumber" placeholder="010-0000-0000" th:value="${contract.getCustomer.getPhoneNumber()}"  required>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 직업 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="job" th:value="${contract.getCustomer.getJob()}" required>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-4 d-flex justify-content-center"> 주소 </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control form-control-sm" name="address" th:value="${contract.getCustomer.getAddress()}" required>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mr-3">
+                    <button type="submit" class="btn btn-secondary">변경하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
