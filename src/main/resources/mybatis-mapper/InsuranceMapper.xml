@@ -11,6 +11,9 @@
     <insert id="createApprove" parameterType="com.insurance.Insurance_spring.domain.insurance.Approve" useGeneratedKeys="true" keyProperty="approveID">
         INSERT INTO approve ( insuranceID, approved, permissionDate, permissionRefuse, insuranceProblem ) values ( #{insuranceID}, #{approved}, #{permissionDate}, #{permissionRefuse}, #{insuranceProblem} )
     </insert>
+    <insert id="createSaleRecord" parameterType="com.insurance.Insurance_spring.domain.insurance.SaleRecord" useGeneratedKeys="true" keyProperty="insuranceID">
+        INSERT INTO  salerecord ( insuranceID, goalCnt, saleCnt ) values (#{insuranceID}, #{goalCnt}, #{saleCnt} )
+    </insert>
 
     <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.insurance.Insurance">
         SELECT * FROM insurance
@@ -23,6 +26,9 @@
     </select>
     <select id="retrieveCoverage" parameterType="HashMap" resultType="com.insurance.Insurance_spring.domain.insurance.Coverage">
         SELECT * FROM coverage WHERE insuranceID = #{insuranceID} AND coverageCondition = #{coverageCondition} LIMIT 1
+    </select>
+    <select id="retrieveApprove" resultType="com.insurance.Insurance_spring.domain.insurance.Insurance">
+        select * from insurance left outer join approve using(insuranceID) where approve.approved = 1
     </select>
 
     <update id="updateByID" parameterType="com.insurance.Insurance_spring.domain.insurance.Insurance">

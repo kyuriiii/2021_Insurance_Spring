@@ -102,6 +102,32 @@ public class InsuranceController {
     // 사후 관리하기
     @GetMapping("insurance/manage")
     public String insuranceManage( Model model ){
+        insuranceList.setInsuranceList((ArrayList<Insurance>) insuranceService.getInsuranceList());
+        model.addAttribute("insuranceList", this.insuranceList.getInsuranceList());
         return "insurance/manage";
+    }
+    @PostMapping("/insurance/manage/info")
+    public String insuranceInfo(HttpServletRequest hsRequest, Model model){
+        Insurance insurance = this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
+        HashMap<String, Object> coverage = new HashMap<String, Object>();
+        coverage.put("insuranceID", Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ));
+        coverage.put("coverageCondition", "high");
+
+        insurance.setM_hcoverage( insuranceService.getCoverage( coverage ) );
+        coverage.put("coverageCondition", "middle" );
+        insurance.setM_mcoverage( insuranceService.getCoverage( coverage ) );
+        coverage.put("coverageCondition", "low" );
+        insurance.setM_lcoverage( insuranceService.getCoverage( coverage ) );
+
+        model.addAttribute( "insurance", insurance );
+
+        return "insurance/manageDo";
+    }
+    @PostMapping("/insurance/manageDone")
+    public String insuranceManageDone( SaleRecord saleRecord , Model model){
+        insuranceService.createSaleRecord(saleRecord);
+        this.insuranceList.search(saleRecord.getInsuranceID()).setM_SaleRecord(saleRecord);
+        model.addAttribute("msg", "판매실적표 작성이 완료되었습니다.");
+        return index(model);
     }
 }

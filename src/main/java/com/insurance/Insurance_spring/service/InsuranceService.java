@@ -3,6 +3,7 @@ package com.insurance.Insurance_spring.service;
 import com.insurance.Insurance_spring.domain.insurance.Approve;
 import com.insurance.Insurance_spring.domain.insurance.Coverage;
 import com.insurance.Insurance_spring.domain.insurance.Insurance;
+import com.insurance.Insurance_spring.domain.insurance.SaleRecord;
 import com.insurance.Insurance_spring.mapper.InsuranceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class InsuranceService {
     public int createApprove(Approve approve) { return insuranceMapper.createApprove( approve ); }
     public List<Insurance> getInsuranceList(){ return insuranceMapper.retrieve(); }
     public List<Insurance> getInsuranceListNoApprove(){ return insuranceMapper.retrieveNoApprove(); }
+    public List<Insurance> getInsuranceListApprove(){return insuranceMapper.retrieveApprove(); }
     public Insurance getInsurance(int insuranceID ){ return insuranceMapper.retrieveByID( insuranceID ); }
     public Coverage getCoverage( HashMap<String, Object> coverageInfo ){ return insuranceMapper.retrieveCoverage( coverageInfo ); }
+
+    public int createSaleRecord(SaleRecord saleRecord) {
+        return insuranceMapper.createSaleRecord(saleRecord);
+    }
 }
