@@ -21,7 +21,7 @@
             left join ainvestigation AS B
                 on A.accidentID = B.accidentID
         where C.completed = '0'
-                and C.judged = '1'
+                and C.judged = '0'
     </select>
     <select id="accidentCnt" resultType="Integer">
         select COUNT(damageassess.accidentID) from accident inner join damageassess using(accidentID) where customerID = #{customerID}

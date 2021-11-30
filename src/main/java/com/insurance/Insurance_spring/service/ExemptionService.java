@@ -20,4 +20,8 @@ public class ExemptionService {
     public void create(Exemption exemption) {
         this.exemptionMapper.create(exemption);
     }
+
+    public void delete(int accidentID) {
+        this.exemptionMapper.deleteByID(accidentID);
+    }
 }
