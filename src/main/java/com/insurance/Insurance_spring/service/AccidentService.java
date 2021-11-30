@@ -29,19 +29,18 @@ public class AccidentService {
         accidentMapper.createAccident(accidentDTO);
     }
     public void updateAccidentState(Accident accidentDTO) {
-        accidentDTO.setCompleted(0);
+        accidentDTO.setCompleted(0); // 0 처리 1 미처리
         accidentMapper.updateState(accidentDTO);
     }
     public void createInvestigation(HashMap<String, Object> siteInfo) {
         accidentMapper.createInvestigation(siteInfo);
     }
     public void updateJudged(Accident a) {
-        a.setJudged(0);
         accidentMapper.updateJudged(a);
     }
     public void createAccidentInfo(Accident accident) {
         accident.setCompleted(1);
-        accident.setJudged(1);
+        accident.setJudged(0);
         accidentMapper.createAccidentInfo(accident);
     }
     public void delete(int id) { accidentMapper.delete( id ); }

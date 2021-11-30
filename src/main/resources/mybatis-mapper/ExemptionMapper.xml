@@ -8,9 +8,8 @@
         select * from exemption where accidentID = #{accidentID}
     </select>
     <select id="retrieveList" resultType="com.insurance.Insurance_spring.domain.exemption.Exemption">
-        select * from accident left join accidentInfo on accidentInfo.accidentID = accident.accidentID left join exemption on exemption.accidentID = accident.accidentID  where accidentInfo.judged = '0'
-    </select>
+        select * from exemption right join accident on exemption.accidentID = accident.accidentID join accidentinfo on exemption.accidentID = accidentInfo.accidentID where exemption.exemptionID is not null and accidentInfo.judged > 0    </select>
     <delete id="deleteByID">
-        delete * from exemption where accidentID = #{accidentID}
+        delete from exemption where accidentID = #{accidentID}
     </delete>
 </mapper>

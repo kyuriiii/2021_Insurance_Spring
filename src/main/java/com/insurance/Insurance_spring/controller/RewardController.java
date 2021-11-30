@@ -110,6 +110,10 @@ public class RewardController {
 
         return "reward/index";
     }
+    @GetMapping("/reward/accept/index")
+    public String acceptIndex(){
+        return "reward/acceptIndex";
+    }
     @GetMapping("/reward/accept/accidentInfo")
     public String acceptInfo(Model model){
         model.addAttribute("accidentList", this.accidentService.getNotCompletedAccidentList());
@@ -165,6 +169,7 @@ public class RewardController {
     }
     @GetMapping("/reward/damage")
     public String damage( Model model ){
+        if(this.exemptionList.getExemptionList().size() > 0) this.exemptionList.getExemptionList().clear();
         this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
         model.addAttribute("exemptionList", this.exemptionList.getExemptionList());
         return "reward/damageForm";
@@ -180,6 +185,7 @@ public class RewardController {
     @PostMapping("/reward/damageDo")
     public String damageDo (RewardInfo rewardInfo ) {
         this.rewardService.createRewardInfo(rewardInfo);
+        this.exemptionService.delete(rewardInfo.getAccidentID());
         return "reward/index";
     }
 }
