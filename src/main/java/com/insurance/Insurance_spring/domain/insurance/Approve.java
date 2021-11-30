@@ -2,11 +2,13 @@ package com.insurance.Insurance_spring.domain.insurance;
 
 public class Approve {
 	private String permissionDate, permissionRefuse, insuranceProblem;
-	private int insuranceID;
+	private int insuranceID, approveID;
 	private int approved; //0�̸� ������ ��, 1�̸� ����
 	
 	public Approve(){}
-	
+
+	public int getApproveID() { return approveID; }
+	public void setApproveID(int approveID) { this.approveID = approveID; }
 	public int getInsuranceID() { return insuranceID; }
 	public void setInsuranceID(int insuranceID) { this.insuranceID = insuranceID; }
 	public int getApproved() { return approved; }

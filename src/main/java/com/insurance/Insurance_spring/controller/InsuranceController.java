@@ -1,9 +1,6 @@
 package com.insurance.Insurance_spring.controller;
 
-import com.insurance.Insurance_spring.domain.insurance.Coverage;
-import com.insurance.Insurance_spring.domain.insurance.Insurance;
-import com.insurance.Insurance_spring.domain.insurance.InsuranceList;
-import com.insurance.Insurance_spring.domain.insurance.InsuranceListImpl;
+import com.insurance.Insurance_spring.domain.insurance.*;
 import com.insurance.Insurance_spring.service.InsuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 public class InsuranceController {
@@ -68,8 +67,36 @@ public class InsuranceController {
     // 상품 인가하기
     @GetMapping("insurance/approve")
     public String insuranceApprove( Model model ){
+        this.insuranceList.setInsuranceList( (ArrayList<Insurance>) insuranceService.getInsuranceListNoApprove() );
+        model.addAttribute( "insuranceNoApprove", this.insuranceList.getInsuranceList() );
         return "insurance/approve";
     }
+    @PostMapping("insurance/approve")
+    public String insuranceApproveDo( HttpServletRequest hsRequest, Model model ){
+        Insurance insurance = this.insuranceList.search( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
+        HashMap<String, Object> coverage = new HashMap<String, Object>();
+        coverage.put("insuranceID", Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ));
+        coverage.put("coverageCondition", "high");
+
+        insurance.setM_hcoverage( insuranceService.getCoverage( coverage ) );
+        coverage.put("coverageCondition", "middle" );
+        insurance.setM_mcoverage( insuranceService.getCoverage( coverage ) );
+        coverage.put("coverageCondition", "low" );
+        insurance.setM_lcoverage( insuranceService.getCoverage( coverage ) );
+
+        model.addAttribute( "insurance", insurance );
+        return "insurance/approveDo";
+    }
+    @PostMapping("insurance/approveDone")
+    public String insuranceApproveDone(Approve approve, Model model ){
+        insuranceService.createApprove( approve );
+
+        this.insuranceList.search( approve.getInsuranceID() ).setM_approve( approve );
+
+        model.addAttribute( "msg", "상품 인가가 완료되었습니다." );
+        return index( model );
+    }
+
     
     
     // 사후 관리하기
