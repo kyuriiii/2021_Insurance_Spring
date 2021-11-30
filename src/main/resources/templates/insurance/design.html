@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>고객 상담 페이지</title>
+    <title>보험 설계 페이지</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <script>
@@ -16,10 +16,10 @@
 </head>
 <body>
 <div class="container d-flex justify-content-center">
-    <form class="form-control" id="form_accident" method="post">
+    <form class="form-control mb-5" id="form_accident" method="post" action="/insurance/design">
         <div class="row mx-0 my-3">
-            <h3 class="my-3 font-weight-bold">보험 정보 입력</h3>
-            <br>
+            <h4 class="my-3 font-weight-bold text-center">보험 정보 입력</h4>
+            <hr>
             <div class="col-4 d-flex justify-content-center"> 보험상품 유형 </div>
             <div class="col-8">
                 <input type="radio" class="form-check-input" name="type" value="car" id="type1" required>
@@ -47,6 +47,63 @@
                     <input type="text" class="form-control form-control-sm" name="insuranceCost" required>
                 </div>
             </div>
+        </div>
+
+        <div class="row mx-0 my-3">
+            <div class="col">
+                <h4 class="my-3 font-weight-bold text-center">보장 정보 입력 - (상)</h4>
+                <hr>
+                <div class="row mx-0 my-3">
+                    <div class="col-5 d-flex justify-content-center"> 보장<br>내용 </div>
+                    <div class="col-7">
+                        <textarea class="form-control form-control-sm" name="hContent" rows="5" required></textarea>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-5 d-flex justify-content-center text-center"> 최대<br>보장액 </div>
+                    <div class="col-7">
+                        <input type="text" class="form-control form-control-sm" name="hCost" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <h4 class="my-3 font-weight-bold text-center">보장 정보 입력 - (중)</h4>
+                <hr>
+                <div class="row mx-0 my-3">
+                    <div class="col-5 d-flex justify-content-center"> 보장<br>내용 </div>
+                    <div class="col-7">
+                        <textarea class="form-control form-control-sm" name="mContent" rows="5" required></textarea>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-5 d-flex justify-content-center text-center"> 최대<br>보장액 </div>
+                    <div class="col-7">
+                        <input type="text" class="form-control form-control-sm" name="mCost" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <h4 class="my-3 font-weight-bold text-center">보장 정보 입력 - (하)</h4>
+                <hr>
+                <div class="row mx-0 my-3">
+                    <div class="col-5 d-flex justify-content-center"> 보장<br>내용 </div>
+                    <div class="col-7">
+                        <textarea class="form-control form-control-sm" name="lContent" rows="5" required></textarea>
+                    </div>
+                </div>
+                <div class="row mx-0 my-3">
+                    <div class="col-5 d-flex justify-content-center text-center"> 최대<br>보장액 </div>
+                    <div class="col-7">
+                        <input type="text" class="form-control form-control-sm" name="lCost" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mr-3">
+            <button type="submit" class="btn btn-secondary">설계하기</button>
         </div>
     </form>
 </div>

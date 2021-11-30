@@ -14,5 +14,9 @@
     <button type="button" class="col mx-2 btn btn-secondary" onclick="location.href='/insurance/manage'">사후 관리하기</button>
   </div>
 </div>
+
+<script th:inline="javascript">
+  if ( [[${msg}]] != null ) alert( [[${msg}]] );
+</script>
 </body>
 </html>

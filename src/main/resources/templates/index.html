@@ -15,5 +15,8 @@
     <button type="button" class="col mx-2 btn btn-secondary" onclick="location.href='/reward'">보상</button>
   </div>
 </div>
+<script th:inline="javascript">
+  if ( [[${msg}]] != null ) alert( [[${msg}]] );
+</script>
 </body>
 </html>

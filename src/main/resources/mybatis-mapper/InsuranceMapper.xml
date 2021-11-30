@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.insurance.Insurance_spring.mapper.InsuranceMapper">
+    <insert id="create" parameterType="com.insurance.Insurance_spring.domain.insurance.Insurance" useGeneratedKeys="true" keyProperty="insuranceID">
+        INSERT INTO insurance ( insuranceName, insuranceCost, content, type ) values ( #{insuranceName}, #{insuranceCost}, #{content}, #{type} )
+    </insert>
+    <insert id="createCoverage" parameterType="com.insurance.Insurance_spring.domain.insurance.Coverage" useGeneratedKeys="true" keyProperty="coverageID">
+        INSERT INTO coverage ( insuranceID, coverageCondition, coverageContent, coverageCost ) values ( #{insuranceID}, #{coverageCondition}, #{coverageContent}, #{coverageCost} )
+    </insert>
+
     <select id="retrieve" resultType="com.insurance.Insurance_spring.domain.insurance.Insurance">
         SELECT * FROM insurance
     </select>
