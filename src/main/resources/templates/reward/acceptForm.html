@@ -9,23 +9,34 @@
         function show(){
             var form = document.getElementById("form_accident");
             var date = document.getElementById("date");
-            date.innerHTML = form.accidentDate.value;
-            var time = document.getElementById("time");
-            time.innerHTML = form.accidentTime.value;
-            var place = document.getElementById("place");
-            place.innerHTML = form.accidentPlace.value;
-            var size = document.getElementById("size");
-            size.innerHTML = form.accidentSize.value;
-            var type = document.getElementById("type");
-            type.innerHTML = form.accidentType.value;
 
-            var div = document.getElementById("div_show");
-            var class_split = div.className.split(" ");
+            var today = new Date();
+            var oneYearAgo = new Date(today.setFullYear(today.getFullYear() - 1));
 
-            if( class_split.includes("d-none")) class_split.pop();
-            div.className = class_split.concat(" ");
+            if( new Date(form.accidentDate.value) < oneYearAgo ) {
+                alert(" 1년 넘게 지난 사건은 보험을 접수할 수 없습니다. ");
+                form.reset();
+            }
+            else {
+                date.innerHTML = form.accidentDate.value;
+                var time = document.getElementById("time");
+                time.innerHTML = form.accidentTime.value;
+                var place = document.getElementById("place");
+                place.innerHTML = form.accidentPlace.value;
+                var size = document.getElementById("size");
+                size.innerHTML = form.accidentSize.value;
+                var type = document.getElementById("type");
+                type.innerHTML = form.accidentType.value;
+
+                var div = document.getElementById("div_show");
+                var class_split = div.className.split(" ");
+
+                if( class_split.includes("d-none")) class_split.pop();
+                div.className = class_split.concat(" ");
+            }
         }
         function accidentInfo() {
+            alert("사고 접수가 완료되었습니다.");
             var form = document.getElementById("form_accident");
             form.action = "/reward/accept";
             form.method = "post";

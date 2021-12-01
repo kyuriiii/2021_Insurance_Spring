@@ -70,7 +70,7 @@ public class RewardController {
 
     @GetMapping("/reward/consult")
     public String consult(Model model){
-        if(this.customerList == null){ // index를 거치지 않고 올 경우
+        if(this.customerList.getCustomerList().size() == 0){ // index를 거치지 않고 올 경우
             this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
         }
         model.addAttribute( "customerList", this.customerList.getCustomerList() );
@@ -107,7 +107,7 @@ public class RewardController {
         a.setDate(format.format(now));
         accidentService.createAccidentInfo(a);
         model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
-        return "reward/index";
+        return "redirect:/reward/consult";
     }
     @GetMapping("/reward/accept/index")
     public String acceptIndex(){

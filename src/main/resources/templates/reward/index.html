@@ -16,8 +16,10 @@
     </div>
     <div class="row p-3">
         <button type="button" class="col mx-2 btn btn-secondary" onclick="location.href='/reward/damage'">손해 사정</button>
-<!--        <button type="button" class="col mx-2 btn btn-secondary" onclick="location.href='/reward/exemption'">면/부책 판단</button>-->
     </div>
 </div>
+<script th:inline="javascript">
+    if ( [[${msg}]] != null ) alert( [[${msg}]] );
+</script>
 </body>
 </html>
