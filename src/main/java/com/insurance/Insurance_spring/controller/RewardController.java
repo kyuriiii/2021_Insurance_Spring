@@ -107,7 +107,6 @@ public class RewardController {
         a.setDate(format.format(now));
         accidentService.createAccidentInfo(a);
         model.addAttribute("accidentList", this.accidentService.getCompletedAccidentList());
-
         return "reward/index";
     }
     @GetMapping("/reward/accept/index")
