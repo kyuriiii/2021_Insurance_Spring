@@ -25,8 +25,8 @@ public class AccidentService {
     public Accident getAccident(int id){
         return accidentMapper.findById(id);
     }
-    public void createAccident(Accident accidentDTO){
-        accidentMapper.createAccident(accidentDTO);
+    public int createAccident(Accident accidentDTO){
+       return accidentMapper.createAccident(accidentDTO);
     }
     public void updateAccidentState(Accident accidentDTO) {
         accidentDTO.setCompleted(0); // 0 처리 1 미처리

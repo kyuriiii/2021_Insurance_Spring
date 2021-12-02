@@ -12,7 +12,7 @@ public interface AccidentMapper {
 
     List<HashMap<String, Object>> findAll();
     Accident findById(int accidentID);
-    void createAccident(Accident accidentDTO);
+    int createAccident(Accident accidentDTO);
     void updateState(Accident accidentDTO);
     void updateJudged(Accident accidentDTO);
     void createInvestigation(HashMap<String, Object> siteInfos);

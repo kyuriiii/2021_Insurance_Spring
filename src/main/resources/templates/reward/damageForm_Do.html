@@ -7,6 +7,7 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script>
         function damage(ID){
+            alert("사고의 보상 처리가 완료되었습니다.");
             var form = document.getElementById( "form_reward" );
             form.accidentID.value = ID;
             form.action = "/reward/damageDo";
@@ -32,7 +33,8 @@
             <tr th:each="exemption : ${exemption}">
                 <td th:text="${exemption.accidentID}"></td>
                 <td th:text="${exemption.reason}"></td>
-                <td th:text="${exemption.subFile}"></td>
+                <td th:if="${exemption.subFile == 0}">있음</td>
+                <td th:if="${exemption.subFile == 1}">없음</td>
                 <td th:text="${exemption.legacy}"></td>
                 <td th:text="${exemption.customerID}"></td>
             </tr>
@@ -70,6 +72,7 @@
 
         <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-secondary" th:onclick="damage([[${accidentID}]])"> 보상 완료 </button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='/reward/damage'"> 취소 </button>
         </div>
     </form>
 </div>

@@ -42,6 +42,9 @@
 
     <insert id="createAccident" useGeneratedKeys="true" keyProperty="accidentID">
         insert into accident( accidentSize, accidentType, accidentDate, accidentTime, accidentPlace, customerID ) values(#{accidentSize}, #{accidentType}, #{accidentDate}, #{accidentTime}, #{accidentPlace}, #{customerID})
+        <selectKey resultType="int" keyProperty="accidentID" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
     <insert id="createInvestigation" parameterType="HashMap">
         insert into ainvestigation ( accidentID, scenario, record, video, photo, scale ) values ( #{accidentID}, #{siteInfo.scenario}, #{siteInfo.record}, #{siteInfo.video}, #{siteInfo.photo}, #{siteInfo.scale})
