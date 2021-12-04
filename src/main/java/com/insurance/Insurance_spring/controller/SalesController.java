@@ -15,20 +15,23 @@ import com.insurance.Insurance_spring.domain.pCustomer.PCustomerList;
 import com.insurance.Insurance_spring.domain.pCustomer.PCustomerListImpl;
 import com.insurance.Insurance_spring.library.Library_UW;
 import com.insurance.Insurance_spring.service.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 @Controller
 public class SalesController {
@@ -69,6 +72,12 @@ public class SalesController {
     // 예비 고객 관리하기
     @GetMapping("sales/consult")
     public String consult( Model model ){
+        this.pCustomerList.setCustomerList( (ArrayList<PCustomer>) pCustomerService.getPCustomerList() );
+
+        if ( this.pCustomerList.getCustomerList().size() == 0 ) {
+            model.addAttribute( "msg", "상담을 신청한 예비고객이 없습니다." );
+            return index( model );
+        }
         model.addAttribute( "pCustomerList", pCustomerService.getPCustomerList() );
 
         return "sales/consult/consultList";
@@ -80,7 +89,19 @@ public class SalesController {
         return "sales/consult/consult";
     }
     @PostMapping("sales/consultDo")
-    public String consultDo( HttpServletRequest hsRequest, Customer customer, Model model ){
+    public String consultDo(@RequestParam MultipartFile[] userfile, HttpServletRequest hsRequest, Customer customer, Model model ){
+        for ( MultipartFile file: userfile ){
+            if ( !file.isEmpty() ){
+                String ext = file.getOriginalFilename().substring( file.getOriginalFilename().lastIndexOf( "." ) );
+                if ( ext.contains( "png" ) ){
+                    String fullPath = "D:/DevelopmentCode/Github/uploads/" +  hsRequest.getParameter( "pcustomerID" ) + ext;
+
+                    try { file.transferTo( new File( fullPath ) ); }
+                    catch ( Exception e ){ System.out.println( "------------- fileUpload error -------------" ); }
+                }
+           }
+        }
+
         PCustomer pcustomer = this.pCustomerList.search( Integer.parseInt( hsRequest.getParameter( "pcustomerID" ) ) );
         pcustomer.setConsultContext( hsRequest.getParameter( "consultContext" ) );
 
@@ -89,7 +110,9 @@ public class SalesController {
         this.pCustomerService.updateByID( pcustomer );
         this.customerService.create( customer );
 
-        return "redirect:/sales/consult";
+        model.addAttribute( "msg", "상담이 완료되었습니다." );
+
+        return index( model );
     }
 
     
@@ -97,6 +120,11 @@ public class SalesController {
     @GetMapping("sales/contract")
     public String contract( Model model ){
         this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
+        if ( this.customerList.getCustomerList().size() == 0 ){
+            model.addAttribute( "msg", "상담을 완료한 고객이 없습니다." );
+
+            return index( model );
+        }
         model.addAttribute( "customerList", this.customerList.getCustomerList() );
 
         return "sales/contract/customer";
@@ -107,7 +135,34 @@ public class SalesController {
         this.insuranceList.setInsuranceList((ArrayList<Insurance>) this.insuranceService.getInsuranceList());
         model.addAttribute( "insuranceList", this.insuranceList.getInsuranceList() );
 
+        File file = new File( "D:/DevelopmentCode/Github/uploads/" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
+        if ( file.exists() ) {
+            model.addAttribute( "file", true );
+            model.addAttribute( "fileHref", "http://localhost:8080/sales/download?name=" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
+        }
+        else model.addAttribute( "file", false );
+
         return "sales/contract/insurance";
+    }
+    @GetMapping( "sales/download" )
+    public void download(HttpServletRequest hsRequest, HttpServletResponse hsResponse) {
+        try{
+            String path = "D:/DevelopmentCode/Github/uploads/" + hsRequest.getParameter( "name" );
+
+            File file = new File( path );
+            hsResponse.setHeader( "Content-Disposition", "attachment;filename=" + file.getName() );
+
+            FileInputStream fileInputStream = new FileInputStream( path );
+            OutputStream out = hsResponse.getOutputStream();
+
+            int read = 0;
+            byte[] buffer = new byte[1024];
+            while( ( read = fileInputStream.read(buffer)) != -1 ){
+                out.write(buffer, 0, read);
+            }
+        }catch ( Exception e ){
+            System.out.println( "------------------------- File Download Error -------------------------" );
+        }
     }
     @PostMapping("sales/contract/contractCustomer")
     public String contractCustomer( HttpServletRequest hsRequest, Model model ){
