@@ -121,6 +121,10 @@ public class InsuranceController {
 
         model.addAttribute( "insurance", insurance );
 
+        SaleRecord saleRecord = insuranceService.getSaleRecord( Integer.parseInt( hsRequest.getParameter( "insuranceID" ) ) );
+        if ( saleRecord != null ) model.addAttribute( "saleRecord", saleRecord );
+        else model.addAttribute( "saleRecord", null );
+
         return "insurance/manageDo";
     }
     @PostMapping("/insurance/manageDone")

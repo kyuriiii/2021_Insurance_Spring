@@ -28,4 +28,5 @@ public class InsuranceService {
     public int createSaleRecord(SaleRecord saleRecord) {
         return insuranceMapper.createSaleRecord(saleRecord);
     }
+    public SaleRecord getSaleRecord( int insuranceID ) { return insuranceMapper.retrieveSaleRecord( insuranceID ); }
 }

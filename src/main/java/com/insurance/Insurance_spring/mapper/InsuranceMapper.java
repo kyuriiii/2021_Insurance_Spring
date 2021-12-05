@@ -22,6 +22,7 @@ public interface InsuranceMapper {
     Insurance retrieveByID( int insuranceID );
 
     Coverage retrieveCoverage(HashMap<String, Object> coverageInfo);
+    SaleRecord retrieveSaleRecord( int insuranceID );
 
     int updateByID( Insurance insurance );
 }

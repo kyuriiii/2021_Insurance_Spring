@@ -30,6 +30,9 @@
     <select id="retrieveApprove" resultType="com.insurance.Insurance_spring.domain.insurance.Insurance">
         select * from insurance left outer join approve using(insuranceID) where approve.approved = 1
     </select>
+    <select id="retrieveSaleRecord" resultType="com.insurance.Insurance_spring.domain.insurance.SaleRecord">
+        select * from salerecord where insuranceID=#{insuranceID} limit 1
+    </select>
 
     <update id="updateByID" parameterType="com.insurance.Insurance_spring.domain.insurance.Insurance">
         update pcustomer set insuranceName=#{insuranceName}, insuranceCost=#{insuranceCost}, content=#{content} where insuranceID=#{insuranceID}
