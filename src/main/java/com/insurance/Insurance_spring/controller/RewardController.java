@@ -178,7 +178,7 @@ public class RewardController {
         this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
 
         // 비동기로 쓰레드 처리
-//        this.rewardService.executeThreads();
+        this.rewardService.executeThreads();
 
         model.addAttribute("exemptionList", this.exemptionList.getExemptionList());
         return "reward/damageForm";

@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 public class RewardService {
     private Logger logger = LoggerFactory.getLogger(RewardController.class); // 로그 찍기
     // 비동기로 쓰레드 처리
-//    @Autowired
-//    @Qualifier("executor")
-//    private ThreadPoolTaskExecutor executor;
+    @Autowired
+    @Qualifier("executor")
+    private ThreadPoolTaskExecutor executor;
 
     @Autowired
     private  RewardInfoMapper rewardInfoMapper;
@@ -27,20 +27,20 @@ public class RewardService {
         rewardInfoMapper.create(rewardInfo);
     }
 
-//    @Async("executor")
-//    public void executeThreads(){
-//        logger.info("executing threads ........");
-//        Runnable r = () ->{
-//            try{
-//                logger.info(Thread.currentThread().getName() + ", Now sleeping 10 seconds ...");
-//                Thread.sleep(10000);
-//            }catch (InterruptedException e){
-//                e.printStackTrace();
-//            }
-//        };
-//        for(int i = 0; i<10; i++){
-//            executor.execute(r);
-//        }
-//    }
+    @Async("executor")
+    public void executeThreads(){
+        logger.info("executing threads ........");
+        Runnable r = () ->{
+            try{
+                logger.info(Thread.currentThread().getName() + ", Now sleeping 10 seconds ...");
+                Thread.sleep(10000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        };
+        for(int i = 0; i<10; i++){
+            executor.execute(r);
+        }
+    }
 
 }
