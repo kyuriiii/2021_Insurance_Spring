@@ -40,7 +40,7 @@ public class CustomerListImpl implements CustomerList {
 		}
 		return null;
 	}
-	public Customer search(Customer customer ) {
+	public boolean search(Customer customer ) {
 		for(Customer scustomer : this.customerList) {
 			if(scustomer.getPcustomerName().equals( customer.getPcustomerName() ) && scustomer.getCustomerNumber().equals( customer.getCustomerNumber() )) return scustomer;
 		}
