@@ -70,6 +70,7 @@ public class RewardController {
 
     @GetMapping("/reward/consult")
     public String consult(Model model){
+        this.customerList.getCustomerList().clear();
         this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
 
         for ( Contract contract : this.contractList.getContractList() ){
