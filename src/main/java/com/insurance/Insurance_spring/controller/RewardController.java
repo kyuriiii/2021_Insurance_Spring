@@ -70,8 +70,7 @@ public class RewardController {
 
     @GetMapping("/reward/consult")
     public String consult(Model model){
-        this.customerList.getCustomerList().clear();
-        if ( this.contractList.getContractList().size() == 0 ) this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+        this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
 
         for ( Contract contract : this.contractList.getContractList() ){
             Customer customer = customerService.getCustomer(contract.getCustomerID());
@@ -99,9 +98,8 @@ public class RewardController {
     }
     @PostMapping("/reward/accept")
     public String accept( HttpServletRequest hsRequest, Model model, Accident accident ){
-        if(this.accidentList.getAccidentList().size() == 0 ){
-            this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
-        }
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+
         Customer customer = this.customerList.search(Integer.parseInt(hsRequest.getParameter("customerID")));
         accident.setCustomerID(customer.getCustomerID());
 
@@ -124,7 +122,7 @@ public class RewardController {
     }
     @PostMapping("/reward/accident")
     public String accident( HttpServletRequest hsRequest, SiteInfo siteInfo, Model model){
-        if(this.accidentList.getAccidentList().size() == 0) this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
         Accident accident = this.accidentList.search(Integer.parseInt(hsRequest.getParameter("accidentID"))); // index.html에서 시작하지 않으면 초기화되지 않아서 null이다.
         accident.setM_siteInfo(siteInfo);
         this.accidentService.updateAccidentState(accident);
@@ -139,7 +137,7 @@ public class RewardController {
     }
     @GetMapping("/reward/exemption")
     public String showExemption( Model model ){
-        if(this.accidentList.getAccidentList().size() == 0) this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
 
         List<HashMap<String, Object>> map = this.accidentService.getCompletedAccidentList(); // accidentID, siteInfo
         ArrayList<Accident> beforeExemption = new ArrayList<Accident>();
@@ -160,7 +158,7 @@ public class RewardController {
     }
     @PostMapping("/reward/exemption")
     public String exemption ( HttpServletRequest hsRequest, Exemption exemption ){
-        if(this.accidentList.getAccidentList().size() == 0) this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
+        this.accidentList.setAccidentList((ArrayList<Accident>) this.accidentService.getAccidentList());
         Accident accident = this.accidentList.search(exemption.getAccidentID());
         accident.setJudged(Integer.parseInt(hsRequest.getParameter("judged")));
 
@@ -174,7 +172,7 @@ public class RewardController {
     }
     @GetMapping("/reward/damage")
     public String damage( Model model ){
-        if(this.exemptionList.getExemptionList().size() > 0) this.exemptionList.getExemptionList().clear();
+        this.exemptionList.getExemptionList().clear();
         this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
 
         // 비동기로 쓰레드 처리

@@ -283,7 +283,7 @@ public class SalesController {
     // 계약 관리하기
     @GetMapping( "sales/ctManage" )
     public String ctManage( Model model ){
-        if ( this.contractList.getContractList().size() == 0 ) this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+        this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
 
         for ( Contract contract : this.contractList.getContractList() ){
             contract.setCustomer( customerService.getCustomer( contract.getCustomerID() ) );
@@ -310,7 +310,7 @@ public class SalesController {
     // 고객 관리하기
     @GetMapping( "sales/csManage" )
     public String csManage( Model model ){
-        if ( this.contractList.getContractList().size() == 0 ) this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+        this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
         for ( Contract contract : this.contractList.getContractList() ){
             contract.setCustomer( customerService.getCustomer( contract.getCustomerID() ) );
             contract.setInsurance( insuranceService.getInsurance( contract.getInsuranceID() ) );
@@ -328,8 +328,7 @@ public class SalesController {
     }
     @PostMapping( "sales/csManage/editCustomer" )
     public String csManageEdit( Customer customer, HttpServletRequest hsRequest, Model model ){
-        System.out.println( "size : " + this.pCustomerList.getCustomerList().size() );
-        if ( this.pCustomerList.getCustomerList().size() == 0 ) this.pCustomerList.setCustomerList((ArrayList<PCustomer>) pCustomerService.getPCustomerListAll() );
+       this.pCustomerList.setCustomerList((ArrayList<PCustomer>) pCustomerService.getPCustomerListAll() );
         PCustomer pcustomer = this.pCustomerList.search( Integer.parseInt( hsRequest.getParameter( "pcustomerID" ) ) );
 
         pcustomer.setPcustomerName( customer.getPcustomerName() );
