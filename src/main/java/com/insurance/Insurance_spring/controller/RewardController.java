@@ -70,9 +70,11 @@ public class RewardController {
 
     @GetMapping("/reward/consult")
     public String consult(Model model){
-        if(this.customerList.getCustomerList().size() == 0){ // index를 거치지 않고 올 경우
-            this.customerList.setCustomerList((ArrayList<Customer>) this.customerService.getCustomerList());
+        if ( this.contractList.getContractList().size() == 0 ) this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+        for ( Contract contract : this.contractList.getContractList() ){
+            this.customerList.add(customerService.getCustomer( contract.getCustomerID() ) );
         }
+
         model.addAttribute( "customerList", this.customerList.getCustomerList() );
         return "reward/consultForm";
     }

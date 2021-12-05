@@ -12,6 +12,9 @@
         }
         function select(accidentID){
             if(accidentID != null){
+                var form = document.getElementById("form_accident");
+                form.accidentID.value = accidentID;
+
                 var div = document.getElementById("div_form");
                 var class_split = div.className.split(" ");
 
