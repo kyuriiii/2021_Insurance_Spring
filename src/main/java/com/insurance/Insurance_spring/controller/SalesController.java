@@ -94,9 +94,11 @@ public class SalesController {
             if ( !file.isEmpty() ){
                 String ext = file.getOriginalFilename().substring( file.getOriginalFilename().lastIndexOf( "." ) );
                 if ( ext.contains( "png" ) ){
-                    String fullPath = "D:/DevelopmentCode/Github/uploads/" +  hsRequest.getParameter( "pcustomerID" ) + ext;
+                    String path = "C:/Users/uploads";
+                    File folder = new File( path );
+                    if ( !folder.isDirectory() ) folder.mkdirs();
 
-                    try { file.transferTo( new File( fullPath ) ); }
+                    try { file.transferTo( new File( path + "/" + hsRequest.getParameter( "pcustomerID" ) + ext ) ); }
                     catch ( Exception e ){ System.out.println( "------------- fileUpload error -------------" ); }
                 }
            }
@@ -135,7 +137,7 @@ public class SalesController {
         this.insuranceList.setInsuranceList((ArrayList<Insurance>) this.insuranceService.getInsuranceList());
         model.addAttribute( "insuranceList", this.insuranceList.getInsuranceList() );
 
-        File file = new File( "D:/DevelopmentCode/Github/uploads/" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
+        File file = new File( "C:/Users/uploads/" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
         if ( file.exists() ) {
             model.addAttribute( "file", true );
             model.addAttribute( "fileHref", "http://localhost:8080/sales/download?name=" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
@@ -147,7 +149,7 @@ public class SalesController {
     @GetMapping( "sales/download" )
     public void download(HttpServletRequest hsRequest, HttpServletResponse hsResponse) {
         try{
-            String path = "D:/DevelopmentCode/Github/uploads/" + hsRequest.getParameter( "name" );
+            String path = "C:/Users/uploads/" + hsRequest.getParameter( "name" );
 
             File file = new File( path );
             hsResponse.setHeader( "Content-Disposition", "attachment;filename=" + file.getName() );
