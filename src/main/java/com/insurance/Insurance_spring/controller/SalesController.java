@@ -94,7 +94,7 @@ public class SalesController {
             if ( !file.isEmpty() ){
                 String ext = file.getOriginalFilename().substring( file.getOriginalFilename().lastIndexOf( "." ) );
                 if ( ext.contains( "png" ) ){
-                    String path = "C:/Users/uploads";
+                    String path = "C:/uploads";
                     File folder = new File( path );
                     if ( !folder.isDirectory() ) folder.mkdirs();
 
@@ -137,7 +137,7 @@ public class SalesController {
         this.insuranceList.setInsuranceList((ArrayList<Insurance>) this.insuranceService.getInsuranceList());
         model.addAttribute( "insuranceList", this.insuranceList.getInsuranceList() );
 
-        File file = new File( "C:/Users/uploads/" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
+        File file = new File( "C:/uploads/" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
         if ( file.exists() ) {
             model.addAttribute( "file", true );
             model.addAttribute( "fileHref", "http://localhost:8080/sales/download?name=" + this.customerList.search( Integer.parseInt( hsRequest.getParameter( "customerID" ) ) ).getPCustomerID() + ".png" );
