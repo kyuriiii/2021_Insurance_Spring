@@ -73,6 +73,11 @@
                     <p th:text="${customer.consultContext}"></p>
                 </div>
             </div>
+            <div class="row mx-0 my-2" th:if="${file}">
+                <a th:href="${fileHref}">
+                    파일 다운로드
+                </a>
+            </div>
         </div>
         <div class="col-7">
             <div class="row px-2 mt-3">

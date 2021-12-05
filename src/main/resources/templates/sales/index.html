@@ -15,5 +15,9 @@
     <button type="button" class="col mx-2 btn btn-secondary" onclick="location.href='/sales/ctManage'">계약 관리</button>
   </div>
 </div>
+
+<script th:inline="javascript">
+  if ( [[${msg}]] != null ) alert( [[${msg}]] );
+</script>
 </body>
 </html>
