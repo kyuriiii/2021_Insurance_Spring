@@ -70,9 +70,12 @@ public class RewardController {
 
     @GetMapping("/reward/consult")
     public String consult(Model model){
+        this.customerList.getCustomerList().clear();
         if ( this.contractList.getContractList().size() == 0 ) this.contractList.setContractList((ArrayList<Contract>) contractService.getContractList() );
+
         for ( Contract contract : this.contractList.getContractList() ){
-            this.customerList.add(customerService.getCustomer( contract.getCustomerID() ) );
+            Customer customer = customerService.getCustomer(contract.getCustomerID());
+            if ( !this.customerList.search( customer ) ) this.customerList.add( customer );
         }
 
         model.addAttribute( "customerList", this.customerList.getCustomerList() );
