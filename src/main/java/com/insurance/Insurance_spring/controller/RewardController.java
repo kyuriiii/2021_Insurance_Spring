@@ -171,6 +171,10 @@ public class RewardController {
     public String damage( Model model ){
         if(this.exemptionList.getExemptionList().size() > 0) this.exemptionList.getExemptionList().clear();
         this.exemptionList.setExemptionList((ArrayList<Exemption>) this.exemptionService.getExemptionList());
+
+        // 비동기로 쓰레드 처리
+//        this.rewardService.executeThreads();
+
         model.addAttribute("exemptionList", this.exemptionList.getExemptionList());
         return "reward/damageForm";
     }
@@ -184,6 +188,7 @@ public class RewardController {
     }
     @PostMapping("/reward/damageDo")
     public String damageDo (RewardInfo rewardInfo ) {
+
         this.rewardService.createRewardInfo(rewardInfo);
         this.exemptionService.delete(rewardInfo.getAccidentID());
         return "reward/index";
