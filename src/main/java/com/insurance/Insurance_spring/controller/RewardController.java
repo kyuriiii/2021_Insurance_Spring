@@ -75,7 +75,7 @@ public class RewardController {
 
         for ( Contract contract : this.contractList.getContractList() ){
             Customer customer = customerService.getCustomer(contract.getCustomerID());
-            if ( !this.customerList.search( customer ) ) this.customerList.add( customer );
+            if ( this.customerList.search( customer ) == null ) this.customerList.add( customer );
         }
 
         model.addAttribute( "customerList", this.customerList.getCustomerList() );
