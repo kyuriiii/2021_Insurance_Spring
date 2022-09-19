@@ -1,4 +1,4 @@
-## 2022_Insurance_Spring
+## 2021_Insurance_Spring
 `Spring` 를 활용한 GUI 기반 보험사 시스템 백엔드 레포지토리
 
 ## 프로젝트 소개 
